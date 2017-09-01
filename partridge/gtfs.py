@@ -121,3 +121,11 @@ class feed(object):
     service_ids_by_date = cached_property(read_service_ids_by_date)
     dates_by_service_ids = cached_property(read_dates_by_service_ids)
     trip_counts_by_date = cached_property(read_trip_counts_by_date)
+
+
+
+# No pruning or type coercion
+class raw_feed(feed):
+    def __init__(self, path):
+        super().__init__(path, config=nx.DiGraph())
+
