@@ -16,48 +16,64 @@ from partridge.readers import \
 
 def cached_node_getter(filename):
     def func(feed):
+        config = feed.config
+
         #
         # Get config for node
         #
-
-        if feed.config.has_node(filename):
-            node = feed.config.nodes[filename]
+        if config.has_node(filename):
+            node = config.nodes[filename]
         else:
             node = {}
 
         #
-        # Read CSV into DataFrame
+        # Read CSV into DataFrame, prune it according to the dependency graph
         #
-
         with ZipFile(feed.path) as zipreader:
             zmap = {os.path.basename(path): path for path in zipreader.namelist()}
             if filename in zmap:
                 zfile = zipreader.open(zmap[filename], 'r')
                 iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
-                df = pd.read_csv(iowrapper, dtype=np.unicode, index_col=False, low_memory=False)
+                reader = pd.read_csv(iowrapper, dtype=np.unicode,
+                                                chunksize=10000,
+                                                index_col=False,
+                                                low_memory=False)
 
-                # Cleanup
-                df.rename(columns=lambda x: x.strip(), inplace=True)
+                # Gather the dependencies between this file and others
+                feed_dependencies = []
+                for _, depfile in config.out_edges(filename):
+                    edge = config.edges[filename, depfile]
+                    dependencies = edge.get('dependencies', {}).items()
+                    if any(dependencies):
+                        propname = os.path.splitext(depfile)[0]
+                        feed_dependencies.append((propname, dependencies))
+ 
+                chunks = []
+                for chunk in reader:
+                    # Cleanup column names just to be safe
+                    chunk.rename(columns=lambda x: x.strip(), inplace=True)
+
+                    #
+                    # Prune rows
+                    #
+                    for propname, dependencies in feed_dependencies:
+                        # Read the cached, pruned dependency
+                        depdf = getattr(feed, propname)
+
+                        # Prune this chunk
+                        for col, depcol in dependencies:
+                            if col in chunk.columns and depcol in depdf.columns:
+                                chunk = chunk[chunk[col].isin(depdf[depcol])]
+
+                    chunks.append(chunk)
+
+                # Combine chunks into one DataFrame
+                df = pd.concat(chunks)
             else:
-                default_columns = node.get('required_columns', [])
-                empty = {col: [] for col in default_columns}
-                df = pd.DataFrame(empty, columns=default_columns, dtype=np.unicode)
-
-        if df.empty:
-            # Return early if the DataFrame is empty
-            return df
-
-        #
-        # Prune rows
-        #
-
-        for depfile in dict(feed.config.out_edges(filename)).values():
-            edge = feed.config.edges[filename, depfile]
-            prop, _ext = os.path.splitext(depfile)
-            depdf = getattr(feed, prop)
-            for col, depcol in edge['dependencies'].items():
-                if col in df.columns and depcol in depdf.columns:
-                    df = df[df[col].isin(depdf[depcol])]
+                # Return an empty DataFrame, specifying expected columns if given.
+                columns = node.get('required_columns', [])
+                empty = {col: [] for col in columns}
+                df = pd.DataFrame(empty, columns=columns, dtype=np.unicode)
 
         if df.empty:
             # Return early if the DataFrame is empty
@@ -66,15 +82,10 @@ def cached_node_getter(filename):
         #
         # Convert types
         #
+        converters = node.get('converters', {})
 
-        converters = node.get('converters', {}).items()
-
-        # Return early if there are no converters for the node
-        if not any(converters):
-            return df
-
-        # Apply given conversions
-        for col, vfunc in converters:
+        # Apply conversions, if given
+        for col, vfunc in converters.items():
             if col in df.columns and df[col].any():
                 df[col] = vfunc(df[col])
 
