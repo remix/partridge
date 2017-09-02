@@ -1,1 +1,1 @@
-from partridge.gtfs import feed
+from partridge.gtfs import feed, raw_feed

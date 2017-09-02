@@ -12,9 +12,6 @@ from partridge.parsers import parse_date
 vparse_date = np.vectorize(parse_date)
 
 
-FIXTURE_DIR = os.path.join(os.path.dirname(__file__), 'fixtures')
-
-
 DAY_NAMES = (
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
     'saturday', 'sunday')
