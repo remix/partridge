@@ -26,54 +26,55 @@ def cached_node_getter(filename):
         else:
             node = {}
 
+        columns = node.get('required_columns', [])
+        converters = node.get('converters', {})
+
         #
         # Read CSV into DataFrame, prune it according to the dependency graph
         #
+        if filename not in feed.zmap:
+            # Return an empty DataFrame, specifying expected columns if given.
+            empty = {col: [] for col in columns}
+            return pd.DataFrame(empty, columns=columns, dtype=np.unicode)
+
         with ZipFile(feed.path) as zipreader:
-            zmap = {os.path.basename(path): path for path in zipreader.namelist()}
-            if filename in zmap:
-                zfile = zipreader.open(zmap[filename], 'r')
-                iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
-                reader = pd.read_csv(iowrapper, dtype=np.unicode,
-                                                chunksize=10000,
-                                                index_col=False,
-                                                low_memory=False)
+            zfile = zipreader.open(feed.zmap[filename], 'r')
+            iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
+            reader = pd.read_csv(iowrapper, dtype=np.unicode,
+                                            chunksize=10000,
+                                            index_col=False,
+                                            low_memory=False)
 
-                # Gather the dependencies between this file and others
-                feed_dependencies = []
-                for _, depfile in config.out_edges(filename):
-                    edge = config.edges[filename, depfile]
-                    dependencies = edge.get('dependencies', {}).items()
-                    if any(dependencies):
-                        propname = os.path.splitext(depfile)[0]
-                        feed_dependencies.append((propname, dependencies))
- 
-                chunks = []
-                for chunk in reader:
-                    # Cleanup column names just to be safe
-                    chunk.rename(columns=lambda x: x.strip(), inplace=True)
+            # Gather the dependencies between this file and others
+            feed_dependencies = []
+            for _, depfile in config.out_edges(filename):
+                edge = config.edges[filename, depfile]
+                dependencies = edge.get('dependencies', {}).items()
+                if any(dependencies):
+                    propname = os.path.splitext(depfile)[0]
+                    feed_dependencies.append((propname, dependencies))
 
-                    #
-                    # Prune rows
-                    #
-                    for propname, dependencies in feed_dependencies:
-                        # Read the cached, pruned dependency
-                        depdf = getattr(feed, propname)
+            chunks = []
+            for chunk in reader:
+                # Cleanup column names just to be safe
+                chunk.rename(columns=lambda x: x.strip(), inplace=True)
 
-                        # Prune this chunk
-                        for col, depcol in dependencies:
-                            if col in chunk.columns and depcol in depdf.columns:
-                                chunk = chunk[chunk[col].isin(depdf[depcol])]
+                #
+                # Prune rows
+                #
+                for propname, dependencies in feed_dependencies:
+                    # Read the cached, pruned dependency
+                    depdf = getattr(feed, propname)
 
-                    chunks.append(chunk)
+                    # Prune this chunk
+                    for col, depcol in dependencies:
+                        if col in chunk.columns and depcol in depdf.columns:
+                            chunk = chunk[chunk[col].isin(depdf[depcol])]
 
-                # Combine chunks into one DataFrame
-                df = pd.concat(chunks)
-            else:
-                # Return an empty DataFrame, specifying expected columns if given.
-                columns = node.get('required_columns', [])
-                empty = {col: [] for col in columns}
-                df = pd.DataFrame(empty, columns=columns, dtype=np.unicode)
+                chunks.append(chunk)
+
+            # Combine chunks into one DataFrame
+            df = pd.concat(chunks)
 
         if df.empty:
             # Return early if the DataFrame is empty
@@ -82,8 +83,6 @@ def cached_node_getter(filename):
         #
         # Convert types
         #
-        converters = node.get('converters', {})
-
         # Apply conversions, if given
         for col, vfunc in converters.items():
             if col in df.columns and df[col].any():
@@ -94,15 +93,22 @@ def cached_node_getter(filename):
     return cached_property(func)
 
 
-
 class feed(object):
     def __init__(self, path, config=None):
         self.path = path
         self.config = default_config() if config is None else config
+        self.zmap = {}
 
         assert os.path.isfile(self.path), 'File not found: {}'.format(self.path)
         assert os.path.getsize(self.path), 'File is empty: {}'.format(self.path)
         assert nx.is_directed_acyclic_graph(self.config), 'Config must be a DAG'
+
+        with ZipFile(self.path) as zipreader:
+            for zpath in zipreader.namelist():
+                basename = os.path.basename(zpath)
+                assert basename not in self.zmap, \
+                    'More than one {} found in {}'.format(basename, self.path)
+                self.zmap[basename] = zpath
 
     agency = cached_node_getter('agency.txt')
     calendar = cached_node_getter('calendar.txt')
