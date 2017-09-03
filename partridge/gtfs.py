@@ -6,7 +6,7 @@ import pandas as pd
 from zipfile import ZipFile
 
 
-from partridge.utilities import cached_property
+from partridge.utilities import cached_property, setwrap
 from partridge.config import default_config
 from partridge.readers import \
     read_service_ids_by_date, \
@@ -54,10 +54,21 @@ def cached_node_getter(filename):
                     propname = os.path.splitext(depfile)[0]
                     feed_dependencies.append((propname, dependencies))
 
+            # Gather applicable view filter params
+            view_filter = [
+                (col, setwrap(value))
+                for col, value in feed.view.get(filename, {}).items()
+            ]
+
             chunks = []
             for chunk in reader:
                 # Cleanup column names just to be safe
                 chunk.rename(columns=lambda x: x.strip(), inplace=True)
+
+                # Apply filter view
+                for col, value in view_filter:
+                    if col in chunk.columns:
+                        chunk = chunk[chunk[col].isin(value)]
 
                 #
                 # Prune rows
@@ -94,14 +105,21 @@ def cached_node_getter(filename):
 
 
 class feed(object):
-    def __init__(self, path, config=None):
+    def __init__(self, path, config=None, view=None):
         self.path = path
         self.config = default_config() if config is None else config
+        self.view = {} if view is None else view
         self.zmap = {}
 
         assert os.path.isfile(self.path), 'File not found: {}'.format(self.path)
         assert os.path.getsize(self.path), 'File is empty: {}'.format(self.path)
         assert nx.is_directed_acyclic_graph(self.config), 'Config must be a DAG'
+
+        roots = {n for n, d in self.config.out_degree() if d == 0}
+        for filename, param in self.view.items():
+            assert filename in roots, \
+                'Filter param given for a non-root node ' \
+                'of the config graph: {} {}'.format(filename, param)
 
         with ZipFile(self.path) as zipreader:
             for zpath in zipreader.namelist():
