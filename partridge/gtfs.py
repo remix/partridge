@@ -94,7 +94,11 @@ def cached_node_getter(filename):
                 return empty_df(columns)
 
         # Concatenate chunks into one DataFrame
-        return pd.concat(chunks)
+        df = pd.concat(chunks)
+        # Renumber the index
+        df = df.reset_index()
+
+        return df
 
     return cached_property(func)
 
