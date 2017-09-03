@@ -6,8 +6,11 @@ import pandas as pd
 from zipfile import ZipFile
 
 
-from partridge.utilities import cached_property, setwrap
 from partridge.config import default_config
+from partridge.utilities import \
+    cached_property, \
+    empty_df, \
+    setwrap
 from partridge.readers import \
     read_service_ids_by_date, \
     read_dates_by_service_ids, \
@@ -34,8 +37,7 @@ def cached_node_getter(filename):
         #
         if filename not in feed.zmap:
             # Return an empty DataFrame, specifying expected columns if given.
-            empty = {col: [] for col in columns}
-            return pd.DataFrame(empty, columns=columns, dtype=np.unicode)
+            return empty_df(columns)
 
         with ZipFile(feed.path) as zipreader:
             zfile = zipreader.open(feed.zmap[filename], 'r')
@@ -65,6 +67,11 @@ def cached_node_getter(filename):
                 # Cleanup column names just to be safe
                 chunk.rename(columns=lambda x: x.strip(), inplace=True)
 
+                # Apply conversions, if given
+                for col, vfunc in converters.items():
+                    if col in chunk.columns and chunk[col].any():
+                        chunk[col] = vfunc(chunk[col])
+
                 # Apply filter view
                 for col, value in view_filter:
                     if col in chunk.columns:
@@ -82,24 +89,14 @@ def cached_node_getter(filename):
                         if col in chunk.columns and depcol in depdf.columns:
                             chunk = chunk[chunk[col].isin(depdf[depcol])]
 
-                chunks.append(chunk)
+                if not chunk.empty:
+                    chunks.append(chunk)
 
-            # Combine chunks into one DataFrame
-            df = pd.concat(chunks)
+            if not chunks:
+                return empty_df(columns)
 
-        if df.empty:
-            # Return early if the DataFrame is empty
-            return df
-
-        #
-        # Convert types
-        #
-        # Apply conversions, if given
-        for col, vfunc in converters.items():
-            if col in df.columns and df[col].any():
-                df[col] = vfunc(df[col])
-
-        return df
+        # Combine chunks into one DataFrame
+        return pd.concat(chunks)
 
     return cached_property(func)
 
