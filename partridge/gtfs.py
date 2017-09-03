@@ -7,10 +7,12 @@ from zipfile import ZipFile
 
 
 from partridge.config import default_config
+
 from partridge.utilities import \
     cached_property, \
     empty_df, \
     setwrap
+
 from partridge.readers import \
     read_service_ids_by_date, \
     read_dates_by_service_ids, \
@@ -19,11 +21,8 @@ from partridge.readers import \
 
 def cached_node_getter(filename):
     def func(feed):
-        config = feed.config
-
-        #
         # Get config for node
-        #
+        config = feed.config
         if config.has_node(filename):
             node = config.nodes[filename]
         else:
@@ -32,13 +31,12 @@ def cached_node_getter(filename):
         columns = node.get('required_columns', [])
         converters = node.get('converters', {})
 
-        #
-        # Read CSV into DataFrame, prune it according to the dependency graph
-        #
         if filename not in feed.zmap:
-            # Return an empty DataFrame, specifying expected columns if given.
+            # File isn't in the zip, return an empty DataFrame
+            # specifying expected columns if given.
             return empty_df(columns)
 
+        # Read CSV into DataFrame, prune it according to the dependency graph
         with ZipFile(feed.path) as zipreader:
             zfile = zipreader.open(feed.zmap[filename], 'r')
             iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
@@ -77,9 +75,7 @@ def cached_node_getter(filename):
                     if col in chunk.columns:
                         chunk = chunk[chunk[col].isin(value)]
 
-                #
                 # Prune rows
-                #
                 for propname, dependencies in feed_dependencies:
                     # Read the cached, pruned dependency
                     depdf = getattr(feed, propname)
@@ -93,9 +89,11 @@ def cached_node_getter(filename):
                     chunks.append(chunk)
 
             if not chunks:
+                # Rows were completely pruned away,
+                # return an empty DataFrame
                 return empty_df(columns)
 
-        # Combine chunks into one DataFrame
+        # Concatenate chunks into one DataFrame
         return pd.concat(chunks)
 
     return cached_property(func)
