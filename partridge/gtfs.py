@@ -65,21 +65,20 @@ def cached_node_getter(filename):
                 # Cleanup column names just to be safe
                 chunk.rename(columns=lambda x: x.strip(), inplace=True)
 
-                # Apply conversions, if given
-                for col, vfunc in converters.items():
-                    if col in chunk.columns and chunk[col].any():
-                        chunk[col] = vfunc(chunk[col])
-
                 # Apply filter view
                 for col, value in view_filter:
                     if col in chunk.columns:
-                        chunk = chunk[chunk[col].isin(value)]
+                        # Coerce the filter values to np.unicode.
+                        # The type conversions have not yet been applied
+                        # because of performance implications.
+                        value = map(np.unicode, value)
+                        # Filter the chunk by the unicode values set
+                        chunk = chunk[chunk[col].isin(svalue)]
 
                 # Prune rows
                 for propname, dependencies in feed_dependencies:
-                    # Read the cached, pruned dependency
+                    # Read the cached, pruned, filtered dependency
                     depdf = getattr(feed, propname)
-
                     # Prune this chunk
                     for col, depcol in dependencies:
                         if col in chunk.columns and depcol in depdf.columns:
@@ -97,6 +96,11 @@ def cached_node_getter(filename):
         df = pd.concat(chunks)
         # Renumber the index
         df = df.reset_index()
+
+        # Apply conversions, if given
+        for col, vfunc in converters.items():
+            if col in df.columns and df[col].any():
+                df[col] = vfunc(df[col])
 
         return df
 
