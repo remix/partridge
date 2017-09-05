@@ -1,14 +1,10 @@
-from functools import partial
 import networkx as nx
 import numpy as np
-import pandas as pd
 
-from partridge.parsers import parse_date, parse_time
-
-
-vparse_date = np.vectorize(parse_date)
-vparse_time = np.vectorize(parse_time)
-vparse_numeric = partial(pd.to_numeric, errors='raise')
+from partridge.parsers import \
+    vparse_date, \
+    vparse_time, \
+    vparse_numeric
 
 
 def default_config():

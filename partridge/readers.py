@@ -6,10 +6,8 @@ import os
 import numpy as np
 
 from partridge.config import default_config
-from partridge.parsers import parse_date
+from partridge.parsers import vparse_date
 
-
-vparse_date = np.vectorize(parse_date)
 
 
 DAY_NAMES = (

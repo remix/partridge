@@ -1,5 +1,7 @@
 from datetime import datetime, date
+from functools import partial
 import numpy as np
+import pandas as pd
 import six
 
 DATE_FORMAT = '%Y%m%d'
@@ -22,3 +24,9 @@ def parse_date(datestr):
         return datestr
 
     return datetime.strptime(datestr, DATE_FORMAT).date()
+
+
+# Vectorized parse operations
+vparse_date = np.vectorize(parse_date)
+vparse_time = np.vectorize(parse_time)
+vparse_numeric = partial(pd.to_numeric, errors='raise')
