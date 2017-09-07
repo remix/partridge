@@ -1,6 +1,7 @@
 from functools import lru_cache
 import numpy as np
 import pandas as pd
+from pandas.core.common import flatten
 
 
 def cached_property(func, maxsize=None):
@@ -17,15 +18,6 @@ def empty_df(columns=None):
 
 def setwrap(value):
     return set(flatten([value]))
-
-
-def flatten(iterable):
-    for x in iterable:
-        if hasattr(x, '__iter__') and not isinstance(x, str):
-            for y in flatten(x):
-                yield y
-        else:
-            yield x
 
 
 if __name__ == '__main__':

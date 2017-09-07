@@ -14,9 +14,7 @@ def parse_time(timestr):
         return np.nan
 
     h, m, s = timestr.split(':')
-    seconds = int(h) * 3600 + int(m) * 60 + int(s)
-
-    return np.float64(seconds)
+    return int(h) * 3600 + int(m) * 60 + int(s)
 
 
 def parse_date(datestr):

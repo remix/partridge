@@ -32,8 +32,7 @@ def cached_node_getter(filename):
         converters = node.get('converters', {})
 
         if filename not in feed.zmap:
-            # File isn't in the zip, return an empty DataFrame
-            # specifying expected columns if given.
+            # File isn't in the zip, return an empty DataFrame.
             return empty_df(columns)
 
         # Read CSV into DataFrame, prune it according to the dependency graph
@@ -50,13 +49,13 @@ def cached_node_getter(filename):
             for _, depfile in config.out_edges(filename):
                 edge = config.edges[filename, depfile]
                 dependencies = edge.get('dependencies', {}).items()
-                if any(dependencies):
+                if dependencies:
                     propname = os.path.splitext(depfile)[0]
                     feed_dependencies.append((propname, dependencies))
 
             # Gather applicable view filter params
             view_filter = [
-                (col, setwrap(value))
+                (col, map(np.unicode, setwrap(value)))
                 for col, value in feed.view.get(filename, {}).items()
             ]
 
@@ -68,12 +67,8 @@ def cached_node_getter(filename):
                 # Apply filter view
                 for col, value in view_filter:
                     if col in chunk.columns:
-                        # Coerce the filter values to np.unicode.
-                        # The type conversions have not yet been applied
-                        # because of performance implications.
-                        value = map(np.unicode, value)
                         # Filter the chunk by the unicode values set
-                        chunk = chunk[chunk[col].isin(svalue)]
+                        chunk = chunk[chunk[col].isin(value)]
 
                 # Prune rows
                 for propname, dependencies in feed_dependencies:
@@ -87,13 +82,13 @@ def cached_node_getter(filename):
                 if not chunk.empty:
                     chunks.append(chunk)
 
-            if not chunks:
-                # Rows were completely pruned away,
-                # return an empty DataFrame
+            if len(chunks) == 0:
+                # Rows were completely pruned away, return an empty DataFrame.
                 return empty_df(columns)
 
         # Concatenate chunks into one DataFrame
         df = pd.concat(chunks)
+
         # Renumber the index
         df = df.reset_index()
 
