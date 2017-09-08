@@ -89,9 +89,6 @@ def cached_node_getter(filename):
         # Concatenate chunks into one DataFrame
         df = pd.concat(chunks)
 
-        # Renumber the index
-        df = df.reset_index()
-
         # Apply conversions, if given
         for col, vfunc in converters.items():
             if col in df.columns and df[col].any():
