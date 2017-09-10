@@ -123,10 +123,11 @@ class feed(object):
 
         with ZipFile(self.path) as zipreader:
             for zpath in zipreader.namelist():
-                basename = os.path.basename(zpath)
-                assert basename not in self.zmap, \
-                    'More than one {} found in {}'.format(basename, self.path)
-                self.zmap[basename] = zpath
+                if zpath.endswith('.txt'):
+                    basename = os.path.basename(zpath)
+                    assert basename not in self.zmap, \
+                        'More than one {} found in {}'.format(basename, self.path)
+                    self.zmap[basename] = zpath
 
     agency = read_file('agency.txt')
     calendar = read_file('calendar.txt')
