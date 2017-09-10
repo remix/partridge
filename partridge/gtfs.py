@@ -19,10 +19,11 @@ from partridge.readers import \
     read_trip_counts_by_date
 
 
-def cached_node_getter(filename):
+def read_file(filename):
     def func(feed):
         # Get config for node
         config = feed.config
+
         if config.has_node(filename):
             node = config.nodes[filename]
         else:
@@ -31,12 +32,13 @@ def cached_node_getter(filename):
         columns = node.get('required_columns', [])
         converters = node.get('converters', {})
 
+        # If the file isn't in the zip, return an empty DataFrame.
         if filename not in feed.zmap:
-            # File isn't in the zip, return an empty DataFrame.
             return empty_df(columns)
 
         # Read CSV into DataFrame, prune it according to the dependency graph
         with ZipFile(feed.path) as zipreader:
+            # Prepare a chunked reader for the file
             zfile = zipreader.open(feed.zmap[filename], 'r')
             iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
             reader = pd.read_csv(iowrapper, dtype=np.unicode,
@@ -45,51 +47,54 @@ def cached_node_getter(filename):
                                             low_memory=False)
 
             # Gather the dependencies between this file and others
-            feed_dependencies = []
-            for _, depfile in config.out_edges(filename):
-                edge = config.edges[filename, depfile]
-                dependencies = edge.get('dependencies', {}).items()
-                if dependencies:
-                    propname = os.path.splitext(depfile)[0]
-                    feed_dependencies.append((propname, dependencies))
+            file_dependencies = {
+                # property name : dependencies
+                os.path.splitext(depfile)[0]: data['dependencies'].items()
+                for _, depfile, data in config.out_edges(filename, data=True)
+                if 'dependencies' in data
+            }
 
             # Gather applicable view filter params
-            view_filter = [
-                (col, map(np.unicode, setwrap(value)))
-                for col, value in feed.view.get(filename, {}).items()
-            ]
+            view_filters = {
+                # column name : list of strings
+                col: map(np.unicode, setwrap(values))
+                for col, values in feed.view.get(filename, {}).items()
+            }
 
+            # Process the file in chunks
             chunks = []
             for chunk in reader:
                 # Cleanup column names just to be safe
-                chunk.rename(columns=lambda x: x.strip(), inplace=True)
+                chunk = chunk.rename(columns=lambda x: x.strip())
 
-                # Apply filter view
-                for col, value in view_filter:
+                # Apply view filters
+                for col, values in view_filters.items():
+                    # If applicable, filter this chunk by the given set of values
                     if col in chunk.columns:
-                        # Filter the chunk by the unicode values set
-                        chunk = chunk[chunk[col].isin(value)]
+                        chunk = chunk[chunk[col].isin(values)]
 
-                # Prune rows
-                for propname, dependencies in feed_dependencies:
-                    # Read the cached, pruned, filtered dependency
+                # Prune the chunk 
+                for propname, dependencies in file_dependencies.items():
+                    # Read the filtered, pruned, and cached file dependency
                     depdf = getattr(feed, propname)
-                    # Prune this chunk
+
                     for col, depcol in dependencies:
+                        # If applicable, prune this chunk by the other
                         if col in chunk.columns and depcol in depdf.columns:
                             chunk = chunk[chunk[col].isin(depdf[depcol])]
 
+                # Discard entirely filtered/pruned chunks
                 if not chunk.empty:
                     chunks.append(chunk)
 
+            # If all chunks were completely filtered/pruned away, return an empty DataFrame.
             if len(chunks) == 0:
-                # Rows were completely pruned away, return an empty DataFrame.
                 return empty_df(columns)
 
         # Concatenate chunks into one DataFrame
         df = pd.concat(chunks)
 
-        # Apply conversions, if given
+        # Apply type conversions
         for col, vfunc in converters.items():
             if col in df.columns and df[col].any():
                 df[col] = vfunc(df[col])
@@ -123,19 +128,19 @@ class feed(object):
                     'More than one {} found in {}'.format(basename, self.path)
                 self.zmap[basename] = zpath
 
-    agency = cached_node_getter('agency.txt')
-    calendar = cached_node_getter('calendar.txt')
-    calendar_dates = cached_node_getter('calendar_dates.txt')
-    fare_attributes = cached_node_getter('fare_attributes.txt')
-    fare_rules = cached_node_getter('fare_rules.txt')
-    feed_info = cached_node_getter('feed_info.txt')
-    frequencies = cached_node_getter('frequencies.txt')
-    routes = cached_node_getter('routes.txt')
-    shapes = cached_node_getter('shapes.txt')
-    stops = cached_node_getter('stops.txt')
-    stop_times = cached_node_getter('stop_times.txt')
-    transfers = cached_node_getter('transfers.txt')
-    trips = cached_node_getter('trips.txt')
+    agency = read_file('agency.txt')
+    calendar = read_file('calendar.txt')
+    calendar_dates = read_file('calendar_dates.txt')
+    fare_attributes = read_file('fare_attributes.txt')
+    fare_rules = read_file('fare_rules.txt')
+    feed_info = read_file('feed_info.txt')
+    frequencies = read_file('frequencies.txt')
+    routes = read_file('routes.txt')
+    shapes = read_file('shapes.txt')
+    stops = read_file('stops.txt')
+    stop_times = read_file('stop_times.txt')
+    transfers = read_file('transfers.txt')
+    trips = read_file('trips.txt')
 
     service_ids_by_date = cached_property(read_service_ids_by_date)
     dates_by_service_ids = cached_property(read_dates_by_service_ids)
