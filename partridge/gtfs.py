@@ -41,11 +41,13 @@ def read_file(filename):
             # Prepare a chunked reader for the file
             zfile = zipreader.open(feed.zmap[filename], 'r')
             iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
-            reader = pd.read_csv(iowrapper, dtype=np.unicode,
-                                            skipinitialspace=True,
-                                            chunksize=10000,
-                                            index_col=False,
-                                            low_memory=False)
+            reader = pd.read_csv(iowrapper,
+                                 chunksize=10000,
+                                 dtype=np.unicode,
+                                 index_col=False,
+                                 low_memory=False,
+                                 skipinitialspace=True,
+                                 )
 
             # Gather the dependencies between this file and others
             file_dependencies = {
