@@ -42,6 +42,7 @@ def read_file(filename):
             zfile = zipreader.open(feed.zmap[filename], 'r')
             iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
             reader = pd.read_csv(iowrapper, dtype=np.unicode,
+                                            skipinitialspace=True,
                                             chunksize=10000,
                                             index_col=False,
                                             low_memory=False)
@@ -97,7 +98,7 @@ def read_file(filename):
         # Apply type conversions
         for col, vfunc in converters.items():
             if col in df.columns and df[col].any():
-                df[col] = vfunc(df[col])
+                df[col] = vfunc(df[col].str.strip())
 
         return df
 
