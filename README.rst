@@ -19,8 +19,6 @@ filter a feed down to specific dates (``service_id``), routes
 .. figure:: dependency-graph.png
    :alt: dependency graph
 
-   dependency graph
-
 Usage
 -----
 
