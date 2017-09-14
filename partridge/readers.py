@@ -19,7 +19,7 @@ DAY_NAMES = (
 def read_trip_counts_by_date(feed):
     '''A useful proxy for busyness'''
     results = defaultdict(int)
-    for service_ids, dates in read_dates_by_service_ids(feed).items():
+    for service_ids, dates in feed.dates_by_service_ids.items():
         trip_count = feed.trips[feed.trips.service_id.isin(service_ids)].shape[0]
         for date in dates:
             results[date] += trip_count
@@ -29,7 +29,7 @@ def read_trip_counts_by_date(feed):
 def read_dates_by_service_ids(feed):
     '''Find dates with identical service'''
     results = defaultdict(set)
-    for date, service_ids in read_service_ids_by_date(feed).items():
+    for date, service_ids in feed.service_ids_by_date.items():
         results[service_ids].add(date)
     return dict(results)
 
