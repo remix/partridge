@@ -97,10 +97,13 @@ def read_file(filename):
         # Concatenate chunks into one DataFrame
         df = pd.concat(chunks)
 
-        # Apply type conversions
-        for col, vfunc in converters.items():
-            if col in df.columns and df[col].any():
-                df[col] = vfunc(df[col].str.strip())
+        # Apply type conversions, strip leading/trailing whitespace
+        for col in df.columns:
+            if df[col].any():
+                df[col] = df[col].str.strip()
+                if col in converters:
+                    vfunc = converters[col]
+                    df[col] = vfunc(df[col])
 
         return df
 
