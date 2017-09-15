@@ -60,7 +60,7 @@ def read_file(filename):
             # Gather applicable view filter params
             view_filters = {
                 # column name : list of strings
-                col: map(np.unicode, setwrap(values))
+                col: set(map(np.unicode, setwrap(values)))
                 for col, values in feed.view.get(filename, {}).items()
             }
 
