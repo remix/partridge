@@ -5,3 +5,6 @@ scratch/
 .DS_Store
 .ipynb_checkpoints/
 *.ipynb
+build/
+dist/
+*.egg-info/

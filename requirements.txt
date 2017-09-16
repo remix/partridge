@@ -1,2 +1,2 @@
-networkx==2.0b1
+networkx==2.0rc1
 pandas
