@@ -9,14 +9,6 @@ Partridge
 .. image:: https://img.shields.io/travis/remix/partridge.svg
         :target: https://travis-ci.org/remix/partridge
 
-.. image:: https://readthedocs.org/projects/partridge/badge/?version=latest
-        :target: https://partridge.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
-.. image:: https://pyup.io/repos/github/remix/partridge/shield.svg
-     :target: https://pyup.io/repos/github/remix/partridge/
-     :alt: Updates
-
 
 Partridge is python library for working with
 `GTFS <https://developers.google.com/transit/gtfs/>`__ feeds using
