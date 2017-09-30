@@ -42,6 +42,11 @@ def add_edge_config(g):
                 'contains_id': 'zone_id',
             },
         }),
+        ('fare_rules.txt', 'routes.txt', {
+            'dependencies': {
+                'route_id': 'route_id',
+            },
+        }),
         ('frequencies.txt', 'trips.txt', {
             'dependencies': {
                 'trip_id': 'trip_id',

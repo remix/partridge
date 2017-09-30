@@ -44,7 +44,7 @@ def fixture(filename):
         'calendar.txt': (1, 10),
         'calendar_dates.txt': (6, 3),
         'fare_attributes.txt': (4, 6),
-        'fare_rules.txt': (64, 4),
+        'fare_rules.txt': (48, 4),
         'routes.txt': (3, 7),
         'shapes.txt': (1094, 5),
         'stops.txt': (50, 12),
