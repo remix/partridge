@@ -158,8 +158,10 @@ def test_service_ids_by_date():
 
     service_ids_by_date = ptg.read_service_ids_by_date(path)
     feed = ptg.feed(path)
+    raw_feed = ptg.raw_feed(path)
 
     assert service_ids_by_date == feed.service_ids_by_date
+    assert service_ids_by_date == raw_feed.service_ids_by_date
 
     assert service_ids_by_date == {
         datetime.date(2017, 8, 1): frozenset({'1', '0'}),
@@ -176,8 +178,10 @@ def test_dates_by_service_ids():
 
     dates_by_service_ids = ptg.read_dates_by_service_ids(path)
     feed = ptg.feed(path)
+    raw_feed = ptg.raw_feed(path)
 
     assert dates_by_service_ids == feed.dates_by_service_ids
+    assert dates_by_service_ids == raw_feed.dates_by_service_ids
 
     assert dates_by_service_ids == {
         frozenset({'1'}): {
@@ -198,8 +202,10 @@ def test_trip_counts_by_date():
 
     trip_counts_by_date = ptg.read_trip_counts_by_date(path)
     feed = ptg.feed(path)
+    raw_feed = ptg.raw_feed(path)
 
     assert trip_counts_by_date == feed.trip_counts_by_date
+    assert trip_counts_by_date == raw_feed.trip_counts_by_date
 
     assert trip_counts_by_date == {
         datetime.date(2017, 8, 1): 442,

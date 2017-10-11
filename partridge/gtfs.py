@@ -180,7 +180,7 @@ class feed(object):
                 dow = {i: cal[day] for i, day in enumerate(DAY_NAMES)}
                 for ordinal in range(start, end + 1):
                     date = datetime.date.fromordinal(ordinal)
-                    if dow[date.weekday()]:
+                    if int(dow[date.weekday()]):
                         results[date].add(cal.service_id)
 
         # Process calendar_dates.txt if it exists
