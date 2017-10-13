@@ -59,12 +59,11 @@ Features
 
 -  Surprisingly fast :)
 -  Load only what you need into memory
--  Built-in support for resolving calendar days
--  Built on pandas DataFrames
+-  Built-in support for resolving service dates
 -  Easily extended to support fields and files outside the official spec
    (TODO: document this)
 -  Handle nested folders and bad data in zips
--  Predictable type conversions, by default
+-  Predictable type conversions
 
 Installation
 ------------
