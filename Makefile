@@ -47,6 +47,11 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 
+dependency-graph.png:
+	dot -Tpng dependency-graph.dot -o dependency-graph.png
+
+dot: dependency-graph.png
+
 lint: ## check style with flake8
 	flake8 partridge tests
 
