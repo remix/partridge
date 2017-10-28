@@ -1,40 +1,40 @@
 digraph  {
-	dpi=200;
-	rankdir=BT;
-	"agency.txt";
-	"stops.txt";
-	subgraph {
-		rank="same";
-		"trips.txt";
-	}
-	subgraph {
-		rank="same";
-		"calendar.txt";
-		"calendar_dates.txt";
-		"stop_times.txt";
-		"frequencies.txt";
-		"shapes.txt";
-		"routes.txt";
-	}
-	subgraph {
-		rank="same";
-		"fare_rules.txt";
-		"transfers.txt";
-	}
-	"fare_attributes.txt";
-	"agency.txt" -> "routes.txt"  [key=0, label="routes.agency_id\nagency.agency_id"];
-	"routes.txt" -> "trips.txt"  [key=0, label="trips.route_id\nroutes.route_id"];
-	"calendar.txt" -> "trips.txt"  [key=0, label="trips.service_id\ncalendar.service_id"];
-	"calendar_dates.txt" -> "trips.txt"  [key=0, label="trips.service_id\ncalendar_dates.service_id"];
-	"fare_attributes.txt" -> "fare_rules.txt"  [key=0, label="fare_rules.fare_id\nfare_attributes.fare_id"];
-	"fare_rules.txt" -> "stops.txt"  [key=0, label="stops.zone_id\nfare_rules.origin_id"];
-	"fare_rules.txt" -> "stops.txt"  [key=1, label="stops.zone_id\nfare_rules.destination_id"];
-	"fare_rules.txt" -> "stops.txt"  [key=2, label="stops.zone_id\nfare_rules.contains_id"];
-	"fare_rules.txt" -> "routes.txt"  [key=0, label="routes.route_id\nfare_rules.route_id"];
-	"stops.txt" -> "stop_times.txt"  [key=0, label="stop_times.stop_id\nstops.stop_id"];
-	"stop_times.txt" -> "trips.txt"  [key=0, label="trips.trip_id\nstop_times.trip_id"];
-	"frequencies.txt" -> "trips.txt"  [key=0, label="trips.trip_id\nfrequencies.trip_id"];
-	"shapes.txt" -> "trips.txt"  [key=0, label="trips.shape_id\nshapes.shape_id"];
-	"transfers.txt" -> "stops.txt"  [key=0, label="stops.stop_id\ntransfers.from_stop_id"];
-	"transfers.txt" -> "stops.txt"  [key=1, label="stops.stop_id\ntransfers.to_stop_id"];
+  dpi=200;
+  rankdir=BT;
+  "agency.txt";
+  "stops.txt";
+  subgraph {
+    rank="same";
+    "trips.txt";
+  }
+  subgraph {
+    rank="same";
+    "calendar.txt";
+    "calendar_dates.txt";
+    "stop_times.txt";
+    "frequencies.txt";
+    "shapes.txt";
+    "routes.txt";
+  }
+  subgraph {
+    rank="same";
+    "fare_rules.txt";
+    "transfers.txt";
+  }
+  "fare_attributes.txt";
+  "agency.txt" -> "routes.txt" [key=0, label="routes.agency_id\nagency.agency_id"];
+  "routes.txt" -> "trips.txt" [key=0, label="trips.route_id\nroutes.route_id"];
+  "calendar.txt" -> "trips.txt" [key=0, label="trips.service_id\ncalendar.service_id"];
+  "calendar_dates.txt" -> "trips.txt" [key=0, label="trips.service_id\ncalendar_dates.service_id"];
+  "fare_attributes.txt" -> "fare_rules.txt" [key=0, label="fare_rules.fare_id\nfare_attributes.fare_id"];
+  "fare_rules.txt" -> "stops.txt" [key=0, label="stops.zone_id\nfare_rules.origin_id"];
+  "fare_rules.txt" -> "stops.txt" [key=1, label="stops.zone_id\nfare_rules.destination_id"];
+  "fare_rules.txt" -> "stops.txt" [key=2, label="stops.zone_id\nfare_rules.contains_id"];
+  "fare_rules.txt" -> "routes.txt" [key=0, label="routes.route_id\nfare_rules.route_id"];
+  "stops.txt" -> "stop_times.txt" [key=0, label="stop_times.stop_id\nstops.stop_id"];
+  "stop_times.txt" -> "trips.txt" [key=0, label="trips.trip_id\nstop_times.trip_id"];
+  "frequencies.txt" -> "trips.txt" [key=0, label="trips.trip_id\nfrequencies.trip_id"];
+  "shapes.txt" -> "trips.txt" [key=0, label="trips.shape_id\nshapes.shape_id"];
+  "transfers.txt" -> "stops.txt" [key=0, label="stops.stop_id\ntransfers.from_stop_id"];
+  "transfers.txt" -> "stops.txt" [key=1, label="stops.stop_id\ntransfers.to_stop_id"];
 }
