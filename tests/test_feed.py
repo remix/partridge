@@ -92,13 +92,13 @@ def test_read_file(path, dates, shapes):
 
 @pytest.mark.parametrize('path,shapes', [
     (fixture('empty.zip'), {
-        'agency.txt': (0, 0),
-        'calendar.txt': (0, 0),
-        'calendar_dates.txt': (0, 0),
-        'fare_attributes.txt': (0, 0),
-        'fare_rules.txt': (0, 0),
-        'routes.txt': (0, 0),
-        'stops.txt': (0, 0),
+        'agency.txt': (0, 3),
+        'calendar.txt': (0, 10),
+        'calendar_dates.txt': (0, 3),
+        'fare_attributes.txt': (0, 5),
+        'fare_rules.txt': (0, 1),
+        'routes.txt': (0, 4),
+        'stops.txt': (0, 4),
     }),
     (fixture('caltrain-2017-07-24.zip'), {
         'agency.txt': (1, 6),
@@ -229,3 +229,19 @@ def test_structure(path):
         for member in member_dates:
             assert feed.service_ids_by_date[member] == service_ids
             assert feed.trip_counts_by_date[member] > 0
+
+
+@pytest.mark.parametrize('path', [
+    fixture('amazon-2017-08-06.zip'),
+    fixture('caltrain-2017-07-24.zip'),
+])
+def test_filtered_columns(path):
+    service_ids_by_date = ptg.read_service_ids_by_date(path)
+    service_ids = list(service_ids_by_date.values())[0]
+
+    feed_full = ptg.feed(path)
+    feed_view = ptg.feed(path, view={'trips.txt': {'service_id': service_ids}})
+    feed_null = ptg.feed(path, view={'trips.txt': {'service_id': 'never-match-id'}})
+
+    assert set(feed_full.trips.columns) == set(feed_view.trips.columns)
+    assert set(feed_full.trips.columns) == set(feed_null.trips.columns)
