@@ -65,9 +65,13 @@ def read_file(filename):
 
             # Process the file in chunks
             chunks = []
-            for chunk in reader:
+            for i, chunk in enumerate(reader):
                 # Cleanup column names just to be safe
                 chunk = chunk.rename(columns=lambda x: x.strip())
+
+                if i == 0:
+                    # Track the actual columns in the file if present
+                    columns = list(chunk.columns)
 
                 # Apply view filters
                 for col, values in view_filters.items():
