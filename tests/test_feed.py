@@ -240,8 +240,10 @@ def test_filtered_columns(path):
     service_ids = list(service_ids_by_date.values())[0]
 
     feed_full = ptg.feed(path)
-    feed_view = ptg.feed(path, view={'trips.txt': {'service_id': service_ids}})
-    feed_null = ptg.feed(path, view={'trips.txt': {'service_id': 'never-match-id'}})
+    feed_view = ptg.feed(path,
+                         view={'trips.txt': {'service_id': service_ids}})
+    feed_null = ptg.feed(path,
+                         view={'trips.txt': {'service_id': 'never-match'}})
 
     assert set(feed_full.trips.columns) == set(feed_view.trips.columns)
     assert set(feed_full.trips.columns) == set(feed_null.trips.columns)
