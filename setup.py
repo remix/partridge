@@ -11,6 +11,11 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
+# About dict to store version and package info
+about = dict()
+with open('partridge/__version__.py', 'r', encoding='utf-8') as f:
+    exec(f.read(), about)
+
 requirements = [
     'networkx>=2.0',
     'pandas',
@@ -18,17 +23,15 @@ requirements = [
 
 setup_requirements = [
     'pytest-runner',
-    # TODO(invisiblefunnel): put setup requirements (distutils extensions, etc.) here
 ]
 
 test_requirements = [
     'pytest',
-    # TODO: put package test requirements here
 ]
 
 setup(
     name='partridge',
-    version='0.3.0',
+    version=about['__version__'],
     description='Partridge is python library for working with GTFS feeds using pandas DataFrames.',
     long_description=readme + '\n\n' + history,
     author='Danny Whalen',
