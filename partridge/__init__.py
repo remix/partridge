@@ -1,7 +1,9 @@
+from partridge.__version__ import __version__  # noqa: F401
 from partridge.gtfs import feed, raw_feed  # noqa: F401
 
 
-__ALL__ = [
+__all__ = [
+    '__version__',
     'feed',
     'raw_feed',
     'read_service_ids_by_date',
