@@ -14,8 +14,8 @@ python:
 install:
     pip install -U tox-travis
     cd $TRAVIS_BUILD_DIR
-    unzip -q tests/fixtures/amazon-2017-08-06 -d tests/fixtures/amazon
-    unzip -q tests/fixtures/caltrain-2017-07-24 -d tests/fixtures/caltrain
+    unzip -q tests/fixtures/amazon-2017-08-06.zip -d tests/fixtures/amazon
+    unzip -q tests/fixtures/caltrain-2017-07-24.zip -d tests/fixtures/caltrain
 
 # command to run tests, e.g. python setup.py test
 script: tox
