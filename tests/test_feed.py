@@ -173,6 +173,26 @@ def test_service_ids_by_date():
     }
 
 
+def test_service_ids_by_date():
+    path = fixture('amazon')
+
+    service_ids_by_date = ptg.read_service_ids_by_date(path)
+    feed = ptg.feed(path)
+    raw_feed = ptg.raw_feed(path)
+
+    assert service_ids_by_date == feed.service_ids_by_date
+    assert service_ids_by_date == raw_feed.service_ids_by_date
+
+    assert service_ids_by_date == {
+        datetime.date(2017, 8, 1): frozenset({'1', '0'}),
+        datetime.date(2017, 8, 2): frozenset({'1', '0'}),
+        datetime.date(2017, 8, 3): frozenset({'1', '0'}),
+        datetime.date(2017, 8, 4): frozenset({'1', '0'}),
+        datetime.date(2017, 8, 5): frozenset({'1'}),
+        datetime.date(2017, 8, 7): frozenset({'1', '0'})
+    }
+
+
 def test_dates_by_service_ids():
     path = fixture('amazon-2017-08-06.zip')
 
