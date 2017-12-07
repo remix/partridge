@@ -11,7 +11,7 @@ def fixture(filename):
 
 
 @pytest.mark.parametrize('path,dates,shapes', [
-    (fixture('empty.zip'), [], {
+    (fixture('empty'), [], {
         'agency.txt': (0, 3),
         'calendar.txt': (0, 10),
         'calendar_dates.txt': (0, 3),
@@ -20,7 +20,7 @@ def fixture(filename):
         'routes.txt': (0, 4),
         'stops.txt': (0, 4),
     }),
-    (fixture('empty.zip'), [datetime.date(2099, 1, 1)], {
+    (fixture('empty'), [datetime.date(2099, 1, 1)], {
         'agency.txt': (0, 3),
         'calendar.txt': (0, 10),
         'calendar_dates.txt': (0, 3),
@@ -29,7 +29,7 @@ def fixture(filename):
         'routes.txt': (0, 4),
         'stops.txt': (0, 4),
     }),
-    (fixture('caltrain-2017-07-24.zip'), [], {
+    (fixture('caltrain'), [], {
         'agency.txt': (1, 6),
         'calendar.txt': (3, 10),
         'calendar_dates.txt': (642, 3),
@@ -39,7 +39,7 @@ def fixture(filename):
         'shapes.txt': (3008, 5),
         'stops.txt': (64, 12),
     }),
-    (fixture('caltrain-2017-07-24.zip'), [datetime.date(2017, 8, 6)], {
+    (fixture('caltrain'), [datetime.date(2017, 8, 6)], {
         'agency.txt': (1, 6),
         'calendar.txt': (1, 10),
         'calendar_dates.txt': (6, 3),
@@ -49,7 +49,7 @@ def fixture(filename):
         'shapes.txt': (1094, 5),
         'stops.txt': (50, 12),
     }),
-    (fixture('amazon-2017-08-06.zip'), [], {
+    (fixture('amazon'), [], {
         'agency.txt': (1, 7),
         'calendar.txt': (2, 10),
         'calendar_dates.txt': (2, 3),
@@ -59,7 +59,7 @@ def fixture(filename):
         'shapes.txt': (12032, 5),
         'stops.txt': (35, 12),
     }),
-    (fixture('amazon-2017-08-06.zip'), [datetime.date(2017, 8, 5)], {
+    (fixture('amazon'), [datetime.date(2017, 8, 5)], {
         'agency.txt': (1, 7),
         'calendar.txt': (1, 10),
         'calendar_dates.txt': (2, 3),
@@ -91,7 +91,7 @@ def test_read_file(path, dates, shapes):
 
 
 @pytest.mark.parametrize('path,shapes', [
-    (fixture('empty.zip'), {
+    (fixture('empty'), {
         'agency.txt': (0, 3),
         'calendar.txt': (0, 10),
         'calendar_dates.txt': (0, 3),
@@ -100,7 +100,7 @@ def test_read_file(path, dates, shapes):
         'routes.txt': (0, 4),
         'stops.txt': (0, 4),
     }),
-    (fixture('caltrain-2017-07-24.zip'), {
+    (fixture('caltrain'), {
         'agency.txt': (1, 6),
         'calendar.txt': (3, 10),
         'calendar_dates.txt': (642, 3),
@@ -110,7 +110,7 @@ def test_read_file(path, dates, shapes):
         'shapes.txt': (3008, 5),
         'stops.txt': (64, 12),
     }),
-    (fixture('amazon-2017-08-06.zip'), {
+    (fixture('amazon'), {
         'agency.txt': (1, 7),
         'calendar.txt': (3, 10),
         'calendar_dates.txt': (2, 3),
@@ -132,7 +132,7 @@ def test_raw_feed(path, shapes):
 
 def test_missing_zip():
     try:
-        ptg.feed(fixture('missing.zip'))
+        ptg.feed(fixture('missing'))
         assert False
     except AssertionError as e:
         assert 'File not found' in repr(e)
@@ -147,14 +147,14 @@ def test_config_must_be_dag():
     config.add_edge('trips.txt', 'routes.txt')
 
     try:
-        path = fixture('amazon-2017-08-06.zip')
+        path = fixture('amazon')
         ptg.feed(path, config=config)
     except AssertionError as e:
         assert 'Config must be a DAG' in repr(e)
 
 
 def test_service_ids_by_date():
-    path = fixture('amazon-2017-08-06.zip')
+    path = fixture('amazon')
 
     service_ids_by_date = ptg.read_service_ids_by_date(path)
     feed = ptg.feed(path)
@@ -174,7 +174,7 @@ def test_service_ids_by_date():
 
 
 def test_dates_by_service_ids():
-    path = fixture('amazon-2017-08-06.zip')
+    path = fixture('amazon')
 
     dates_by_service_ids = ptg.read_dates_by_service_ids(path)
     feed = ptg.feed(path)
@@ -198,7 +198,7 @@ def test_dates_by_service_ids():
 
 
 def test_trip_counts_by_date():
-    path = fixture('amazon-2017-08-06.zip')
+    path = fixture('amazon')
 
     trip_counts_by_date = ptg.read_trip_counts_by_date(path)
     feed = ptg.feed(path)
@@ -218,9 +218,9 @@ def test_trip_counts_by_date():
 
 
 @pytest.mark.parametrize('path', [
-    fixture('empty.zip'),
-    fixture('amazon-2017-08-06.zip'),
-    fixture('caltrain-2017-07-24.zip'),
+    fixture('empty'),
+    fixture('amazon'),
+    fixture('caltrain'),
 ])
 def test_structure(path):
     feed = ptg.feed(path)
@@ -232,8 +232,8 @@ def test_structure(path):
 
 
 @pytest.mark.parametrize('path', [
-    fixture('amazon-2017-08-06.zip'),
-    fixture('caltrain-2017-07-24.zip'),
+    fixture('amazon'),
+    fixture('caltrain'),
 ])
 def test_filtered_columns(path):
     service_ids_by_date = ptg.read_service_ids_by_date(path)
