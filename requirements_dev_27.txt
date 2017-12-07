@@ -7,6 +7,8 @@ tox
 coverage
 Sphinx
 cryptography
+networkx
+functools32
 PyYAML
 pytest
 pytest-runner
