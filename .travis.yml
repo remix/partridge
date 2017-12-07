@@ -12,10 +12,10 @@ python:
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-    pip install -U tox-travis
-    cd $TRAVIS_BUILD_DIR
-    unzip -q tests/fixtures/amazon-2017-08-06.zip -d tests/fixtures/amazon
-    unzip -q tests/fixtures/caltrain-2017-07-24.zip -d tests/fixtures/caltrain
+    - pip install -U tox-travis
+    - cd $TRAVIS_BUILD_DIR
+    - unzip -q tests/fixtures/amazon-2017-08-06.zip -d tests/fixtures/amazon
+    - unzip -q tests/fixtures/caltrain-2017-07-24.zip -d tests/fixtures/caltrain
 
 # command to run tests, e.g. python setup.py test
 script: tox
