@@ -254,4 +254,4 @@ class feed(object):
 # No pruning or type coercion
 class raw_feed(feed):
     def __init__(self, path):
-        super().__init__(path, config=nx.DiGraph())
+        super(raw_feed, self).__init__(path, config=nx.DiGraph())
