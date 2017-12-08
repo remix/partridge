@@ -24,13 +24,16 @@ def read_file(filename):
             with ZipFile(feed.path) as zipreader:
                 zfile = zipreader.open(feed.zmap[filename], 'r')
                 iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
-                reader = pd.read_csv(iowrapper, chunksize=10000, dtype=np.unicode,
-                                     index_col=False, low_memory=False, skipinitialspace=True,
+                reader = pd.read_csv(iowrapper,
+                                     chunksize=10000, dtype=np.unicode,
+                                     index_col=False, low_memory=False,
+                                     skipinitialspace=True,
                                      )
         else:
             reader = pd.read_csv(os.path.join(feed.path, feed.zmap[filename]),
                                  chunksize=10000, dtype=np.unicode,
-                                 index_col=False, low_memory=False, skipinitialspace=True,
+                                 index_col=False, low_memory=False,
+                                 skipinitialspace=True,
                                  )
         return reader
 
@@ -147,7 +150,8 @@ class feed(object):
                             'More than one {} in zip'.format(basename)
                     self.zmap[basename] = zpath
         else:
-            files = [f for f in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, f))]
+            files = [f for f in os.listdir(self.path)
+                     if os.path.isfile(os.path.join(self.path, f))]
             for file in files:
                 basename = os.path.basename(file)
                 if file.endswith('.txt'):
