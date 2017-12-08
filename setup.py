@@ -36,7 +36,8 @@ test_requirements = [
 setup(
     name='partridge',
     version=about['__version__'],
-    description='Partridge is python library for working with GTFS feeds using pandas DataFrames.',
+    description='Partridge is python library for working with GTFS '
+                'feeds using pandas DataFrames.',
     long_description=readme + '\n\n' + history,
     author='Danny Whalen',
     author_email='daniel.r.whalen@gmail.com',

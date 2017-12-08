@@ -242,4 +242,3 @@ class feed(object):
 class raw_feed(feed):
     def __init__(self, path):
         super(raw_feed, self).__init__(path, config=nx.DiGraph())
-
