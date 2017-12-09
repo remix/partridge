@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """The setup script."""
+import io
 import sys
 
 from setuptools import setup, find_packages
@@ -14,12 +15,8 @@ with open('HISTORY.rst') as history_file:
 
 # About dict to store version and package info
 about = dict()
-if sys.version_info[0] >= 3:
-    with open('partridge/__version__.py', 'r', encoding='utf-8') as f:
-        exec(f.read(), about)
-else:
-    with open('partridge/__version__.py', 'r') as f:
-        exec(f.read().decode('utf-8'), about)
+with io.open('partridge/__version__.py', 'r', encoding='utf-8') as f:
+    exec(f.read(), about)
 
 requirements = [
     'networkx>=2.0',
