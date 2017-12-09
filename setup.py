@@ -3,6 +3,7 @@
 
 """The setup script."""
 import sys
+
 from setuptools import setup, find_packages
 
 with open('README.rst') as readme_file:
