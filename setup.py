@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """The setup script."""
+import io
+import sys
 
 from setuptools import setup, find_packages
 
@@ -13,7 +15,7 @@ with open('HISTORY.rst') as history_file:
 
 # About dict to store version and package info
 about = dict()
-with open('partridge/__version__.py', 'r', encoding='utf-8') as f:
+with io.open('partridge/__version__.py', 'r', encoding='utf-8') as f:
     exec(f.read(), about)
 
 requirements = [
@@ -32,7 +34,8 @@ test_requirements = [
 setup(
     name='partridge',
     version=about['__version__'],
-    description='Partridge is python library for working with GTFS feeds using pandas DataFrames.',
+    description='Partridge is python library for working with GTFS '
+                'feeds using pandas DataFrames.',
     long_description=readme + '\n\n' + history,
     author='Danny Whalen',
     author_email='daniel.r.whalen@gmail.com',
@@ -47,10 +50,14 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
+    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4',
     test_suite='tests',
     tests_require=test_requirements,
     setup_requires=setup_requirements,
