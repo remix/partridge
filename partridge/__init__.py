@@ -1,5 +1,10 @@
-from partridge.__version__ import __version__  # noqa: F401
-from partridge.gtfs import feed, raw_feed  # noqa: F401
+from partridge.__version__ import __version__
+from partridge.gtfs import feed, raw_feed
+from partridge.readers import (
+    read_service_ids_by_date,
+    read_dates_by_service_ids,
+    read_trip_counts_by_date,
+)
 
 
 __all__ = [
@@ -10,15 +15,3 @@ __all__ = [
     'read_dates_by_service_ids',
     'read_trip_counts_by_date',
 ]
-
-
-def read_service_ids_by_date(path):
-    return feed(path).service_ids_by_date
-
-
-def read_dates_by_service_ids(path):
-    return feed(path).dates_by_service_ids
-
-
-def read_trip_counts_by_date(path):
-    return feed(path).trip_counts_by_date
