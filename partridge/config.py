@@ -6,8 +6,12 @@ from partridge.parsers import \
     vparse_numeric
 
 
+def empty_config():
+    return nx.DiGraph()
+
+
 def default_config():
-    G = nx.DiGraph()
+    G = empty_config()
     add_edge_config(G)
     add_node_config(G)
     return G

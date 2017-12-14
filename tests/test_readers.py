@@ -1,6 +1,4 @@
 import datetime
-import pytest
-
 from .helpers import fixture
 
 import partridge as ptg
