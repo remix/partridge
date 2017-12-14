@@ -1,13 +1,10 @@
-import pytest
-
 import datetime
 import os
+import pytest
+
+from .helpers import fixture
 
 import partridge as ptg
-
-
-def fixture(filename):
-    return os.path.join(os.path.dirname(__file__), 'fixtures', filename)
 
 
 @pytest.mark.parametrize('path,dates,shapes', [

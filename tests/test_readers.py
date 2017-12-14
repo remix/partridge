@@ -1,13 +1,9 @@
+import datetime
 import pytest
 
-import datetime
-import os
+from .helpers import fixture
 
 import partridge as ptg
-
-
-def fixture(filename):
-    return os.path.join(os.path.dirname(__file__), 'fixtures', filename)
 
 
 def test_service_ids_by_date():
