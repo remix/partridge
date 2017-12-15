@@ -10,6 +10,11 @@ def empty_config():
     return nx.DiGraph()
 
 
+'''
+Default configs
+'''
+
+
 def default_config():
     G = empty_config()
     add_edge_config(G)
@@ -258,3 +263,39 @@ def add_node_config(g):
             ),
         }),
     ])
+
+
+'''
+Writer configs
+'''
+
+
+def extract_agencies_config():
+    G = empty_config()
+    add_edge_config(G)
+
+    G.remove_edges_from([
+        ('routes.txt', 'trips.txt'),
+        ('agency.txt', 'routes.txt'),
+    ])
+
+    G.add_edges_from([
+        ('trips.txt', 'routes.txt', {
+            'dependencies': {
+                'route_id': 'route_id',
+            },
+        }),
+        ('routes.txt', 'agency.txt', {
+            'dependencies': {
+                'agency_id': 'agency_id',
+            },
+        }),
+    ])
+
+    return G
+
+
+def extract_routes_config():
+    G = empty_config()
+    add_edge_config(G)
+    return G
