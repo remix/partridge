@@ -11,6 +11,24 @@ from partridge.utilities import cached_property, empty_df, setwrap
 
 
 def read_file(filename):
+    def get_dataframe(feed, filename):
+        if os.path.isfile(feed.path):
+            with ZipFile(feed.path) as zipreader:
+                zfile = zipreader.open(feed.zmap[filename], 'r')
+                iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
+                reader = pd.read_csv(iowrapper,
+                                     chunksize=10000, dtype=np.unicode,
+                                     index_col=False, low_memory=False,
+                                     skipinitialspace=True,
+                                     )
+        else:
+            reader = pd.read_csv(os.path.join(feed.path, feed.zmap[filename]),
+                                 chunksize=10000, dtype=np.unicode,
+                                 index_col=False, low_memory=False,
+                                 skipinitialspace=True,
+                                 )
+        return reader
+
     def func(feed):
         # Get config for node
         config = feed.config
@@ -27,69 +45,58 @@ def read_file(filename):
         if filename not in feed.zmap:
             return empty_df(columns)
 
-        # Read CSV into DataFrame, prune it according to the dependency graph
-        with ZipFile(feed.path) as zipreader:
-            # Prepare a chunked reader for the file
-            zfile = zipreader.open(feed.zmap[filename], 'r')
-            iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
-            reader = pd.read_csv(iowrapper,
-                                 chunksize=10000,
-                                 dtype=np.unicode,
-                                 index_col=False,
-                                 low_memory=False,
-                                 skipinitialspace=True,
-                                 )
+        reader = get_dataframe(feed, filename)
 
-            # Gather the dependencies between this file and others
-            file_dependencies = {
-                # property name : dependencies
-                os.path.splitext(depfile)[0]: data['dependencies'].items()
-                for _, depfile, data in config.out_edges(filename, data=True)
-                if 'dependencies' in data
-            }
+        # Gather the dependencies between this file and others
+        file_dependencies = {
+            # property name : dependencies
+            os.path.splitext(depfile)[0]: data['dependencies'].items()
+            for _, depfile, data in config.out_edges(filename, data=True)
+            if 'dependencies' in data
+        }
 
-            # Gather applicable view filter params
-            view_filters = {
-                # column name : set of strings
-                col: set(map(np.unicode, setwrap(values)))
-                for col, values in feed.view.get(filename, {}).items()
-            }
+        # Gather applicable view filter params
+        view_filters = {
+            # column name : set of strings
+            col: set(map(np.unicode, setwrap(values)))
+            for col, values in feed.view.get(filename, {}).items()
+        }
 
-            # Process the file in chunks
-            chunks = []
-            for i, chunk in enumerate(reader):
-                # Cleanup column names just to be safe
-                chunk = chunk.rename(columns=lambda x: x.strip())
+        # Process the file in chunks
+        chunks = []
+        for i, chunk in enumerate(reader):
+            # Cleanup column names just to be safe
+            chunk = chunk.rename(columns=lambda x: x.strip())
 
-                if i == 0:
-                    # Track the actual columns in the file if present
-                    columns = list(chunk.columns)
+            if i == 0:
+                # Track the actual columns in the file if present
+                columns = list(chunk.columns)
 
-                # Apply view filters
-                for col, values in view_filters.items():
-                    # If applicable, filter this chunk by the
-                    # given set of values
-                    if col in chunk.columns:
-                        chunk = chunk[chunk[col].isin(values)]
+            # Apply view filters
+            for col, values in view_filters.items():
+                # If applicable, filter this chunk by the
+                # given set of values
+                if col in chunk.columns:
+                    chunk = chunk[chunk[col].isin(values)]
 
-                # Prune the chunk
-                for propname, dependencies in file_dependencies.items():
-                    # Read the filtered, pruned, and cached file dependency
-                    depdf = getattr(feed, propname)
+            # Prune the chunk
+            for propname, dependencies in file_dependencies.items():
+                # Read the filtered, pruned, and cached file dependency
+                depdf = getattr(feed, propname)
 
-                    for col, depcol in dependencies:
-                        # If applicable, prune this chunk by the other
-                        if col in chunk.columns and depcol in depdf.columns:
-                            chunk = chunk[chunk[col].isin(depdf[depcol])]
+                for col, depcol in dependencies:
+                    # If applicable, prune this chunk by the other
+                    if col in chunk.columns and depcol in depdf.columns:
+                        chunk = chunk[chunk[col].isin(depdf[depcol])]
 
-                # Discard entirely filtered/pruned chunks
-                if not chunk.empty:
-                    chunks.append(chunk)
+            # Discard entirely filtered/pruned chunks
+            if not chunk.empty:
+                chunks.append(chunk)
 
-            # If all chunks were completely filtered/pruned away,
-            # return an empty DataFrame.
-            if len(chunks) == 0:
-                return empty_df(columns)
+        # If all chunks were completely filtered/pruned away,
+        # return an empty DataFrame.
+        if len(chunks) == 0:
+            return empty_df(columns)
 
         # Concatenate chunks into one DataFrame
         df = pd.concat(chunks)
@@ -114,7 +121,7 @@ class feed(object):
         self.view = {} if view is None else view
         self.zmap = {}
 
-        assert os.path.isfile(self.path), \
+        assert os.path.isfile(self.path) or os.path.isdir(self.path), \
             'File not found: {}'.format(self.path)
 
         assert nx.is_directed_acyclic_graph(self.config), \
@@ -126,13 +133,23 @@ class feed(object):
                 'Filter param given for a non-root node ' \
                 'of the config graph: {} {}'.format(filename, param)
 
-        with ZipFile(self.path) as zipreader:
-            for zpath in zipreader.namelist():
-                basename = os.path.basename(zpath)
-                if zpath.endswith('.txt'):
-                    assert basename not in self.zmap, \
-                        'More than one {} in zip'.format(basename)
-                self.zmap[basename] = zpath
+        if os.path.isfile(self.path):
+            with ZipFile(self.path) as zipreader:
+                for zpath in zipreader.namelist():
+                    basename = os.path.basename(zpath)
+                    if zpath.endswith('.txt'):
+                        assert basename not in self.zmap, \
+                            'More than one {} in zip'.format(basename)
+                    self.zmap[basename] = zpath
+        else:
+            files = [f for f in os.listdir(self.path)
+                     if os.path.isfile(os.path.join(self.path, f))]
+            for file in files:
+                basename = os.path.basename(file)
+                if file.endswith('.txt'):
+                    assert file not in self.zmap, \
+                            'More than one {} in zip'.format(basename)
+                self.zmap[basename] = file
 
     agency = read_file('agency.txt')
     calendar = read_file('calendar.txt')
