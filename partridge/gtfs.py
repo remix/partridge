@@ -1,5 +1,3 @@
-from collections import defaultdict
-import datetime
 import io
 import networkx as nx
 import numpy as np
@@ -8,14 +6,8 @@ import pandas as pd
 from zipfile import ZipFile
 
 
-from partridge.config import default_config
-from partridge.parsers import vparse_date
+from partridge.config import default_config, empty_config
 from partridge.utilities import cached_property, empty_df, setwrap
-
-
-DAY_NAMES = (
-    'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
-    'saturday', 'sunday')
 
 
 def read_file(filename):
@@ -156,89 +148,8 @@ class feed(object):
     transfers = read_file('transfers.txt')
     trips = read_file('trips.txt')
 
-    @cached_property
-    def service_ids_by_date(self):
-        '''Find all service identifiers by date'''
-        results = defaultdict(set)
-        removals = defaultdict(set)
-
-        calendar = self.calendar
-        caldates = self.calendar_dates
-        trips = self.trips
-
-        service_ids = set(trips.service_id)
-
-        # Process calendar.txt if it exists
-        if not calendar.empty:
-            calendar = calendar[calendar.service_id.isin(service_ids)].copy()
-
-            # Ensure dates have been parsed
-            calendar.start_date = vparse_date(calendar.start_date)
-            calendar.end_date = vparse_date(calendar.end_date)
-
-            # Build up results dict from calendar ranges
-            for _, cal in calendar.iterrows():
-                start = cal.start_date.toordinal()
-                end = cal.end_date.toordinal()
-
-                dow = {i: cal[day] for i, day in enumerate(DAY_NAMES)}
-                for ordinal in range(start, end + 1):
-                    date = datetime.date.fromordinal(ordinal)
-                    if int(dow[date.weekday()]):
-                        results[date].add(cal.service_id)
-
-        # Process calendar_dates.txt if it exists
-        if not caldates.empty:
-            caldates = caldates[caldates.service_id.isin(service_ids)].copy()
-
-            # Ensure dates have been parsed
-            caldates.date = vparse_date(caldates.date)
-
-            # Split out additions and removals
-            cdadd = caldates[caldates.exception_type.astype(int) == 1]
-            cdrem = caldates[caldates.exception_type.astype(int) == 2]
-
-            # Add to results by date
-            for _, cd in cdadd.iterrows():
-                results[cd.date].add(cd.service_id)
-
-            # Collect removals
-            for _, cd in cdrem.iterrows():
-                removals[cd.date].add(cd.service_id)
-
-            # Finally, process removals by date
-            for date in removals:
-                for service_id in removals[date]:
-                    if service_id in results[date]:
-                        results[date].remove(service_id)
-
-                # Drop the key from results if no service present
-                if len(results[date]) == 0:
-                    del results[date]
-
-        return {k: frozenset(v) for k, v in results.items()}
-
-    @cached_property
-    def dates_by_service_ids(self):
-        '''Find dates with identical service'''
-        results = defaultdict(set)
-        for date, service_ids in self.service_ids_by_date.items():
-            results[service_ids].add(date)
-        return dict(results)
-
-    @cached_property
-    def trip_counts_by_date(self):
-        '''A useful proxy for busyness'''
-        results = defaultdict(int)
-        trips = self.trips
-        for service_ids, dates in self.dates_by_service_ids.items():
-            trip_count = trips[trips.service_id.isin(service_ids)].shape[0]
-            for date in dates:
-                results[date] += trip_count
-        return dict(results)
-
 
 # No pruning or type coercion
 class raw_feed(feed):
     def __init__(self, path):
-        super(raw_feed, self).__init__(path, config=nx.DiGraph())
+        super(raw_feed, self).__init__(path, config=empty_config())
