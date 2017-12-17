@@ -51,8 +51,7 @@ def get_dataframe(feed, filename):
 
         # Gather the dependencies between this file and others
         file_dependencies = {
-            # property name : dependencies
-            os.path.splitext(depfile)[0]: data['dependencies'].items()
+            depfile: data['dependencies'].items()
             for _, depfile, data in config.out_edges(filename, data=True)
             if 'dependencies' in data
         }
@@ -82,9 +81,9 @@ def get_dataframe(feed, filename):
                     chunk = chunk[chunk[col].isin(values)]
 
             # Prune the chunk
-            for propname, dependencies in file_dependencies.items():
+            for depfile, dependencies in file_dependencies.items():
                 # Read the filtered, pruned, and cached file dependency
-                depdf = getattr(feed, propname)
+                depdf = get_dataframe(feed, depfile)
 
                 for col, depcol in dependencies:
                     # If applicable, prune this chunk by the other
