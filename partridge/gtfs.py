@@ -62,14 +62,10 @@ class feed(object):
 
     @lru_cache(maxsize=None)
     def get(self, filename):
-        # Get config for node
         config = self.config
 
-        if config.has_node(filename):
-            node = config.nodes[filename]
-        else:
-            node = {}
-
+        # Get config for node
+        node = config.nodes.get(filename, {})
         columns = node.get('required_columns', [])
         converters = node.get('converters', {})
 
