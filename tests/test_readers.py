@@ -4,6 +4,19 @@ from .helpers import fixture
 import partridge as ptg
 
 
+def test_get_representative_feed():
+    path = fixture('caltrain-2017-07-24.zip')
+
+    trip_counts_by_date = ptg.read_trip_counts_by_date(path)
+    service_ids_by_date = ptg.read_service_ids_by_date(path)
+    date, _ = max(trip_counts_by_date.items(), key=lambda p: p[1])
+    service_ids = service_ids_by_date[date]
+
+    feed = ptg.get_representative_feed(path)
+    assert isinstance(feed, ptg.feed)
+    assert feed.view == {'trips.txt': {'service_id': service_ids}}
+
+
 def test_service_ids_by_date():
     path = fixture('amazon-2017-08-06.zip')
     service_ids_by_date = ptg.read_service_ids_by_date(path)

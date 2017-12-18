@@ -1,7 +1,7 @@
 from collections import defaultdict
 import datetime
 
-from partridge.gtfs import raw_feed
+from partridge.gtfs import feed as mkfeed, raw_feed
 from partridge.parsers import vparse_date
 
 
@@ -11,6 +11,19 @@ DAY_NAMES = (
 
 
 '''Public'''
+
+
+def get_representative_feed(path):
+    feed = raw_feed(path)
+
+    service_ids_by_date = _service_ids_by_date(feed)
+    trip_counts_by_date = _trip_counts_by_date(feed)
+
+    date, _ = max(trip_counts_by_date.items(), key=lambda p: p[1])
+    service_ids = service_ids_by_date[date]
+    view = {'trips.txt': {'service_id': service_ids}}
+
+    return mkfeed(path, view=view)
 
 
 def read_service_ids_by_date(path):
