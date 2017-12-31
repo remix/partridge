@@ -37,9 +37,7 @@ def _extract_feed(inpath, outpath, config, view):
         tmpdir = tempfile.mkdtemp()
 
         for node in nodes:
-            attrname, _ = os.path.splitext(node)
-            df = getattr(feed, attrname)
-
+            df = feed.get(node)
             if not df.empty:
                 path = os.path.join(tmpdir, node)
                 df.to_csv(path, index=False)
