@@ -19,6 +19,23 @@ At the core of Partridge is a dependency graph rooted at ``trips.txt``. Disconne
    :alt: dependency graph
 
 
+Philosphy
+---------
+
+The design of Partridge is guided by the following principles:
+
+- as much as possible
+
+  - favor speed
+  - allow for extension
+  - succeed lazily on expensive paths
+  - fail eagerly on inexpensive paths
+
+- as little as possible
+
+  - do anything other than efficiently read GTFS files into DataFrames
+  - take an opinion on the GTFS spec
+
 Usage
 -----
 
