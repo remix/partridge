@@ -219,7 +219,7 @@ def test_missing_zip():
         ptg.feed(fixture('missing.zip'))
         assert False
     except AssertionError as e:
-        assert 'File not found' in repr(e)
+        assert 'File or path not found' in repr(e)
 
 
 def test_config_must_be_dag():
