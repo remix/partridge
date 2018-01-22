@@ -1,0 +1,4 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url
+ST,Sound Transit,http://www.soundtransit.org/,America/Los_Angeles,EN,1-888-889-6368,http://www.soundtransit.org/Fares-and-Passes.xml
+KMD,Kingcounty Marine Divison,http://www.kingcounty.gov/transportation/kcdot/Marine.aspx,America/Los_Angeles,EN,206-684-1515,http://www.kingcounty.gov/transportation/kcdot/Marine.aspx/
+EOS,City of Seattle,http://www.seattle.gov,America/Los_Angeles,EN,206-684-7623,http://www.seattlestreetcar.org/

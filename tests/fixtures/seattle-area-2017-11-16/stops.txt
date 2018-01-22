@@ -1,0 +1,260 @@
+stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station,stop_timezone
+10370,,NE 50th St & University Way NE,,47.6648293,-122.31266,1,,0,,America/Los_Angeles
+1050,,Olive Way & 8th Ave,,47.6139374,-122.33416,1,,0,,America/Los_Angeles
+1070,,Olive Way & Terry Ave,,47.6149139,-122.331848,1,,0,,America/Los_Angeles
+1084,,Convention Place Tunnel Station - Bay D,,47.6142769,-122.331863,1,,0,,America/Los_Angeles
+1086,,Convention Place Tunnel Station - Bay E,,47.6145744,-122.331688,1,,0,,America/Los_Angeles
+10912,,15th Ave NE & NE 43rd St,,47.6593704,-122.312096,1,,0,,America/Los_Angeles
+10914,,15th Ave NE & NE Campus Pkwy,,47.6564217,-122.312164,1,,0,,America/Los_Angeles
+10917,,15th Ave NE & NE 40th St,,47.6550484,-122.312195,1,,0,,America/Los_Angeles
+1108,,Westlake Tunnel Station & Pine St - 3rd 4th & 5th Avenue - Bay C,,47.611393,-122.337509,21,,0,,America/Los_Angeles
+1109,,Westlake Station - Bay D,,47.6117249,-122.336716,21,,0,,America/Los_Angeles
+11175,,Broadway & E Howell St,,47.6181564,-122.320747,1,,0,,America/Los_Angeles
+1121,,Westlake Station & Pine St - 3rd 4th & 5th Avenue - Bay A,,47.6118011,-122.335823,21,,0,,America/Los_Angeles
+11352,,15th Ave NE & NE 42nd St,,47.6586685,-122.311905,1,,0,,America/Los_Angeles
+1190,,Pike St & 6th Ave,,47.6110344,-122.334526,21,,0,,America/Los_Angeles
+1192,,Convention Place Tunnel Station - Bay A,,47.6139412,-122.33152,1,,0,,America/Los_Angeles
+1215,,Union St & 6th Ave,,47.6097679,-122.334648,21,,0,,America/Los_Angeles
+1230,,Union St & 4th Ave,,47.6091309,-122.336182,21,,0,,America/Los_Angeles
+13460,,Bellevue Ave & E Olive St,,47.6165123,-122.326691,1,,0,,America/Los_Angeles
+1551,,S Jackson St & Occidental Ave Walk,,47.5992737,-122.333282,1,,0,,America/Los_Angeles
+1619,,Westlake Ave & Virginia St,,47.6148643,-122.33786,1,,0,,America/Los_Angeles
+1630,,Westlake Ave & Olive Way,,47.6132812,-122.337547,21,,0,,America/Los_Angeles
+1651,,S Jackson St & 5th Ave S,,47.5992622,-122.327263,21,,0,,America/Los_Angeles
+1652,,S Jackson St & 5th Ave S,,47.5991249,-122.327286,1,,0,,America/Los_Angeles
+1661,,S Jackson St & 8th Ave S,,47.5992622,-122.323357,1,,0,,America/Los_Angeles
+1662,,S Jackson St & 8th Ave S,,47.5991173,-122.323395,1,,0,,America/Los_Angeles
+1671,,S Jackson St & 12th Ave S,,47.5992699,-122.315536,1,,0,,America/Los_Angeles
+1672,,S Jackson St & 12th Ave S,,47.5991287,-122.315529,1,,0,,America/Los_Angeles
+1681,,14th Ave S & S Washington St,,47.6005745,-122.31424,1,,0,,America/Los_Angeles
+1682,,14th Ave S & S Washington St,,47.6005936,-122.314041,1,,0,,America/Los_Angeles
+1889,,Vashon Island Water Taxi & Colman Dock,,47.6035614,-122.339211,1,,0,,America/Los_Angeles
+1907,,West Seattle Water Taxi & Colman Dock,,47.6034241,-122.339203,1,,0,,America/Los_Angeles
+1920,,Lenora St & 4th Ave,,47.6139717,-122.341293,21,,0,,America/Los_Angeles
+21765,,6th Ave S & S Atlantic St,,47.5908852,-122.325867,1,,0,,America/Los_Angeles
+21850,,Airport Way S & S Royal Brougham Way,,47.5921173,-122.323792,1,,0,,America/Los_Angeles
+25243,,Montlake Blvd E & E Lake Washington Blvd,,47.6440163,-122.304268,1,,0,,America/Los_Angeles
+25752,,Montlake Blvd E & E Shelby St,,47.6462822,-122.304436,1,,0,,America/Los_Angeles
+26641,,Westlake Ave N & Mercer St,,47.6243477,-122.338547,1,,0,,America/Los_Angeles
+26645,,Westlake Ave N & Harrison St,,47.6213799,-122.33857,1,,0,,America/Los_Angeles
+26665,,Westlake Ave & 9th Ave,,47.617794,-122.338463,1,,0,,America/Los_Angeles
+26680,,Westlake Ave & Olive Way,,47.6132927,-122.337341,21,,0,,America/Los_Angeles
+26689,,Westlake Ave & 7th Ave,,47.6156235,-122.337807,1,,0,,America/Los_Angeles
+26690,,Westlake Ave & 9th Ave,,47.6182671,-122.338341,1,,0,,America/Los_Angeles
+26693,,Terry Ave N & Thomas St,,47.6215019,-122.337051,1,,0,,America/Los_Angeles
+26698,,Terry Ave N & Republican St,,47.6234169,-122.337044,1,,0,,America/Los_Angeles
+26700,,Fairview Ave N & Ward St,,47.6276665,-122.332367,1,,0,,America/Los_Angeles
+26701,,South Lake Union Streetcar & Terry Ave N,,47.6258316,-122.336372,1,,0,,America/Los_Angeles
+26702,,South Lake Union Streetcar & Terry Ave N,,47.6259689,-122.336533,1,,0,,America/Los_Angeles
+26705,,Fairview Ave N & Aloha St,,47.6275864,-122.332207,1,,0,,America/Los_Angeles
+27420,,E Yesler Way & Broadway,,47.6017723,-122.320625,1,,0,,America/Los_Angeles
+27500,,E Yesler Way & Broadway,,47.6016273,-122.320076,1,,0,,America/Los_Angeles
+280,,2nd Ave & Stewart St,,47.6107025,-122.340332,21,,0,,America/Los_Angeles
+29240,,NE Pacific St & 15th Ave NE,,47.6522446,-122.311211,1,,0,,America/Los_Angeles
+29247,,NE Pacific St & Montlake Blvd NE - Bay 1,,47.6491432,-122.30497,1,,0,,America/Los_Angeles
+29405,,NE Pacific St & Montlake Blvd NE - Bay 2,,47.6497269,-122.305817,1,,0,,America/Los_Angeles
+29420,,NE Pacific St & 15th Ave NE,,47.6523514,-122.311089,1,,0,,America/Los_Angeles
+29440,,15th Ave NE & NE Campus Pkwy,,47.6557083,-122.311974,1,,0,,America/Los_Angeles
+320,,2nd Ave & Seneca St,,47.6062126,-122.336205,21,,0,,America/Los_Angeles
+340,,2nd Ave & Marion St,,47.6044655,-122.334625,21,,0,,America/Los_Angeles
+35293,,Northgate Transit Center - Bay 4,,47.7026215,-122.327271,1,,0,,America/Los_Angeles
+35322,,Northgate Transit Center - Bay 1,,47.7028961,-122.327316,1,,0,,America/Los_Angeles
+35820,,15th Ave NE & NE 45th St,,47.6613464,-122.312073,1,,0,,America/Los_Angeles
+360,,2nd Ave & Cherry St,,47.6030197,-122.333282,21,,0,,America/Los_Angeles
+361,,2nd Ave & James St,,47.602478,-122.332809,21,,0,,America/Los_Angeles
+36860,,15th Ave NE & NE 45th St,,47.6614876,-122.311882,1,,0,,America/Los_Angeles
+36960,,NE 65th St & Oswego Pl NE,,47.67593,-122.321167,1,,0,,America/Los_Angeles
+38235,,Lake City Way NE & 20th Ave NE,,47.6908722,-122.30751,1,,0,,America/Los_Angeles
+38567,,Lake City Way NE & NE 85th St,,47.690773,-122.307388,1,,0,,America/Los_Angeles
+390,,2nd Ave Ext S & S Jackson St,,47.5992661,-122.329857,21,,0,,America/Los_Angeles
+40140,,I-90 & Rainier Avenue Freeway Station,,47.5900879,-122.306892,1,,0,,America/Los_Angeles
+40150,,I-90 & Rainier Avenue Freeway Station,,47.5904617,-122.307518,1,,0,,America/Los_Angeles
+41904,,Broadway & E Terrace St,,47.6054497,-122.320648,1,,0,,America/Los_Angeles
+41908,,Broadway & E Marion St,,47.610157,-122.320663,1,,0,,America/Los_Angeles
+41970,,Broadway & E Pine St,,47.6151657,-122.320702,1,,0,,America/Los_Angeles
+41980,,Broadway & E Pike St,,47.6141396,-122.320885,1,,0,,America/Los_Angeles
+41986,,Broadway & Marion St,,47.6099091,-122.320869,1,,0,,America/Los_Angeles
+41988,,Broadway & Terrace St,,47.604641,-122.320854,1,,0,,America/Los_Angeles
+455,,University St Stn & 3rd Av - Seneca Or University Street - Bay C,,47.6072464,-122.335754,21,,0,,America/Los_Angeles
+456,,University Street Tunnel Station - Bay D,,47.6076126,-122.336082,21,,0,,America/Los_Angeles
+501,,Pioneer Sq Stn & 3rd Av - James - Bay C,,47.6021385,-122.331055,21,,0,,America/Los_Angeles
+502,,Pioneer Square Stn Tun & 3rd Av/James St & Yesler Way - Bay D,,47.6026077,-122.331497,21,,0,,America/Los_Angeles
+532,,Pioneer Sqr Stn & 3rd Av - James - Bay A,,47.603199,-122.331581,21,,0,,America/Los_Angeles
+55578,,Rainier Beach Stn Rail & Mlk Jr Wy S/S Henderson St,,47.522953,-122.279083,78,,0,,America/Los_Angeles
+55656,,Othello Station Rail & Mlk Jr Wy S/S Othello St,,47.5384827,-122.281677,77,,0,,America/Los_Angeles
+55778,,Columbia City Stn Rail & Mlk Jr Wy S/S Alaska St,,47.5602798,-122.292892,76,,0,,America/Los_Angeles
+55860,,Mount Baker Station Rail & Rainier Av S/S Mcclellan St,,47.576992,-122.297867,75,,0,,America/Los_Angeles
+55949,,Mount Baker Station Rail & Rainier Av S/S Mcclellan St,,47.5764389,-122.297737,75,,0,,America/Los_Angeles
+56039,,Columbia City Stn Rail & Mlk Jr Wy S/S Alaska St,,47.5589523,-122.292343,76,,0,,America/Los_Angeles
+56159,,Othello Station Rail & Mlk Jr Wy S/S Othello St,,47.537529,-122.281471,77,,0,,America/Los_Angeles
+56173,,Rainier Beach Stn Rail & Mlk Jr Wy S/S Henderson St,,47.5222664,-122.279587,78,,0,,America/Los_Angeles
+565,,Univ St Stn & 3rd Av - Seneca Or University Street - Bay A,,47.6082458,-122.336166,21,,0,,America/Los_Angeles
+620,,4th Ave S & S Jackson St,,47.5988121,-122.328903,1,,0,,America/Los_Angeles
+621,,Intl District Stn & S Jackson St - 5th Avenue S - Bay A,,47.5984497,-122.32782,71,,0,,America/Los_Angeles
+623,,Intl Distr Stn & S Jackson St - 5th Avenue S - Bay C,,47.5976601,-122.328217,71,,0,,America/Los_Angeles
+62329,,NE Redmond Fall City Rd & 185th Ave NE,,47.6609192,-122.094925,19,,0,,America/Los_Angeles
+624,,International District Tunnel Station - Bay D,,47.598381,-122.328186,71,,0,,America/Los_Angeles
+625,,S Washington St & 4th Ave S,,47.6008034,-122.329048,21,,0,,America/Los_Angeles
+628,,4th Ave S & S Washington St,,47.601223,-122.328888,21,,0,,America/Los_Angeles
+640,,4th Ave & James St,,47.6031265,-122.330086,21,,0,,America/Los_Angeles
+64065,,N Mercer Way & 80th Ave SE - Bay 2,,47.5884247,-122.232147,19,,0,,America/Los_Angeles
+64140,,N Mercer Way & 80th Ave SE - Bay 1,,47.5887222,-122.23262,19,,0,,America/Los_Angeles
+64502,,E Sunset Way & 1st Ave NE,,47.5301666,-122.035011,19,,0,,America/Los_Angeles
+64549,,9th Ave NE & NE Ellis Dr,,47.5406837,-122.020355,19,,0,,America/Los_Angeles
+64555,,Issaquah Transit Center - Bay 2,,47.5422783,-122.062332,19,,0,,America/Los_Angeles
+64561,,Issaquah Highlands Park & Ride - Bay 4,,47.5455666,-122.019287,19,,0,,America/Los_Angeles
+64566,,Issaquah Highlands Park & Ride - Bay 3,,47.5457039,-122.019318,19,,0,,America/Los_Angeles
+64585,,Issaquah Transit Center - Bay 3,,47.5416718,-122.062355,19,,0,,America/Los_Angeles
+64590,,Issaquah Transit Center - Bay 6,,47.5418243,-122.062294,19,,0,,America/Los_Angeles
+648,,4th Ave & Cherry St,,47.6043205,-122.331169,21,,0,,America/Los_Angeles
+65150,,Highlands Dr NE & NE Ellis Dr,,47.5410309,-122.01889,19,,0,,America/Los_Angeles
+65300,,SE Eastgate Way & Richards Rd,,47.5808754,-122.16806,19,,0,,America/Los_Angeles
+660,,4th Ave & Madison St,,47.6060753,-122.332779,21,,0,,America/Los_Angeles
+670,,4th Ave & Seneca St,,47.6074982,-122.334076,21,,0,,America/Los_Angeles
+67013,,I-90 Expressway Ramp & 142nd Pl SE - Bay 4,,47.5794144,-122.151398,19,,0,,America/Los_Angeles
+67014,,Eastgate Park & Ride & 140th Ave SE - Bay 1,,47.5805092,-122.152657,19,,0,,America/Los_Angeles
+67015,,Eastgate Park & Ride & 140th Ave SE - Bay 2,,47.5805054,-122.152008,19,,0,,America/Los_Angeles
+67019,,I-90 Expressway Ramp & 142nd Pl SE - Bay 3,,47.5795746,-122.151329,19,,0,,America/Los_Angeles
+67022,,142nd Pl SE & SE 32nd St,,47.5819893,-122.151154,19,,0,,America/Los_Angeles
+67620,,Bellevue Way NE & NE 4th St,,47.6133919,-122.201706,19,,0,,America/Los_Angeles
+67636,,110th Ave NE & NE 10th St,,47.6195107,-122.193741,19,,0,,America/Los_Angeles
+67640,,Bellevue Way SE & Main St,,47.6096802,-122.201584,19,,0,,America/Los_Angeles
+67650,,Bellevue Way SE & SE 3rd St,,47.6072845,-122.201515,19,,0,,America/Los_Angeles
+67652,,Bellevue Transit Center - Bay 9,,47.615509,-122.194725,19,,0,,America/Los_Angeles
+67655,,Bellevue Transit Center - Bay 8,,47.6155014,-122.194389,19,,0,,America/Los_Angeles
+67700,,Bellevue Way SE & SE 11th St,,47.6000214,-122.199921,19,,0,,America/Los_Angeles
+67720,,Bellevue Way SE & SE 16th St,,47.5967178,-122.198441,19,,0,,America/Los_Angeles
+67960,,Bellevue Way SE & SE 16th St,,47.5970802,-122.198387,19,,0,,America/Los_Angeles
+67990,,Bellevue Way SE & SE 10th St,,47.6019592,-122.200768,19,,0,,America/Los_Angeles
+68005,,Bellevue Transit Center - Bay 5,,47.6155014,-122.194511,19,,0,,America/Los_Angeles
+68007,,Bellevue Transit Center - Bay 12,,47.6154327,-122.19619,19,,0,,America/Los_Angeles
+68020,,Bellevue Way SE & SE 3rd St,,47.6079559,-122.201324,19,,0,,America/Los_Angeles
+68035,,Bellevue Way NE & Main St,,47.6105652,-122.201408,19,,0,,America/Los_Angeles
+68042,,NE 4th St & 105th Ave NE,,47.6137772,-122.200714,19,,0,,America/Los_Angeles
+68398,,156th Ave NE & Overlake Transit Center - Bay 7,,47.6447792,-122.132393,19,,0,,America/Los_Angeles
+68496,,154th Ave NE & NE 85th St,,47.6783028,-122.134773,19,,0,,America/Los_Angeles
+68498,,156th Ave NE & Overlake Transit Center - Bay 8,,47.6439857,-122.132187,19,,0,,America/Los_Angeles
+690,,4th Ave & Union St,,47.6098366,-122.33622,21,,0,,America/Los_Angeles
+700,,4th Ave & Pike St,,47.6109505,-122.33725,21,,0,,America/Los_Angeles
+70679,,6th St S & 9th Ave S,,47.6687584,-122.196365,19,,0,,America/Los_Angeles
+71328,,Overlake Park & Ride,,47.6331596,-122.136055,19,,0,,America/Los_Angeles
+71334,,Overlake Transit Center - Bay 4,,47.6440964,-122.132683,19,,0,,America/Los_Angeles
+71335,,Sr 520 & NE 40th St,,47.6453285,-122.13533,19,,0,,America/Los_Angeles
+71336,,State Route 520 & NE 40th St,,47.6446686,-122.133751,19,,0,,America/Los_Angeles
+71341,,Sr 520 & NE 51st St,,47.6538467,-122.138763,19,,0,,America/Los_Angeles
+71344,,Sr 520 Ramp & Montlake Blvd E,,47.644783,-122.302292,1,,0,,America/Los_Angeles
+71348,,Sr 520 & Evergreen Point Rd,,47.6368637,-122.236855,19,,0,,America/Los_Angeles
+71350,,Sr 520 Ramp & Montlake Blvd E,,47.6441612,-122.303802,1,,0,,America/Los_Angeles
+71353,,Sr 520 & NE 51st St,,47.6549225,-122.136627,19,,0,,America/Los_Angeles
+71355,,Sr 520 & Evergreen Point Rd,,47.6371956,-122.237297,19,,0,,America/Los_Angeles
+71356,,Clyde Hill/Yarrow Pt & Sr-520 - 92nd Avenue,,47.6399231,-122.219467,19,,0,,America/Los_Angeles
+71359,,Clyde Hill/Yarrow Pt & Sr-520 - 92nd Avenue,,47.6399498,-122.218742,19,,0,,America/Los_Angeles
+71951,,Redmond Transit Center - Bay 3,,47.6765976,-122.123871,19,,0,,America/Los_Angeles
+71954,,Redmond Transit Center - Bay 6,,47.6767349,-122.124008,19,,0,,America/Los_Angeles
+71960,,Redmond Transit Center - Bay 5,,47.6768913,-122.124428,19,,0,,America/Los_Angeles
+720,,4th Ave & Stewart St,,47.6126213,-122.339134,21,,0,,America/Los_Angeles
+72161,,6th St S & NE 68th St,,47.6674194,-122.196152,19,,0,,America/Los_Angeles
+72305,,NE 76th St & 177th Pl NE,,47.6717491,-122.103722,19,,0,,America/Los_Angeles
+72306,,NE 76th St & 177th Pl NE,,47.6715965,-122.103897,19,,0,,America/Los_Angeles
+72329,,NE Redmond Way & 185th Ave NE,,47.6610832,-122.094856,19,,0,,America/Los_Angeles
+72456,,West Lake Sammamish Pkwy NE & Leary Way,,47.669899,-122.130836,19,,0,,America/Los_Angeles
+72458,,West Lake Sammamish Pkwy NE & Leary Way,,47.6698189,-122.130348,19,,0,,America/Los_Angeles
+72489,,Cleveland St & 166th Ave NE,,47.6721687,-122.11969,19,,0,,America/Los_Angeles
+73227,,Redmond Transit Center - Bay 1,,47.6765938,-122.124924,19,,0,,America/Los_Angeles
+73637,,164th Ave NE & NE 80th St,,47.6744881,-122.121521,19,,0,,America/Los_Angeles
+73757,,NE 85th St & 161st Ave NE,,47.6784592,-122.126465,19,,0,,America/Los_Angeles
+73758,,NE 85th St & 160th Ave NE,,47.6786156,-122.128014,19,,0,,America/Los_Angeles
+73814,,Kirkland Transit Center - Bay 2,,47.6768227,-122.203346,19,,0,,America/Los_Angeles
+73848,,NE 85th St & 154th Ave NE,,47.6785355,-122.133942,19,,0,,America/Los_Angeles
+74410,,108th Ave NE & NE 58th St,,47.6590042,-122.196312,19,,0,,America/Los_Angeles
+74450,,South Kirkland Park & Ride,,47.6436577,-122.196419,19,,0,,America/Los_Angeles
+74560,,108th Ave NE & NE 58th St,,47.6590614,-122.196106,19,,0,,America/Los_Angeles
+75401,,Stevens Way & Memorial Way,,47.6596909,-122.308823,1,,0,,America/Los_Angeles
+75402,,Stevens Way & Rainier Vis,,47.6523361,-122.306412,1,,0,,America/Los_Angeles
+75403,,Stevens Way & Benton Ln,,47.6543655,-122.305214,1,,0,,America/Los_Angeles
+75404,,Stevens Way & Garfield Ln,,47.6521492,-122.308495,1,,0,,America/Los_Angeles
+75405,,Grant Ln & Stevens Way,,47.6551018,-122.310921,1,,0,,America/Los_Angeles
+75406,,Stevens Way & Pend Oreille Rd,,47.6568756,-122.304909,1,,0,,America/Los_Angeles
+75992,,Woodinville Park And Ride,,47.757122,-122.151436,19,,0,,America/Los_Angeles
+75995,,Woodinville Park And Ride,,47.7567825,-122.151398,19,,0,,America/Los_Angeles
+760,,5th Ave & Pine St,,47.6116676,-122.336601,21,,0,,America/Los_Angeles
+76014,,Sr 522 & 132nd Ave NE,,47.7587624,-122.164597,19,,0,,America/Los_Angeles
+76222,,Beardslee Blvd & Sunrise Dr,,47.7606125,-122.20018,19,,0,,America/Los_Angeles
+76228,,Beardslee Blvd & NE 195th St,,47.7679176,-122.19101,19,,0,,America/Los_Angeles
+76299,,Beardslee Blvd & NE 195th St,,47.7679405,-122.191231,19,,0,,America/Los_Angeles
+76302,,Woodinville Dr & Kaysner Way,,47.7593307,-122.20108,19,,0,,America/Los_Angeles
+76305,,Campus Way NE,,47.7618294,-122.192337,19,,0,,America/Los_Angeles
+76310,,Bothell Way NE & NE 180th St,,47.7579346,-122.211418,19,,0,,America/Los_Angeles
+76360,,NE Bothell Way & 80th Ave NE,,47.7560043,-122.234673,19,,0,,America/Los_Angeles
+76372,,NE Bothell Way & Kenmore Park & Ride,,47.7571335,-122.24147,19,,0,,America/Los_Angeles
+76390,,NE Bothell Way & 68th Ave NE,,47.7584152,-122.249435,19,,0,,America/Los_Angeles
+76420,,NE Bothell Way & 61st Ave NE,,47.7583733,-122.263237,19,,0,,America/Los_Angeles
+76590,,Bothell Way NE & Ballinger Way NE,,47.7532158,-122.277527,19,,0,,America/Los_Angeles
+76595,,Bothell Way NE & Lake Forest Park,,47.7521896,-122.280037,19,,0,,America/Los_Angeles
+76610,,Bothell Way NE & NE 165th St,,47.7483215,-122.284912,19,,0,,America/Los_Angeles
+76630,,Bothell Way NE & NE 153rd St,,47.7393837,-122.289886,19,,0,,America/Los_Angeles
+76660,,Lake City Way NE & NE 145th St,,47.7331505,-122.292519,20,,0,,America/Los_Angeles
+76680,,Lake City Way NE & NE 137th St,,47.7280769,-122.292343,1,,0,,America/Los_Angeles
+76700,,Lake City Way NE & NE 130th St,,47.7226944,-122.293411,1,,0,,America/Los_Angeles
+76710,,Lake City Way NE & NE 125th St,,47.7189598,-122.295525,1,,0,,America/Los_Angeles
+76720,,Lake City Way NE & NE 125th St,,47.7203827,-122.294479,1,,0,,America/Los_Angeles
+76730,,Lake City Way NE & NE 130th St,,47.7235718,-122.292793,1,,0,,America/Los_Angeles
+76750,,Lake City Way NE & NE 137th St,,47.7280159,-122.292137,1,,0,,America/Los_Angeles
+76770,,Bothell Way NE & NE 145th St,,47.7344666,-122.292343,19,,0,,America/Los_Angeles
+76790,,Bothell Way NE & NE 153rd St,,47.7397232,-122.289368,19,,0,,America/Los_Angeles
+76810,,Bothell Way NE & NE 165th St,,47.7484856,-122.284569,19,,0,,America/Los_Angeles
+76820,,Bothell Way NE & Lake Forest Park,,47.7521172,-122.279831,19,,0,,America/Los_Angeles
+76830,,Bothell Way NE & Ballinger Way NE,,47.7537308,-122.275841,19,,0,,America/Los_Angeles
+76840,,NE Bothell Way & 61st Ave NE,,47.7583008,-122.261803,19,,0,,America/Los_Angeles
+76870,,NE Bothell Way & 68th Ave NE,,47.7582016,-122.24881,19,,0,,America/Los_Angeles
+76880,,NE Bothell Way & 73rd Ave NE,,47.7572556,-122.243042,19,,0,,America/Los_Angeles
+76900,,NE Bothell Way & 80th Ave NE,,47.7556267,-122.233536,19,,0,,America/Los_Angeles
+76970,,Sr 522 & 132nd Ave NE,,47.7575188,-122.164345,19,,0,,America/Los_Angeles
+77090,,Woodinville Snohomsh Rd & NE 190th St,,47.7653008,-122.154099,19,,0,,America/Los_Angeles
+77093,,Woodinville Snohomsh Rd & 139th Ave NE,,47.7658539,-122.154541,19,,0,,America/Los_Angeles
+77998,,NE 178th Pl & NE 180th Pl,,47.757534,-122.154823,19,,0,,America/Los_Angeles
+77999,,NE 178th Pl & 138th Pl NE,,47.7570419,-122.154404,19,,0,,America/Los_Angeles
+790,,5th Ave & Seneca St,,47.6081772,-122.333405,21,,0,,America/Los_Angeles
+79295,,Old Bothell Way NE & 98th Ave NE,,47.7594032,-122.209259,19,,0,,America/Los_Angeles
+79878,,142nd Pl SE & SE 32nd St,,47.5820389,-122.150948,19,,0,,America/Los_Angeles
+80485,,E Sunset Way & Rainier Blvd S,,47.5300255,-122.034233,19,,0,,America/Los_Angeles
+81665,,228th Ave NE & NE 8th St,,47.6156349,-122.035378,19,,0,,America/Los_Angeles
+81677,,228th Ave NE & NE 8th St,,47.6151772,-122.035568,19,,0,,America/Los_Angeles
+81684,,South Sammamish P&R - Bay 1,,47.5822945,-122.037125,19,,0,,America/Los_Angeles
+81685,,228th Ave SE & SE 8th St,,47.6013794,-122.035614,19,,0,,America/Los_Angeles
+81687,,228th Ave SE & SE 8th St,,47.6022339,-122.035408,19,,0,,America/Los_Angeles
+81737,,Issaquah Pine Lake Rd SE & SE 40th Pl,,47.5725021,-122.022049,19,,0,,America/Los_Angeles
+81749,,Issaquah Pine Lake Rd SE & SE Issaquah-Fall City Rd,,47.5554886,-122.02169,19,,0,,America/Los_Angeles
+81755,,Bear Creek Park And Ride,,47.6736107,-122.10096,19,,0,,America/Los_Angeles
+81775,,228th Ave NE & NE 25th Way,,47.631916,-122.035355,19,,0,,America/Los_Angeles
+81820,,228th Ave NE & NE 25th Way,,47.6316109,-122.035545,19,,0,,America/Los_Angeles
+81847,,Issaquah Pine Lake Rd SE & SE 37th Pl,,47.575161,-122.02269,19,,0,,America/Los_Angeles
+820,,5th Ave & Jefferson St,,47.6030922,-122.328766,21,,0,,America/Los_Angeles
+821,,5th Ave & Cherry St,,47.6044922,-122.330048,21,,0,,America/Los_Angeles
+84266,,Bellevue Way SE & 112th Ave SE,,47.5860329,-122.191124,19,,0,,America/Los_Angeles
+84292,,South Bellevue Park & Ride - Bay 1,,47.5870247,-122.191338,19,,0,,America/Los_Angeles
+843,,5th Ave S & S Jackson St,,47.5987816,-122.327782,1,,0,,America/Los_Angeles
+85410,,I-90 & Richards Rd,,47.5811882,-122.169487,19,,0,,America/Los_Angeles
+85640,,NE 4th St & 108th Ave NE,,47.6139069,-122.196899,19,,0,,America/Los_Angeles
+905,,Stewart St & Yale Ave N,,47.6188393,-122.330414,1,,0,,America/Los_Angeles
+940,,Stewart St & 9th Ave,,47.6157036,-122.334457,1,,0,,America/Los_Angeles
+950,,Stewart St & 7th Ave,,47.6143608,-122.336205,1,,0,,America/Los_Angeles
+9586,,NE 50th St & University Way NE,,47.6649742,-122.31353,1,,0,,America/Los_Angeles
+99101,,Stadium Stn Rail & SODO Busway/S Royal Brougham Way,,47.5918083,-122.327354,72,,0,,America/Los_Angeles
+99111,,SODO Stn Rail & SODO Busway/S Lander St,,47.5799522,-122.327522,73,,0,,America/Los_Angeles
+99121,,Beacon Hill Stn Tun & Beacon Av S/S Lander St,,47.5791245,-122.311279,74,,0,,America/Los_Angeles
+99240,,Beacon Hill Stn Tun & Beacon Av S/S Lander St,,47.5796776,-122.311401,74,,0,,America/Los_Angeles
+99256,,SODO Stn Rail & SODO Busway/S Lander St,,47.5805893,-122.327263,73,,0,,America/Los_Angeles
+99260,,Stadium Stn Rail & SODO Busway/S Royal Brougham Way,,47.5922813,-122.326988,72,,0,,America/Los_Angeles
+99603,,Capitol Hill Link Station,,47.6196289,-122.320038,82,,0,,America/Los_Angeles
+99604,,UW / Husky Stadium Link Station,,47.649704,-122.303886,81,,0,,America/Los_Angeles
+99605,,UW / Husky Stadium Link Station,,47.649704,-122.30352,81,,0,,America/Los_Angeles
+99610,,Capitol Hill Link Station,,47.6195602,-122.320389,82,,0,,America/Los_Angeles
+99900,,Tukwila Intl Blvd Stn Rail & Tukwila Intl Blvd S/S 154th St,,47.4642715,-122.288399,79,,0,,America/Los_Angeles
+99903,,Seatac/Airport Stn Rail & Intl Blvd S/S 176 St,,47.4450531,-122.296692,80,,0,,America/Los_Angeles
+99904,,Seatac/Airport Stn Rail & Intl Blvd S/S 176 St,,47.4449692,-122.297028,80,,0,,America/Los_Angeles
+99905,,Tukwila Intl Blvd Stn Rail & Tukwila Intl Blvd S/S 154th St,,47.4639244,-122.288002,79,,0,,America/Los_Angeles
+99908,,Vashon Passenger Ferry & Vashon Ferry Dock,,47.5109406,-122.464722,39,,0,,America/Los_Angeles
+99913,,Angle Lake Link Station & S 200th St,,47.4231224,-122.297615,24,,0,,America/Los_Angeles
+99914,,Angle Lake Link Station & S 200th St,,47.4221535,-122.297958,24,,0,,America/Los_Angeles
+99997,,Water Taxi Route & Harbor Ave SW,,47.5895004,-122.379539,1,,0,,America/Los_Angeles

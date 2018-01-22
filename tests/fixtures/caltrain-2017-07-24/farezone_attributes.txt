@@ -1,0 +1,7 @@
+zone_id,zone_name
+1,CT Zone 1-SF to San Bruno
+2,CT Zone 2-Millbrae to RWC
+3,CT Zone 3-Atherton to Sunnyvale
+4,CT Zone 4-Lawrence to Tamien
+5,CT Zone 5-Capitol & Blossom Hill
+6,CT Zone 6- Morgan Hill to Gilroy

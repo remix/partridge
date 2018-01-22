@@ -1,0 +1,5 @@
+route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color
+Bu-129,Baby Bullet,Bullet,,2,,E31837
+Li-129,Limited,Limited,,2,,FEF0B5
+Lo-129,Local,Local,,2,,77787B
+TaSj-129,TaSJ-Shuttle,TaSJ-Shuttle,,3,,41AD49
