@@ -2,9 +2,9 @@ import datetime
 import os
 import pytest
 
-from .helpers import fixture, zip_file
-
 import partridge as ptg
+
+from .helpers import fixture, zip_file
 
 
 @pytest.mark.parametrize('path,dates,shapes', [
@@ -218,8 +218,8 @@ def test_missing_zip():
     try:
         ptg.feed(fixture('missing.zip'))
         assert False
-    except AssertionError as e:
-        assert 'File or path not found' in repr(e)
+    except AssertionError as err:
+        assert 'File or path not found' in repr(err)
 
 
 def test_config_must_be_dag():
@@ -233,8 +233,8 @@ def test_config_must_be_dag():
     try:
         path = zip_file('amazon-2017-08-06')
         ptg.feed(path, config=config)
-    except AssertionError as e:
-        assert 'Config must be a DAG' in repr(e)
+    except AssertionError as err:
+        assert 'Config must be a DAG' in repr(err)
 
 
 @pytest.mark.parametrize('path', [

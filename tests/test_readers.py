@@ -1,10 +1,10 @@
 import datetime
 
+import partridge as ptg
 import pytest
 
 from .helpers import fixture, zip_file
 
-import partridge as ptg
 
 @pytest.mark.parametrize('path', [
     zip_file('caltrain-2017-07-24'),

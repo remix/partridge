@@ -1,11 +1,12 @@
 import os
-import pytest
 import shutil
 import tempfile
 
+import partridge as ptg
+import pytest
+
 from .helpers import fixture, zip_file
 
-import partridge as ptg
 
 @pytest.mark.parametrize('path', [
     zip_file('seattle-area-2017-11-16'),
