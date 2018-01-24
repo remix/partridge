@@ -1,12 +1,16 @@
 import datetime
-from .helpers import fixture
 
 import partridge as ptg
+import pytest
+
+from .helpers import fixture, zip_file
 
 
-def test_get_representative_feed():
-    path = fixture('caltrain-2017-07-24.zip')
-
+@pytest.mark.parametrize('path', [
+    zip_file('caltrain-2017-07-24'),
+    fixture('caltrain-2017-07-24'),
+])
+def test_get_representative_feed(path):
     trip_counts_by_date = ptg.read_trip_counts_by_date(path)
     service_ids_by_date = ptg.read_service_ids_by_date(path)
     date, _ = max(trip_counts_by_date.items(), key=lambda p: p[1])
@@ -16,9 +20,11 @@ def test_get_representative_feed():
     assert isinstance(feed, ptg.feed)
     assert feed.view == {'trips.txt': {'service_id': service_ids}}
 
-
-def test_service_ids_by_date():
-    path = fixture('amazon-2017-08-06.zip')
+@pytest.mark.parametrize('path', [
+    zip_file('amazon-2017-08-06'),
+    fixture('amazon-2017-08-06'),
+])
+def test_service_ids_by_date(path):
     service_ids_by_date = ptg.read_service_ids_by_date(path)
 
     assert service_ids_by_date == {
@@ -30,9 +36,11 @@ def test_service_ids_by_date():
         datetime.date(2017, 8, 7): frozenset({'1', '0'})
     }
 
-
-def test_dates_by_service_ids():
-    path = fixture('amazon-2017-08-06.zip')
+@pytest.mark.parametrize('path', [
+    zip_file('amazon-2017-08-06'),
+    fixture('amazon-2017-08-06'),
+])
+def test_dates_by_service_ids(path):
     dates_by_service_ids = ptg.read_dates_by_service_ids(path)
 
     assert dates_by_service_ids == {
@@ -48,9 +56,11 @@ def test_dates_by_service_ids():
         }
     }
 
-
-def test_trip_counts_by_date():
-    path = fixture('amazon-2017-08-06.zip')
+@pytest.mark.parametrize('path', [
+    zip_file('amazon-2017-08-06'),
+    fixture('amazon-2017-08-06'),
+])
+def test_trip_counts_by_date(path):
     trip_counts_by_date = ptg.read_trip_counts_by_date(path)
 
     assert trip_counts_by_date == {

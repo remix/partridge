@@ -4,12 +4,12 @@ except ImportError:
     from functools32 import lru_cache
 
 import io
-import networkx as nx
-import numpy as np
 import os
-import pandas as pd
 from zipfile import ZipFile
 
+import networkx as nx
+import numpy as np
+import pandas as pd
 
 from partridge.config import default_config, empty_config
 from partridge.utilities import empty_df, setwrap
@@ -22,12 +22,13 @@ def read_file(filename):
 class feed(object):
     def __init__(self, path, config=None, view=None):
         self.path = path
+        self.is_dir = os.path.isdir(self.path)
         self.config = default_config() if config is None else config
         self.view = {} if view is None else view
         self.zmap = {}
 
-        assert os.path.isfile(self.path), \
-            'File not found: {}'.format(self.path)
+        assert os.path.isfile(self.path) or self.is_dir, \
+            'File or path not found: {}'.format(self.path)
 
         assert nx.is_directed_acyclic_graph(self.config), \
             'Config must be a DAG'
@@ -38,6 +39,17 @@ class feed(object):
                 'Filter param given for a non-root node ' \
                 'of the config graph: {} {}'.format(filename, param)
 
+        if self.is_dir:
+            self._verify_folder_contents()
+        else:
+            self._verify_zip_contents()
+
+
+    def _verify_zip_contents(self):
+        """
+        Verify that the folder does not contain multiple files
+        of the same name. Load file paths into internal dictionary.
+        """
         with ZipFile(self.path) as zipreader:
             for zpath in zipreader.namelist():
                 basename = os.path.basename(zpath)
@@ -45,6 +57,20 @@ class feed(object):
                     assert basename not in self.zmap, \
                         'More than one {} in zip'.format(basename)
                 self.zmap[basename] = zpath
+
+    def _verify_folder_contents(self):
+        """
+        Verify that the folder does not contain multiple files
+        of the same name. Load file paths into internal dictionary.
+        """
+        files = [os.path.join(self.path, f)
+                 for f in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, f))]
+        for gtfs_file in files:
+            basename = os.path.basename(gtfs_file)
+            if gtfs_file.endswith('.txt'):
+                assert gtfs_file not in self.zmap, \
+                    'More than one {} in zip'.format(basename)
+            self.zmap[basename] = gtfs_file
 
     agency = read_file('agency.txt')
     calendar = read_file('calendar.txt')
@@ -73,18 +99,26 @@ class feed(object):
         if filename not in self.zmap:
             return empty_df(columns)
 
+        zipreader = None
+        zfile = None
+
         # Read CSV into DataFrame, prune it according to the dependency graph
-        with ZipFile(self.path) as zipreader:
-            # Prepare a chunked reader for the file
-            zfile = zipreader.open(self.zmap[filename], 'r')
-            iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
+        try:
+            if self.is_dir:
+                iowrapper = open(self.zmap[filename], 'rb')
+            else:
+                zipreader = ZipFile(self.path)
+                # Prepare a chunked reader for the file
+                zfile = zipreader.open(self.zmap[filename], 'r')
+                iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
+
             reader = pd.read_csv(iowrapper,
                                  chunksize=10000,
                                  dtype=np.unicode,
                                  index_col=False,
                                  low_memory=False,
                                  skipinitialspace=True,
-                                 )
+                                )
 
             # Gather the dependencies between this file and others
             file_dependencies = {
@@ -135,6 +169,12 @@ class feed(object):
             # return an empty DataFrame.
             if len(chunks) == 0:
                 return empty_df(columns)
+        finally:
+            iowrapper.close()
+            if zfile is not None:
+                zfile.close()
+            if zipreader is not None:
+                zipreader.close()
 
         # Concatenate chunks into one DataFrame
         df = pd.concat(chunks)

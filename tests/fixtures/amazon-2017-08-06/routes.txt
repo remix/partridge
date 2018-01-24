@@ -1,0 +1,51 @@
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color
+2204,81,"BSAM","Bellevue South AM",,700,,000000,000000
+2205,81,"BSPM","Bellevue South PM",,700,,FFFFFF,FFFFFF
+2206,81,"","Bothell/Kenmore AM",,700,,000000,FFFFFF
+2207,81,"","Bothell/Kenmore PM",,700,,000000,FFFFFF
+2208,81,"","Kirkland AM",,700,,000000,FFFFFF
+2209,81,"","Kirkland PM",,700,,000000,FFFFFF
+2210,81,"","Kirkland Redmond Sweeper",,700,,000000,FFFFFF
+2211,81,"","Redmond AM",,700,,000000,FFFFFF
+2212,81,"","Redmond PM",,700,,000000,FFFFFF
+2213,81,""," Samm/Issaquah AM",,700,,000000,FFFFFF
+2214,81,""," Samm/Issaquah PM",,700,,000000,FFFFFF
+2400,81,"Route 1 AM","Route 1 AM - TRB/Blackfoot/Cricket",,700,,383838,FFFFFF
+2402,81,"Route 2/7","Route 2/7 - Bus Tunnel/Train/Cricket",,700,,1F43F2,FFFFFF
+2403,81,"Route 4 AM","Route 4 AM - Colman/North Campus",,700,,FF1212,FFFFFF
+2407,81,"Route 28","Route 28 - Prime/Cricket/Doppler/Dawson CallOut",,700,,F1FF30,FFFFFF
+2408,81,"Route 26","Route 26 -Cricket/Doppler",,700,,5E5E5E,FFFFFF
+2409,81,"Route 25","Route 25 - Galaxy/Doppler/Alexandria/Cricket",,700,,1D87CF,FFFFFF
+2410,81,"Route 12","Route 12 - Cricket/Blackfoot",,700,,69AAFF,FFFFFF
+2411,81,"Route 9/16/27 AM","Route 9/16/27 AM - Bus Tunnel/Train/Blackfoot/Doppler",,700,,1CD9FF,FFFFFF
+2413,81,"Route 11 AM","Route 11 AM - Campus/Convention Place/7th + Pike",,700,,B3B3B3,080808
+2418,81,"Route 5/6 PM","Route 5/6 PM - Dawson/Arizona/Cricket/Train",,700,,1985FF,FFFFFF
+2419,81,"Route 8 AM","Route 8 AM - Colman/Campus call-outs",,700,,12820A,FFFFFF
+2421,81,"Route 15 AM","Route 15 AM - Train/Colman/Galaxy",,700,,FF0A0A,FFFFFF
+2422,81,"Route 17 AM","Route 17 AM - Bus Tunnel/Train/Campus",,700,,AD1C1C,FFFFFF
+2424,81,"Route 19 AM","Route 19 AM - Colman/South Campus",,700,,5F0FFF,FFFFFF
+2444,81,"Route 20","Route 20 - Galaxy/Cricket",,700,,11A6D4,FFFFFF
+2445,81,"Route 21","Route 21 - Train/Colman/Campus Call-Outs",,700,,11A6D4,FFFFFF
+2464,81,"Snoqualmie/Eastridge AM","Snoqualmie/Eastridge AM",,700,,FFFFFF,FFFFFF
+2482,81,"Snoqualmie/Eastridge AM","Snoqualmie/Eastridge PM",,700,,FF7700,000000
+2525,81,"425AM","Bellevue 425 AM",,700,,FF7700,FFFFFF
+2526,81,"425PM","Bellevue 425 PM",,700,,FF7700,FFFFFF
+2544,81,"Route 1 PM","Route 1 PM - Blackfoot/Cricket/TRB",,700,,000000,FFFFFF
+2546,81,"Route 4 PM","Route 4 PM - Houston/Cricket/Arizona/Colman",,700,,FF0808,FFFFFF
+2547,81,"Route 5/6 AM","Route 5/6 AM - Bus Tunnel/Train/Dawson/Arizona",,700,,0808FF,FFFFFF
+2548,81,"Route 8 PM","Route 8 PM - North/South Campus/Colman",,700,,0B8F10,FFFFFF
+2549,81,"Route 9/16 PM","Route 9/16 PM - Blackfoot/Doppler/Train",,700,,1CD9FF,FFFFFF
+2550,81,"Route 11 PM ","Route 11 PM - Campus/Convention Place/7th + Pike",,700,,C4C4C4,FFFFFF
+2553,81,"Route 15 PM","Route 15 PM - Galaxy/Colman/Train",,700,,FF170F,FFFFFF
+2554,81,"Route 17 PM","Route 17 PM - Varzea/Otter/Coral/Colman/Train",,700,,B01D0C,FFFFFF
+2555,81,"Route 19 PM","Route 19 PM - Blackfoot/Doppler/Colman",,700,,C21199,FFFFFF
+2623,81,"Route 22 AM - Intern","Route 22 - Intern Route 1 AM",,700,,307CFF,FFFFFF
+2624,81,"Route 23 AM - Intern","Route 23 - Intern Route 2 AM",,700,,307CFF,FFFFFF
+2625,81,"Route 24 AM - Intern","Route 24 - Intern Route 3 AM",,700,,307CFF,FFFFFF
+2626,81,"Route 22 PM - Intern","Route 22 - Intern Route 1 PM",,700,,307CFF,FFFFFF
+2627,81,"Route 23 PM - Intern","Route 23 - Intern Route 2 PM",,700,,307CFF,FFFFFF
+2628,81,"Route 24 PM - Intern","Route 24 - Intern Route 3 PM",,700,,307CFF,FFFFFF
+2673,81,"Tracking","Bus Tracking Only",,700,,000000,FFFFFF
+2675,81,"Mercer AM","Mercer AM",,700,,FF7700,FFFFFF
+2680,81,"Route 30","Route 30 - Cricket/Everest",,700,,4785FF,FFFFFF
+2683,81,"Mercer PM","Mercer PM",,700,,FF7700,FFFFFF

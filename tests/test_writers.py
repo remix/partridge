@@ -1,13 +1,18 @@
 import os
 import shutil
 import tempfile
-from .helpers import fixture
 
 import partridge as ptg
+import pytest
+
+from .helpers import fixture, zip_file
 
 
-def test_extract_agencies():
-    path = fixture('seattle-area-2017-11-16.zip')
+@pytest.mark.parametrize('path', [
+    zip_file('seattle-area-2017-11-16'),
+    fixture('seattle-area-2017-11-16'),
+])
+def test_extract_agencies(path):
     fd = ptg.feed(path)
 
     agencies = fd.agency
@@ -57,9 +62,11 @@ def test_extract_agencies():
     finally:
         shutil.rmtree(tmpdir)
 
-
-def test_extract_routes():
-    path = fixture('seattle-area-2017-11-16.zip')
+@pytest.mark.parametrize('path', [
+    zip_file('seattle-area-2017-11-16'),
+    fixture('seattle-area-2017-11-16'),
+])
+def test_extract_routes(path):
     fd = ptg.feed(path)
 
     agencies = fd.agency

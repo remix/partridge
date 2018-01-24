@@ -1,0 +1,189 @@
+route_id,service_id,trip_id,trip_headsign,trip_short_name,direction_id,block_id,shape_id,wheelchair_accessible,bikes_allowed
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512143-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,441,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512144-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,423,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512145-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,425,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512146-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,427,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512147-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,429,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512148-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,431,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512149-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,433,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512150-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,435,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512151-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,439,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512152-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,437,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Caltrain-Sunday-01,6512153-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,801,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Caltrain-Sunday-01,6512154-CT-17JUL-Caltrain-Sunday-01,San Francisco Caltrain Station,803,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512155-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,422,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512156-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,424,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512157-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,426,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512158-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,428,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512159-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,440,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512160-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,430,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512161-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,432,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512162-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,438,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512163-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,434,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Sunday-01,6512164-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,436,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Caltrain-Sunday-01,6512165-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,802,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Caltrain-Sunday-01,6512166-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,804,1,,cal_sf_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512167-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,38,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512168-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,40,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512169-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,36,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512170-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,35,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512171-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,34,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512172-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,33,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512173-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,32,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512174-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,31,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512175-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,30,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512176-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,29,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512177-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,37,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512178-CT-17JUL-Caltrain-Sunday-01,San Jose Caltrain Station,39,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512179-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,54,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512180-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,45,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512181-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,46,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512182-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,47,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512183-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,48,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512184-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,49,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512185-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,50,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512186-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,51,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512187-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,52,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Sunday-01,6512188-CT-17JUL-Caltrain-Sunday-01,Tamien Caltrain Station,53,1,,cal_sj_tam,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512135-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,421,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512136-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,443,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512137-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,442,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512138-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,444,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512143-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,441,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512144-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,423,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512145-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,425,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512146-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,427,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512147-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,429,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512148-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,431,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512149-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,433,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512150-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,435,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512151-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,439,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512152-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,437,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Caltrain-Saturday-03,6512153-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,801,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Caltrain-Saturday-03,6512154-CT-17JUL-Caltrain-Saturday-03,San Francisco Caltrain Station,803,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512155-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,422,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512156-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,424,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512157-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,426,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512158-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,428,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512159-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,440,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512160-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,430,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512161-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,432,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512162-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,438,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512163-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,434,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Caltrain-Saturday-03,6512164-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,436,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Caltrain-Saturday-03,6512165-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,802,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Caltrain-Saturday-03,6512166-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,804,1,,cal_sf_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512167-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,38,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512168-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,40,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512169-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,36,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512170-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,35,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512171-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,34,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512172-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,33,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512173-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,32,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512174-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,31,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512175-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,30,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512176-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,29,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512177-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,37,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512178-CT-17JUL-Caltrain-Saturday-03,San Jose Caltrain Station,39,0,,cal_tam_sj,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512179-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,54,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512180-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,45,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512181-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,46,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512182-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,47,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512183-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,48,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512184-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,49,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512185-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,50,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512186-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,51,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512187-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,52,1,,cal_sj_tam,1,1
+TaSj-129,CT-17JUL-Caltrain-Saturday-03,6512188-CT-17JUL-Caltrain-Saturday-03,Tamien Caltrain Station,53,1,,cal_sj_tam,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512015-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,371,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512016-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,381,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512017-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,309,0,,cal_tam_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512018-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,319,0,,cal_tam_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512019-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,323,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512020-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,313,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512021-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,360,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512022-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,380,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512023-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,370,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512024-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,329,0,,cal_tam_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512025-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,365,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512026-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,375,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512027-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,385,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512028-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,305,0,,cal_sj_sf,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512029-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,324,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512030-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,314,1,,cal_sf_sj,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512031-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,386,1,,cal_sf_tam,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512032-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,366,1,,cal_sf_tam,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512033-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,376,1,,cal_sf_tam,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512034-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,330,1,,cal_sf_tam,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512035-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,320,1,,cal_sf_tam,1,1
+Bu-129,CT-17JUL-Combo-Weekday-01,6512036-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,310,1,,cal_sf_tam,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512037-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,221,0,,cal_gil_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512038-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,217,0,,cal_gil_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512039-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,227,0,,cal_gil_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512040-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,206,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512041-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,208,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512042-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,218,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512043-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,263,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512044-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,273,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512045-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,283,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512046-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,216,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512047-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,226,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512048-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,267,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512049-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,277,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512050-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,261,0,,cal_tam_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512051-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,269,0,,cal_tam_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512052-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,279,0,,cal_tam_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512053-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,236,1,,cal_sf_tam,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512054-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,254,1,,cal_sf_tam,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512055-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,258,1,,cal_sf_tam,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512056-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,233,0,,cal_tam_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512057-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,237,0,,cal_tam_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512058-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,257,0,,cal_tam_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512059-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,282,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512060-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,215,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512061-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,225,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512062-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,231,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512063-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,264,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512064-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,284,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512065-CT-17JUL-Combo-Weekday-01,Gilroy Caltrain Station,274,1,,cal_sf_gil,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512066-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,278,1,,cal_sf_tam,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512067-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,288,1,,cal_sf_tam,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512068-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,289,0,,cal_tam_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512069-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,228,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512070-CT-17JUL-Combo-Weekday-01,Gilroy Caltrain Station,268,1,,cal_sf_gil,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512071-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,207,0,,cal_tam_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512072-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,222,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512073-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,232,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512074-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,262,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512075-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,272,1,,cal_sf_sj,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512076-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,211,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512077-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,287,0,,cal_sj_sf,1,1
+Li-129,CT-17JUL-Combo-Weekday-01,6512078-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,212,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512079-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,196,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512080-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,190,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512081-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,102,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512082-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,104,1,,cal_sf_tam,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512083-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,101,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512084-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,135,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512085-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,139,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512086-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,143,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512087-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,147,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512088-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,151,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512089-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,155,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512090-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,191,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512091-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,193,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512092-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,199,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512093-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,150,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512094-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,152,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512095-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,134,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512096-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,138,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512097-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,142,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512098-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,146,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512099-CT-17JUL-Combo-Weekday-01,San Jose Caltrain Station,198,1,,cal_sf_sj,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512100-CT-17JUL-Combo-Weekday-01,Gilroy Caltrain Station,156,1,,cal_sf_gil,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512101-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,192,1,,cal_sf_tam,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512102-CT-17JUL-Combo-Weekday-01,Tamien Caltrain Station,194,1,,cal_sf_tam,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512103-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,159,0,,cal_sj_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512104-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,103,0,,cal_tam_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512105-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,197,0,,cal_tam_sf,1,1
+Lo-129,CT-17JUL-Combo-Weekday-01,6512106-CT-17JUL-Combo-Weekday-01,San Francisco Caltrain Station,195,0,,cal_tam_sf,1,1
