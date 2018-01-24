@@ -1,6 +1,12 @@
 History
 =======
 
+0.6.0.dev1 (2018-01-23)
+-----------------------
+
+* Add support for reading files from a folder. Thanks again @danielsclint!
+
+
 0.5.0 (2017-12-22)
 ------------------
 
