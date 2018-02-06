@@ -9,9 +9,9 @@ python:
   # TODO(DW) fix
   # - 3.4
   # - 3.3
- 
+
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox-travis
+install: pip install -U tox-travis flake8
 
 # command to run tests, e.g. python setup.py test
-script: tox
+script: tox && make lint
