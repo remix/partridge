@@ -55,9 +55,9 @@ dot: dependency-graph.png
 lint: ## check style with flake8
 	flake8 partridge tests
 
-test: ## run tests quickly with the default Python
+## run tests quickly with the default Python
+test: lint
 	py.test
-
 
 test-all: ## run tests on every Python version with tox
 	tox

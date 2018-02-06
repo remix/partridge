@@ -44,7 +44,6 @@ class feed(object):
         else:
             self._verify_zip_contents()
 
-
     def _verify_zip_contents(self):
         """
         Verify that the folder does not contain multiple files
@@ -63,8 +62,11 @@ class feed(object):
         Verify that the folder does not contain multiple files
         of the same name. Load file paths into internal dictionary.
         """
-        files = [os.path.join(self.path, f)
-                 for f in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, f))]
+        files = [
+            os.path.join(self.path, f)
+            for f in os.listdir(self.path)
+            if os.path.isfile(os.path.join(self.path, f))
+        ]
         for gtfs_file in files:
             basename = os.path.basename(gtfs_file)
             if gtfs_file.endswith('.txt'):
@@ -118,7 +120,7 @@ class feed(object):
                                  index_col=False,
                                  low_memory=False,
                                  skipinitialspace=True,
-                                )
+                                 )
 
             # Gather the dependencies between this file and others
             file_dependencies = {

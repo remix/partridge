@@ -1,21 +1,26 @@
 import os
+from os import path
 import zipfile
+
 
 def fixture(filename):
     """
     Get the handle / path to the test data folder.
     """
-    return os.path.join(os.path.dirname(__file__), 'fixtures', filename)
+    return path.join(path.dirname(__file__), 'fixtures', filename)
 
 
 def zip_file(scenario):
     """
     Get the file handle / path to the zip file.
     """
-    scenario_dir = os.path.join(os.path.dirname(__file__), 'fixtures', scenario)
-    scenario_file = os.path.join(os.path.dirname(__file__), 'fixtures', scenario + '.zip')
+    basedir = path.dirname(__file__)
+    scenario_dir = path.join(basedir, 'fixtures', scenario)
+    scenario_file = path.join(basedir, 'fixtures', scenario + '.zip')
+
     with zipfile.ZipFile(scenario_file, 'w') as zipf:
         for root, dirs, files in os.walk(scenario_dir):
             for gtfs_file in files:
-                zipf.write(os.path.join(root, gtfs_file), gtfs_file)
-    return os.path.join(os.path.dirname(__file__), 'fixtures', scenario + '.zip')
+                zipf.write(path.join(root, gtfs_file), gtfs_file)
+
+    return path.join(basedir, 'fixtures', scenario + '.zip')

@@ -20,6 +20,7 @@ def test_get_representative_feed(path):
     assert isinstance(feed, ptg.feed)
     assert feed.view == {'trips.txt': {'service_id': service_ids}}
 
+
 @pytest.mark.parametrize('path', [
     zip_file('amazon-2017-08-06'),
     fixture('amazon-2017-08-06'),
@@ -35,6 +36,7 @@ def test_service_ids_by_date(path):
         datetime.date(2017, 8, 5): frozenset({'1'}),
         datetime.date(2017, 8, 7): frozenset({'1', '0'})
     }
+
 
 @pytest.mark.parametrize('path', [
     zip_file('amazon-2017-08-06'),
@@ -55,6 +57,7 @@ def test_dates_by_service_ids(path):
             datetime.date(2017, 8, 7),
         }
     }
+
 
 @pytest.mark.parametrize('path', [
     zip_file('amazon-2017-08-06'),

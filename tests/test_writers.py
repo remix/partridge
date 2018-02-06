@@ -62,6 +62,7 @@ def test_extract_agencies(path):
     finally:
         shutil.rmtree(tmpdir)
 
+
 @pytest.mark.parametrize('path', [
     zip_file('seattle-area-2017-11-16'),
     fixture('seattle-area-2017-11-16'),
