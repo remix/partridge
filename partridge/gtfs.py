@@ -45,36 +45,6 @@ class feed(object):
         else:
             self._verify_zip_contents()
 
-    def _verify_zip_contents(self):
-        """
-        Verify that the folder does not contain multiple files
-        of the same name. Load file paths into internal dictionary.
-        """
-        with ZipFile(self.path) as zipreader:
-            for zpath in zipreader.namelist():
-                basename = os.path.basename(zpath)
-                if zpath.endswith('.txt'):
-                    assert basename not in self.zmap, \
-                        'More than one {} in zip'.format(basename)
-                self.zmap[basename] = zpath
-
-    def _verify_folder_contents(self):
-        """
-        Verify that the folder does not contain multiple files
-        of the same name. Load file paths into internal dictionary.
-        """
-        files = [
-            os.path.join(self.path, f)
-            for f in os.listdir(self.path)
-            if os.path.isfile(os.path.join(self.path, f))
-        ]
-        for gtfs_file in files:
-            basename = os.path.basename(gtfs_file)
-            if gtfs_file.endswith('.txt'):
-                assert gtfs_file not in self.zmap, \
-                    'More than one {} in zip'.format(basename)
-            self.zmap[basename] = gtfs_file
-
     agency = read_file('agency.txt')
     calendar = read_file('calendar.txt')
     calendar_dates = read_file('calendar_dates.txt')
@@ -188,6 +158,36 @@ class feed(object):
                     with io.TextIOWrapper(zfile,
                                           encoding='utf-8-sig') as iowrapper:
                         yield iowrapper
+
+    def _verify_zip_contents(self):
+        """
+        Verify that the folder does not contain multiple files
+        of the same name. Load file paths into internal dictionary.
+        """
+        with ZipFile(self.path) as zipreader:
+            for zpath in zipreader.namelist():
+                basename = os.path.basename(zpath)
+                if zpath.endswith('.txt'):
+                    assert basename not in self.zmap, \
+                        'More than one {} in zip'.format(basename)
+                self.zmap[basename] = zpath
+
+    def _verify_folder_contents(self):
+        """
+        Verify that the folder does not contain multiple files
+        of the same name. Load file paths into internal dictionary.
+        """
+        files = [
+            os.path.join(self.path, f)
+            for f in os.listdir(self.path)
+            if os.path.isfile(os.path.join(self.path, f))
+        ]
+        for gtfs_file in files:
+            basename = os.path.basename(gtfs_file)
+            if gtfs_file.endswith('.txt'):
+                assert gtfs_file not in self.zmap, \
+                    'More than one {} in zip'.format(basename)
+            self.zmap[basename] = gtfs_file
 
 
 # No pruning or type coercion
