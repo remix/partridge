@@ -180,24 +180,14 @@ class feed(object):
         from a zip file or folder
         """
         if self.is_dir:
-            iowrapper = open(self.zmap[filename], 'rb')
-
-            def close():
-                iowrapper.close()
+            with open(self.zmap[filename], 'rb') as iowrapper:
+                yield iowrapper
         else:
-            zipreader = ZipFile(self.path)
-            zfile = zipreader.open(self.zmap[filename], 'r')
-            iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
-
-            def close():
-                iowrapper.close()
-                zfile.close()
-                zipreader.close()
-
-        try:
-            yield iowrapper
-        finally:
-            close()
+            with ZipFile(self.path) as zipreader:
+                with zipreader.open(self.zmap[filename], 'r') as zfile:
+                    with io.TextIOWrapper(zfile,
+                                          encoding='utf-8-sig') as iowrapper:
+                        yield iowrapper
 
 
 # No pruning or type coercion
