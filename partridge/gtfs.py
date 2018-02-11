@@ -3,6 +3,7 @@ try:
 except ImportError:
     from functools32 import lru_cache
 
+from contextlib import contextmanager
 import io
 import os
 from zipfile import ZipFile
@@ -44,36 +45,6 @@ class feed(object):
         else:
             self._verify_zip_contents()
 
-    def _verify_zip_contents(self):
-        """
-        Verify that the folder does not contain multiple files
-        of the same name. Load file paths into internal dictionary.
-        """
-        with ZipFile(self.path) as zipreader:
-            for zpath in zipreader.namelist():
-                basename = os.path.basename(zpath)
-                if zpath.endswith('.txt'):
-                    assert basename not in self.zmap, \
-                        'More than one {} in zip'.format(basename)
-                self.zmap[basename] = zpath
-
-    def _verify_folder_contents(self):
-        """
-        Verify that the folder does not contain multiple files
-        of the same name. Load file paths into internal dictionary.
-        """
-        files = [
-            os.path.join(self.path, f)
-            for f in os.listdir(self.path)
-            if os.path.isfile(os.path.join(self.path, f))
-        ]
-        for gtfs_file in files:
-            basename = os.path.basename(gtfs_file)
-            if gtfs_file.endswith('.txt'):
-                assert gtfs_file not in self.zmap, \
-                    'More than one {} in zip'.format(basename)
-            self.zmap[basename] = gtfs_file
-
     agency = read_file('agency.txt')
     calendar = read_file('calendar.txt')
     calendar_dates = read_file('calendar_dates.txt')
@@ -101,43 +72,30 @@ class feed(object):
         if filename not in self.zmap:
             return empty_df(columns)
 
-        zipreader = None
-        zfile = None
+        # Gather the dependencies between this file and others
+        file_dependencies = {
+            depfile: data['dependencies'].items()
+            for _, depfile, data in config.out_edges(filename, data=True)
+            if 'dependencies' in data
+        }
 
-        # Read CSV into DataFrame, prune it according to the dependency graph
-        try:
-            if self.is_dir:
-                iowrapper = open(self.zmap[filename], 'rb')
-            else:
-                zipreader = ZipFile(self.path)
-                # Prepare a chunked reader for the file
-                zfile = zipreader.open(self.zmap[filename], 'r')
-                iowrapper = io.TextIOWrapper(zfile, encoding='utf-8-sig')
+        # Gather applicable view filter params
+        view_filters = {
+            # column name : set of strings
+            col: set(map(np.unicode, setwrap(values)))
+            for col, values in self.view.get(filename, {}).items()
+        }
 
-            reader = pd.read_csv(iowrapper,
-                                 chunksize=10000,
-                                 dtype=np.unicode,
-                                 index_col=False,
-                                 low_memory=False,
-                                 skipinitialspace=True,
-                                 )
-
-            # Gather the dependencies between this file and others
-            file_dependencies = {
-                depfile: data['dependencies'].items()
-                for _, depfile, data in config.out_edges(filename, data=True)
-                if 'dependencies' in data
-            }
-
-            # Gather applicable view filter params
-            view_filters = {
-                # column name : set of strings
-                col: set(map(np.unicode, setwrap(values)))
-                for col, values in self.view.get(filename, {}).items()
-            }
+        # Read CSV in chunks, prune it according to the dependency graph
+        chunks = []
+        with self._io_adapter(filename) as iowrapper:
+            # Build a chunked DataFrame reader
+            reader = pd.read_csv(
+                iowrapper, chunksize=10000,
+                dtype=np.unicode, index_col=False,
+                low_memory=False, skipinitialspace=True)
 
             # Process the file in chunks
-            chunks = []
             for i, chunk in enumerate(reader):
                 # Cleanup column names just to be safe
                 chunk = chunk.rename(columns=lambda x: x.strip())
@@ -167,16 +125,10 @@ class feed(object):
                 if not chunk.empty:
                     chunks.append(chunk)
 
-            # If all chunks were completely filtered/pruned away,
-            # return an empty DataFrame.
-            if len(chunks) == 0:
-                return empty_df(columns)
-        finally:
-            iowrapper.close()
-            if zfile is not None:
-                zfile.close()
-            if zipreader is not None:
-                zipreader.close()
+        # If all chunks were completely filtered/pruned away,
+        # return an empty DataFrame.
+        if len(chunks) == 0:
+            return empty_df(columns)
 
         # Concatenate chunks into one DataFrame
         df = pd.concat(chunks)
@@ -190,6 +142,52 @@ class feed(object):
                     df[col] = vfunc(df[col])
 
         return df
+
+    @contextmanager
+    def _io_adapter(self, filename):
+        """
+        Yield an IO object for the given file
+        from a zip file or folder
+        """
+        if self.is_dir:
+            with open(self.zmap[filename], 'rb') as iowrapper:
+                yield iowrapper
+        else:
+            with ZipFile(self.path) as zipreader:
+                with zipreader.open(self.zmap[filename], 'r') as zfile:
+                    with io.TextIOWrapper(zfile,
+                                          encoding='utf-8-sig') as iowrapper:
+                        yield iowrapper
+
+    def _verify_zip_contents(self):
+        """
+        Verify that the folder does not contain multiple files
+        of the same name. Load file paths into internal dictionary.
+        """
+        with ZipFile(self.path) as zipreader:
+            for zpath in zipreader.namelist():
+                basename = os.path.basename(zpath)
+                if zpath.endswith('.txt'):
+                    assert basename not in self.zmap, \
+                        'More than one {} in zip'.format(basename)
+                self.zmap[basename] = zpath
+
+    def _verify_folder_contents(self):
+        """
+        Verify that the folder does not contain multiple files
+        of the same name. Load file paths into internal dictionary.
+        """
+        files = [
+            os.path.join(self.path, f)
+            for f in os.listdir(self.path)
+            if os.path.isfile(os.path.join(self.path, f))
+        ]
+        for gtfs_file in files:
+            basename = os.path.basename(gtfs_file)
+            if gtfs_file.endswith('.txt'):
+                assert gtfs_file not in self.zmap, \
+                    'More than one {} in zip'.format(basename)
+            self.zmap[basename] = gtfs_file
 
 
 # No pruning or type coercion
