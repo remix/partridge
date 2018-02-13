@@ -1,9 +1,10 @@
 import networkx as nx
+import numpy as np
 
 from partridge.parsers import \
+    vparse_bool, \
     vparse_date, \
-    vparse_time, \
-    vparse_numeric
+    vparse_time
 
 
 def empty_config():
@@ -103,13 +104,13 @@ def add_node_config(g):
             'converters': {
                 'start_date': vparse_date,
                 'end_date': vparse_date,
-                'monday': vparse_numeric,
-                'tuesday': vparse_numeric,
-                'wednesday': vparse_numeric,
-                'thursday': vparse_numeric,
-                'friday': vparse_numeric,
-                'saturday': vparse_numeric,
-                'sunday': vparse_numeric,
+                'monday': vparse_bool,
+                'tuesday': vparse_bool,
+                'wednesday': vparse_bool,
+                'thursday': vparse_bool,
+                'friday': vparse_bool,
+                'saturday': vparse_bool,
+                'sunday': vparse_bool,
             },
             'required_columns': (
                 'service_id',
@@ -127,7 +128,7 @@ def add_node_config(g):
         ('calendar_dates.txt', {
             'converters': {
                 'date': vparse_date,
-                'exception_type': vparse_numeric,
+                'exception_type': np.int8,
             },
             'required_columns': (
                 'service_id',
@@ -137,9 +138,9 @@ def add_node_config(g):
         }),
         ('fare_attributes.txt', {
             'converters': {
-                'price': vparse_numeric,
-                'payment_method': vparse_numeric,
-                'transfer_duration': vparse_numeric,
+                'price': np.float32,
+                'payment_method': np.int8,
+                'transfer_duration': np.int64,
             },
             'required_columns': (
                 'fare_id',
@@ -167,8 +168,8 @@ def add_node_config(g):
         }),
         ('frequencies.txt', {
             'converters': {
-                'headway_secs': vparse_numeric,
-                'exact_times': vparse_numeric,
+                'headway_secs': np.int16,
+                'exact_times': np.int64,
                 'start_time': vparse_time,
                 'end_time': vparse_time,
             },
@@ -181,7 +182,7 @@ def add_node_config(g):
         }),
         ('routes.txt', {
             'converters': {
-                'route_type': vparse_numeric,
+                'route_type': np.int8,
             },
             'required_columns': (
                 'route_id',
@@ -192,10 +193,10 @@ def add_node_config(g):
         }),
         ('shapes.txt', {
             'converters': {
-                'shape_pt_lat': vparse_numeric,
-                'shape_pt_lon': vparse_numeric,
-                'shape_pt_sequence': vparse_numeric,
-                'shape_dist_traveled': vparse_numeric,
+                'shape_pt_lat': np.float32,
+                'shape_pt_lon': np.float32,
+                'shape_pt_sequence': np.int16,
+                'shape_dist_traveled': np.float32,
             },
             'required_columns': (
                 'shape_id',
@@ -206,14 +207,14 @@ def add_node_config(g):
         }),
         ('stops.txt', {
             'converters': {
-                'stop_lat': vparse_numeric,
-                'stop_lon': vparse_numeric,
-                'location_type': vparse_numeric,
-                'wheelchair_boarding': vparse_numeric,
-                'pickup_type': vparse_numeric,
-                'drop_off_type': vparse_numeric,
-                'shape_dist_traveled': vparse_numeric,
-                'timepoint': vparse_numeric,
+                'stop_lat': np.float32,
+                'stop_lon': np.float32,
+                'location_type': np.int8,
+                'wheelchair_boarding': np.int8,
+                'pickup_type': np.int8,
+                'drop_off_type': np.int8,
+                'shape_dist_traveled': np.float32,
+                'timepoint': np.int8,
             },
             'required_columns': (
                 'stop_id',
@@ -226,10 +227,10 @@ def add_node_config(g):
             'converters': {
                 'arrival_time': vparse_time,
                 'departure_time': vparse_time,
-                'pickup_type': vparse_numeric,
-                'shape_dist_traveled': vparse_numeric,
-                'stop_sequence': vparse_numeric,
-                'timepoint': vparse_numeric,
+                'pickup_type': np.int8,
+                'shape_dist_traveled': np.float32,
+                'stop_sequence': np.int16,
+                'timepoint': np.int8,
             },
             'required_columns': (
                 'trip_id',
@@ -241,8 +242,8 @@ def add_node_config(g):
         }),
         ('transfers.txt', {
             'converters': {
-                'transfer_type': vparse_numeric,
-                'min_transfer_time': vparse_numeric,
+                'transfer_type': np.int8,
+                'min_transfer_time': np.int64,
             },
             'required_columns': (
                 'from_stop_id',
@@ -252,9 +253,9 @@ def add_node_config(g):
         }),
         ('trips.txt', {
             'converters': {
-                'direction_id': vparse_numeric,
-                'wheelchair_accessible': vparse_numeric,
-                'bikes_allowed': vparse_numeric,
+                'direction_id': np.int8,
+                'wheelchair_accessible': np.int8,
+                'bikes_allowed': np.int8,
             },
             'required_columns': (
                 'route_id',

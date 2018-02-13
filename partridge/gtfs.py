@@ -139,6 +139,8 @@ class feed(object):
                 df[col] = df[col].str.strip()
                 if col in converters:
                     vfunc = converters[col]
+                    if vfunc in [np.int8, np.int16, np.int32, np.int64]:
+                        df[col].fillna('0', inplace=True)
                     df[col] = vfunc(df[col])
 
         return df
