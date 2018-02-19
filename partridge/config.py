@@ -1,3 +1,5 @@
+# flake8: noqa E501
+
 import networkx as nx
 
 from partridge.parsers import \
@@ -25,67 +27,67 @@ def default_config():
 def add_edge_config(g):
     g.add_edges_from([
         ('agency.txt', 'routes.txt', {
-            'dependencies': {
-                'agency_id': 'agency_id',
-            },
+            'dependencies': [
+                {'agency.txt': 'agency_id', 'routes.txt': 'agency_id'},
+            ],
         }),
         ('calendar.txt', 'trips.txt', {
-            'dependencies': {
-                'service_id': 'service_id',
-            },
+            'dependencies': [
+                {'calendar.txt': 'service_id', 'trips.txt': 'service_id'},
+            ],
         }),
         ('calendar_dates.txt', 'trips.txt', {
-            'dependencies': {
-                'service_id': 'service_id',
-            },
+            'dependencies': [
+                {'calendar_dates.txt': 'service_id', 'trips.txt': 'service_id'},
+            ],
         }),
         ('fare_attributes.txt', 'fare_rules.txt', {
-            'dependencies': {
-                'fare_id': 'fare_id',
-            },
+            'dependencies': [
+                {'fare_attributes.txt': 'fare_id', 'fare_rules.txt': 'fare_id'},
+            ],
         }),
         ('fare_rules.txt', 'stops.txt', {
-            'dependencies': {
-                'origin_id': 'zone_id',
-                'destination_id': 'zone_id',
-                'contains_id': 'zone_id',
-            },
+            'dependencies': [
+                {'fare_rules.txt': 'origin_id', 'stops.txt': 'zone_id'},
+                {'fare_rules.txt': 'destination_id', 'stops.txt': 'zone_id'},
+                {'fare_rules.txt': 'contains_id', 'stops.txt': 'zone_id'},
+            ],
         }),
         ('fare_rules.txt', 'routes.txt', {
-            'dependencies': {
-                'route_id': 'route_id',
-            },
+            'dependencies': [
+                {'fare_rules.txt': 'route_id', 'routes.txt': 'route_id'},
+            ],
         }),
         ('frequencies.txt', 'trips.txt', {
-            'dependencies': {
-                'trip_id': 'trip_id',
-            },
+            'dependencies': [
+                {'frequencies.txt': 'trip_id', 'trips.txt': 'trip_id'},
+            ],
         }),
         ('routes.txt', 'trips.txt', {
-            'dependencies': {
-                'route_id': 'route_id',
-            },
+            'dependencies': [
+                {'routes.txt': 'route_id', 'trips.txt': 'route_id'},
+            ],
         }),
         ('shapes.txt', 'trips.txt', {
-            'dependencies': {
-                'shape_id': 'shape_id',
-            },
+            'dependencies': [
+                {'shapes.txt': 'shape_id', 'trips.txt': 'shape_id'},
+            ],
         }),
         ('stops.txt', 'stop_times.txt', {
-            'dependencies': {
-                'stop_id': 'stop_id',
-            },
+            'dependencies': [
+                {'stops.txt': 'stop_id', 'stop_times.txt': 'stop_id'},
+            ],
         }),
         ('stop_times.txt', 'trips.txt', {
-            'dependencies': {
-                'trip_id': 'trip_id',
-            },
+            'dependencies': [
+                {'stop_times.txt': 'trip_id', 'trips.txt': 'trip_id'},
+            ],
         }),
         ('transfers.txt', 'stops.txt', {
-            'dependencies': {
-                'from_stop_id': 'stop_id',
-                'to_stop_id': 'stop_id',
-            },
+            'dependencies': [
+                {'transfers.txt': 'from_stop_id', 'stops.txt': 'stop_id'},
+                {'transfers.txt': 'to_stop_id', 'stops.txt': 'stop_id'},
+            ],
         }),
     ])
 
