@@ -275,29 +275,23 @@ Writer configs
 def extract_agencies_config():
     G = empty_config()
     add_edge_config(G)
-
-    G.remove_edges_from([
-        ('routes.txt', 'trips.txt'),
-        ('agency.txt', 'routes.txt'),
-    ])
-
-    G.add_edges_from([
-        ('trips.txt', 'routes.txt', {
-            'dependencies': {
-                'route_id': 'route_id',
-            },
-        }),
-        ('routes.txt', 'agency.txt', {
-            'dependencies': {
-                'agency_id': 'agency_id',
-            },
-        }),
-    ])
-
-    return G
+    return reroot_graph(G, 'agency.txt')
 
 
 def extract_routes_config():
     G = empty_config()
     add_edge_config(G)
+    return G
+
+
+def reroot_graph(G, node):
+    '''Return a copy of the graph rooted at the given node'''
+    G = G.copy()
+    to_add, to_remove = [], []
+    for n, successors in nx.bfs_successors(G, source=node):
+        for s in successors:
+            to_add.append([s, n, G.edges[n, s]])
+            to_remove.append([n, s])
+    G.remove_edges_from(to_remove)
+    G.add_edges_from(to_add)
     return G
