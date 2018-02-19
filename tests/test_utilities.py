@@ -19,3 +19,5 @@ def test_setwrap():
     assert setwrap('a') == {'a'}
     assert setwrap(['a']) == {'a'}
     assert setwrap({'a'}) == {'a'}
+    assert setwrap({1}) == {'1'}
+    assert setwrap(1) == {'1'}

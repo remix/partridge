@@ -82,7 +82,7 @@ class feed(object):
         # Gather applicable view filter params
         view_filters = {
             # column name : set of strings
-            col: set(map(np.unicode, setwrap(values)))
+            col: setwrap(values)
             for col, values in self.view.get(filename, {}).items()
         }
 

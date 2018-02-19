@@ -10,4 +10,10 @@ def empty_df(columns=None):
 
 
 def setwrap(value):
-    return set(flatten([value]))
+    """
+    Returns a flattened and stringified set from the given object or iterable.
+
+    For use in public functions which accept argmuents or kwargs that can be
+    one object or a list of objects.
+    """
+    return set(map(np.unicode, set(flatten([value]))))
