@@ -11,12 +11,9 @@ from .helpers import fixture, zip_file
     fixture('caltrain-2017-07-24'),
 ])
 def test_get_representative_feed(path):
-    trip_counts_by_date = ptg.read_trip_counts_by_date(path)
-    service_ids_by_date = ptg.read_service_ids_by_date(path)
-    date, _ = max(trip_counts_by_date.items(), key=lambda p: p[1])
-    service_ids = service_ids_by_date[date]
-
+    date, service_ids = ptg.read_busiest_date(path)
     feed = ptg.get_representative_feed(path)
+
     assert isinstance(feed, ptg.feed)
     assert feed.view == {'trips.txt': {'service_id': service_ids}}
 
