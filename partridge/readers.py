@@ -14,6 +14,14 @@ DAY_NAMES = (
 
 
 def get_representative_feed(path):
+    '''Return a feed filtered to the busiest date'''
+    _, service_ids = read_busiest_date(path)
+    view = {'trips.txt': {'service_id': service_ids}}
+    return mkfeed(path, view=view)
+
+
+def read_busiest_date(path):
+    '''Find the date with the most trips'''
     feed = raw_feed(path)
 
     service_ids_by_date = _service_ids_by_date(feed)
@@ -21,9 +29,8 @@ def get_representative_feed(path):
 
     date, _ = max(trip_counts_by_date.items(), key=lambda p: p[1])
     service_ids = service_ids_by_date[date]
-    view = {'trips.txt': {'service_id': service_ids}}
 
-    return mkfeed(path, view=view)
+    return date, service_ids
 
 
 def read_service_ids_by_date(path):
