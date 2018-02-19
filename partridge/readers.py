@@ -1,6 +1,7 @@
 from collections import defaultdict
 import datetime
 
+from partridge.config import config_for_root
 from partridge.gtfs import feed as mkfeed, raw_feed
 from partridge.parsers import vparse_date
 
@@ -11,6 +12,22 @@ DAY_NAMES = (
 
 
 '''Public'''
+
+
+def get_filtered_feed(path, filters, config=None):
+    '''Multi-file feed filtering'''
+    def reachable_trip_ids(filename, column_filters):
+        root_config = config_for_root(filename)
+        root_view = {filename: column_filters}
+        feed = mkfeed(path, root_config, root_view)
+        return set(feed.trips.trip_id)
+
+    trip_ids = set(raw_feed(path).trips.trip_id)
+    for filename, column_filters in filters.items():
+        trip_ids &= reachable_trip_ids(filename, column_filters)
+
+    view = {'trips.txt': {'trip_id': trip_ids}}
+    return mkfeed(path, config, view)
 
 
 def get_representative_feed(path):

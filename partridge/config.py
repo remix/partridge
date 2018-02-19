@@ -12,6 +12,12 @@ def empty_config():
     return nx.DiGraph()
 
 
+def config_for_root(root):
+    config = empty_config()
+    add_edge_config(config)
+    return reroot_graph(config, root)
+
+
 '''
 Default configs
 '''
