@@ -273,22 +273,6 @@ def add_node_config(g):
     ])
 
 
-'''
-Writer configs
-'''
-
-
-def extract_agencies_config():
-    G = empty_config()
-    add_edge_config(G)
-    return reroot_graph(G, 'agency.txt')
-
-
-def extract_routes_config():
-    G = empty_config()
-    add_edge_config(G)
-    return G
-
 
 def reroot_graph(G, node):
     '''Return a copy of the graph rooted at the given node'''

@@ -2,28 +2,26 @@ import os
 import shutil
 import tempfile
 
-from partridge.config import (
-    default_config,
-    extract_agencies_config,
-    extract_routes_config,
-)
-from partridge.gtfs import feed as mkfeed
+from partridge.config import config_for_root, default_config
+from partridge.readers import get_filtered_feed
 
 
 DEFAULT_NODES = frozenset(default_config().nodes())
 
 
 def extract_agencies(inpath, outpath, agency_ids):
-    config = extract_agencies_config()
-    view = {'agency.txt': {'agency_id': agency_ids}}
-    feed = mkfeed(inpath, config, view)
-    return write_feed_dangerously(feed, outpath)
+    filters = {'routes.txt': {'agency_id': agency_ids}}
+    return extract_feed(inpath, outpath, filters)
 
 
 def extract_routes(inpath, outpath, route_ids):
-    config = extract_routes_config()
-    view = {'trips.txt': {'route_id': route_ids}}
-    feed = mkfeed(inpath, config, view)
+    filters = {'trips.txt': {'route_id': route_ids}}
+    return extract_feed(inpath, outpath, filters)
+
+
+def extract_feed(inpath, outpath, filters):
+    config = config_for_root('trips.txt')
+    feed = get_filtered_feed(inpath, filters, config)
     return write_feed_dangerously(feed, outpath)
 
 
