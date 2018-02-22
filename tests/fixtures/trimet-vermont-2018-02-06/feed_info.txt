@@ -1,0 +1,2 @@
+feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version,feed_id,feed_contact_url
+TriMet,http://trimet.org/,en,20180128,20180602,20180128-20180206-0148,TriMet,https://groups.google.com/forum/#!forum/transit-developers-pdx

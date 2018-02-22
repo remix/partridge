@@ -58,17 +58,14 @@ def _service_ids_by_date(feed):
     results = defaultdict(set)
     removals = defaultdict(set)
 
-    calendar = feed.calendar
-    caldates = feed.calendar_dates
-    trips = feed.trips
+    service_ids = set(feed.trips.service_id)
 
-    service_ids = set(trips.service_id)
+    # Only consider calendar.txt/calendar_dates.txt rows with applicable trips
+    calendar = feed.calendar[feed.calendar.service_id.isin(service_ids)].copy()
+    caldates = feed.calendar_dates[feed.calendar_dates.service_id.isin(service_ids)].copy() # noqa E501
 
-    # Process calendar.txt if it exists
     if not calendar.empty:
-        calendar = calendar[calendar.service_id.isin(service_ids)].copy()
-
-        # Ensure dates have been parsed
+        # Parse dates
         calendar.start_date = vparse_date(calendar.start_date)
         calendar.end_date = vparse_date(calendar.end_date)
 
@@ -83,11 +80,8 @@ def _service_ids_by_date(feed):
                 if int(dow[date.weekday()]):
                     results[date].add(cal.service_id)
 
-    # Process calendar_dates.txt if it exists
     if not caldates.empty:
-        caldates = caldates[caldates.service_id.isin(service_ids)].copy()
-
-        # Ensure dates have been parsed
+        # Parse dates
         caldates.date = vparse_date(caldates.date)
 
         # Split out additions and removals

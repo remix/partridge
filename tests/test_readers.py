@@ -35,6 +35,13 @@ def test_service_ids_by_date(path):
     }
 
 
+def test_unused_service_ids():
+    # Feed has rows in calendar.txt and calendar_dates.txt
+    # with `service_id`s that have no applicable trips
+    path = fixture('trimet-vermont-2018-02-06')
+    ptg.read_service_ids_by_date(path)
+
+
 @pytest.mark.parametrize('path', [
     zip_file('amazon-2017-08-06'),
     fixture('amazon-2017-08-06'),

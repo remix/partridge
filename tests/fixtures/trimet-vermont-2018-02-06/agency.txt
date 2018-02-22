@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url,agency_email,bikes_policy_url
+TRIMET,TriMet,http://trimet.org/,America/Los_Angeles,en,503-238-RIDE,http://trimet.org/fares/,customerservice@trimet.org,http://trimet.org/howtoride/bikes/bikepolicies.htm
