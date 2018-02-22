@@ -1,0 +1,103 @@
+stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station,direction,position
+155,155,4900 Block SW Barbur,Southbound stop in Portland (Stop ID 155),45.487059,-122.682757,B,http://trimet.org/#tracker/stop/155,0,,South,Opposite
+156,156,4900 Block SW Barbur,Northbound stop in Portland (Stop ID 156),45.487677,-122.682515,B,http://trimet.org/#tracker/stop/156,0,,North,At
+172,172,SW Barbur & Hamilton,Northbound stop in Portland (Stop ID 172),45.491186,-122.677725,B,http://trimet.org/#tracker/stop/172,0,,North,Farside
+173,173,SW Barbur & Hamilton,Westbound stop in Portland (Stop ID 173),45.491037,-122.678566,B,http://trimet.org/#tracker/stop/173,0,,West,Nearside
+174,174,SW Barbur & Hooker,Northbound stop in Portland (Stop ID 174),45.502083,-122.681478,B,http://trimet.org/#tracker/stop/174,0,,North,Nearside
+175,175,SW Barbur & Hooker,Southbound stop in Portland (Stop ID 175),45.502494,-122.68204,B,http://trimet.org/#tracker/stop/175,0,,South,Nearside
+176,176,SW Barbur & Lane,Southbound stop in Portland (Stop ID 176),45.495994,-122.678367,B,http://trimet.org/#tracker/stop/176,0,,South,Nearside
+177,177,SW Barbur & Lane,Northbound stop in Portland (Stop ID 177),45.495933,-122.678004,B,http://trimet.org/#tracker/stop/177,0,,North,Opposite
+181,181,SW Barbur & Parkhill Dr,Southbound stop in Portland (Stop ID 181),45.476747,-122.679797,B,http://trimet.org/#tracker/stop/181,0,,South,Farside
+182,182,SW Barbur & Parkhill,Northbound stop in Portland (Stop ID 182),45.47748,-122.679657,B,http://trimet.org/#tracker/stop/182,0,,North,Farside
+185,185,SW Barbur & Pennoyer,Southbound stop in Portland (Stop ID 185),45.497348,-122.679119,B,http://trimet.org/#tracker/stop/185,0,,South,Opposite
+186,186,SW Barbur & Pennoyer,Northbound stop in Portland (Stop ID 186),45.497756,-122.679074,B,http://trimet.org/#tracker/stop/186,0,,North,Farside
+188,188,SW Barbur & Capitol Hwy,Southbound stop in Portland (Stop ID 188),45.480281,-122.680331,B,http://trimet.org/#tracker/stop/188,0,,South,Farside
+189,189,SW Barbur & Slavin/Capitol Hwy,Northbound stop in Portland (Stop ID 189),45.480456,-122.680129,B,http://trimet.org/#tracker/stop/189,0,,North,Opposite
+191,191,SW Barbur & Terwilliger,Westbound stop in Portland (Stop ID 191),45.471217,-122.686158,B,http://trimet.org/#tracker/stop/191,0,,West,Farside
+193,193,SW Barbur & Terwilliger,Eastbound stop in Portland (Stop ID 193),45.470919,-122.684976,B,http://trimet.org/#tracker/stop/193,0,,East,Farside
+195,195,SW Barbur & Whitaker,Northbound stop in Portland (Stop ID 195),45.499066,-122.679787,B,http://trimet.org/#tracker/stop/195,0,,North,Farside
+196,196,SW Barbur & Whitaker,Southbound stop in Portland (Stop ID 196),45.498602,-122.679812,B,http://trimet.org/#tracker/stop/196,0,,South,Opposite
+197,197,SW Barbur & Woods,Northbound stop in Portland (Stop ID 197),45.500753,-122.680756,B,http://trimet.org/#tracker/stop/197,0,,North,Nearside
+198,198,SW Barbur & Woods,Southbound stop in Portland (Stop ID 198),45.500985,-122.681148,B,http://trimet.org/#tracker/stop/198,0,,South,Opposite
+199,199,SW Barbur & Bertha,Westbound stop in Portland (Stop ID 199),45.470468,-122.689602,B,http://trimet.org/#tracker/stop/199,0,,West,Farside
+203,203,SW Barbur & 2nd,Northbound stop in Portland (Stop ID 203),45.471449,-122.680575,B,http://trimet.org/#tracker/stop/203,0,,North,Nearside
+207,207,SW Barbur & 3rd,Westbound stop in Portland (Stop ID 207),45.471567,-122.680911,B,http://trimet.org/#tracker/stop/207,0,,West,Nearside
+467,467,1400 Block SW Bertha,Eastbound stop in Portland (Stop ID 467),45.470914,-122.693601,B,http://trimet.org/#tracker/stop/467,0,,East,At
+654,654,SW Broadway & 5th,Westbound stop in Portland (Stop ID 654),45.506702,-122.683474,B,http://trimet.org/#tracker/stop/654,0,,West,Nearside
+861,861,4600 Block SW Cameron,Eastbound stop in Portland (Stop ID 861),45.483441,-122.724795,B,http://trimet.org/#tracker/stop/861,0,,East,At
+862,862,SW Cameron & Fairvale Ct,Eastbound stop in Portland (Stop ID 862),45.483464,-122.72736,B,http://trimet.org/#tracker/stop/862,0,,East,Nearside
+863,863,SW Cameron & Shattuck,Eastbound stop in Portland (Stop ID 863),45.483508,-122.734806,B,http://trimet.org/#tracker/stop/863,0,,East,Farside
+865,865,SW Cameron & 53rd,Eastbound stop in Portland (Stop ID 865),45.483484,-122.73162,B,http://trimet.org/#tracker/stop/865,0,,East,Nearside
+965,965,SW Capitol & 26th,Eastbound stop in Portland (Stop ID 965),45.475996,-122.703481,B,http://trimet.org/#tracker/stop/965,0,,East,Farside
+966,966,SW Capitol & 26th,Westbound stop in Portland (Stop ID 966),45.476127,-122.704188,B,http://trimet.org/#tracker/stop/966,0,,West,Farside
+1051,1051,SW Chestnut & Bertha,Westbound stop in Portland (Stop ID 1051),45.472652,-122.694517,B,http://trimet.org/#tracker/stop/1051,0,,West,Nearside
+1053,1053,SW Chestnut & 12th,Southbound stop in Portland (Stop ID 1053),45.474488,-122.691562,B,http://trimet.org/#tracker/stop/1053,0,,South,Nearside
+1056,1056,SW Chestnut & 14th,Northbound stop in Portland (Stop ID 1056),45.473194,-122.693437,B,http://trimet.org/#tracker/stop/1056,0,,North,Nearside
+4052,4052,SW Multnomah & 45th,Westbound stop in Portland (Stop ID 4052),45.467527,-122.724015,B,http://trimet.org/#tracker/stop/4052,0,,West,Farside
+4104,4104,SW Nevada Ct & 54th,Westbound stop in Portland (Stop ID 4104),45.472925,-122.732355,B,http://trimet.org/#tracker/stop/4104,0,,West,Opposite
+5221,5221,SW Shattuck & 60th,Northbound stop in Portland (Stop ID 5221),45.479287,-122.738677,B,http://trimet.org/#tracker/stop/5221,0,,North,Nearside
+5222,5222,SW Shattuck & 63rd,Eastbound stop in Portland (Stop ID 5222),45.477622,-122.741869,B,http://trimet.org/#tracker/stop/5222,0,,East,Farside
+6017,6017,1900 Block SW Vermont,Eastbound stop in Portland (Stop ID 6017),45.475971,-122.6997,B,http://trimet.org/#tracker/stop/6017,0,,East,At
+6018,6018,2200 Block SW Vermont,Westbound stop in Portland (Stop ID 6018),45.476108,-122.699702,B,http://trimet.org/#tracker/stop/6018,0,,West,At
+6019,6019,5700 Block SW Vermont,Westbound stop in Portland (Stop ID 6019),45.476406,-122.735714,B,http://trimet.org/#tracker/stop/6019,0,,West,Opposite
+6022,6022,SW Vermont & Bertha,Eastbound stop in Portland (Stop ID 6022),45.475952,-122.696884,B,http://trimet.org/#tracker/stop/6022,0,,East,Nearside
+6023,6023,SW Capitol & Vermont,Eastbound stop in Portland (Stop ID 6023),45.475993,-122.705944,B,http://trimet.org/#tracker/stop/6023,0,,East,Farside
+6024,6024,SW Vermont & Bertha,Westbound stop in Portland (Stop ID 6024),45.476115,-122.69758,B,http://trimet.org/#tracker/stop/6024,0,,West,Farside
+6025,6025,SW Vermont & Chestnut,Eastbound stop in Portland (Stop ID 6025),45.475966,-122.690813,B,http://trimet.org/#tracker/stop/6025,0,,East,Nearside
+6026,6026,SW Vermont & Chestnut,Westbound stop in Portland (Stop ID 6026),45.476082,-122.690997,B,http://trimet.org/#tracker/stop/6026,0,,West,Opposite
+6027,6027,SW Vermont & Idaho,Eastbound stop in Portland (Stop ID 6027),45.476189,-122.724865,B,http://trimet.org/#tracker/stop/6027,0,,East,Opposite
+6028,6028,SW Vermont & Idaho,Westbound stop in Portland (Stop ID 6028),45.476374,-122.724985,B,http://trimet.org/#tracker/stop/6028,0,,West,Nearside
+6029,6029,SW Vermont & Idaho Dr,Westbound stop in Portland (Stop ID 6029),45.476296,-122.721884,B,http://trimet.org/#tracker/stop/6029,0,,West,Farside
+6030,6030,SW Vermont & Shattuck,Westbound stop in Portland (Stop ID 6030),45.476465,-122.74269,B,http://trimet.org/#tracker/stop/6030,0,,West,Nearside
+6031,6031,SW Vermont & Capitol Hwy,Eastbound stop in Portland (Stop ID 6031),45.47597,-122.70173,B,http://trimet.org/#tracker/stop/6031,0,,East,Farside
+6032,6032,SW Vermont & 13th,Westbound stop in Portland (Stop ID 6032),45.476097,-122.69364,B,http://trimet.org/#tracker/stop/6032,0,,West,Opposite
+6033,6033,SW Vermont & 13th,Eastbound stop in Portland (Stop ID 6033),45.475959,-122.693349,B,http://trimet.org/#tracker/stop/6033,0,,East,Farside
+6034,6034,SW Vermont & 24th,Westbound stop in Portland (Stop ID 6034),45.476109,-122.701564,B,http://trimet.org/#tracker/stop/6034,0,,West,Farside
+6035,6035,SW Vermont & 30th,Westbound stop in Portland (Stop ID 6035),45.476155,-122.707509,B,http://trimet.org/#tracker/stop/6035,0,,West,Nearside
+6036,6036,SW Vermont & 30th,Eastbound stop in Portland (Stop ID 6036),45.476019,-122.707882,B,http://trimet.org/#tracker/stop/6036,0,,East,Nearside
+6037,6037,SW Vermont & 32nd,Westbound stop in Portland (Stop ID 6037),45.476152,-122.709606,B,http://trimet.org/#tracker/stop/6037,0,,West,Farside
+6041,6041,SW Vermont & 37th,Westbound stop in Portland (Stop ID 6041),45.476236,-122.715132,B,http://trimet.org/#tracker/stop/6041,0,,West,Nearside
+6042,6042,SW Vermont & 37th,Eastbound stop in Portland (Stop ID 6042),45.476079,-122.715678,B,http://trimet.org/#tracker/stop/6042,0,,East,Nearside
+6043,6043,SW Vermont & 42nd,Westbound stop in Portland (Stop ID 6043),45.476264,-122.719622,B,http://trimet.org/#tracker/stop/6043,0,,West,Opposite
+6045,6045,SW Vermont & 45th,Eastbound stop in Portland (Stop ID 6045),45.47616,-122.722497,B,http://trimet.org/#tracker/stop/6045,0,,East,Farside
+6046,6046,SW Vermont & 50th,Eastbound stop in Portland (Stop ID 6046),45.476216,-122.727987,B,http://trimet.org/#tracker/stop/6046,0,,East,Opposite
+6047,6047,SW Vermont & 50th,Westbound stop in Portland (Stop ID 6047),45.476354,-122.72812,B,http://trimet.org/#tracker/stop/6047,0,,West,Nearside
+6048,6048,SW Vermont & 52nd,Eastbound stop in Portland (Stop ID 6048),45.476252,-122.730797,B,http://trimet.org/#tracker/stop/6048,0,,East,Nearside
+6049,6049,SW Vermont & 52nd,Westbound stop in Portland (Stop ID 6049),45.47637,-122.730646,B,http://trimet.org/#tracker/stop/6049,0,,West,Opposite
+6050,6050,SW Vermont & 55th,Westbound stop in Portland (Stop ID 6050),45.47639,-122.73339,B,http://trimet.org/#tracker/stop/6050,0,,West,Opposite
+6051,6051,SW Vermont & 60th,Westbound stop in Portland (Stop ID 6051),45.476427,-122.738544,B,http://trimet.org/#tracker/stop/6051,0,,West,Opposite
+6052,6052,SW Vermont & 63rd,Westbound stop in Portland (Stop ID 6052),45.476456,-122.741562,B,http://trimet.org/#tracker/stop/6052,0,,West,Opposite
+7540,7540,SW 45th & Caldew,Southbound stop in Portland (Stop ID 7540),45.472195,-122.723234,B,http://trimet.org/#tracker/stop/7540,0,,South,Farside
+7544,7544,SW 45th & Flower Pl,Southbound stop in Portland (Stop ID 7544),45.482894,-122.723244,B,http://trimet.org/#tracker/stop/7544,0,,South,Farside
+7549,7549,SW 45th & Illinois,Southbound stop in Portland (Stop ID 7549),45.478715,-122.723244,B,http://trimet.org/#tracker/stop/7549,0,,South,Nearside
+7555,7555,SW 45th & Pendleton,Southbound stop in Portland (Stop ID 7555),45.481252,-122.723236,B,http://trimet.org/#tracker/stop/7555,0,,South,Nearside
+7559,7559,SW 45th & Vermont,Southbound stop in Portland (Stop ID 7559),45.476636,-122.723237,B,http://trimet.org/#tracker/stop/7559,0,,South,Nearside
+7588,7588,SW 5th & Broadway,Southbound stop in Portland (Stop ID 7588),45.507079,-122.68385,B,http://trimet.org/#tracker/stop/7588,0,,South,Nearside
+7591,7591,SW 5th & Caruthers,Southbound stop in Portland (Stop ID 7591),45.505566,-122.68329,B,http://trimet.org/#tracker/stop/7591,0,,South,Farside
+7612,7612,SW 5th & Madison,Southbound stop in Portland (Stop ID 7612),45.515682,-122.679352,B,http://trimet.org/#tracker/stop/7612,0,,South,Nearside
+7616,7616,SW 5th & Market,Southbound stop in Portland (Stop ID 7616),45.512954,-122.680837,B,http://trimet.org/#tracker/stop/7616,0,,South,Nearside
+7625,7625,SW 5th & Morrison,Southbound stop in Portland (Stop ID 7625),45.518932,-122.677571,B,http://trimet.org/#tracker/stop/7625,0,,South,Nearside
+7631,7631,SW 5th & Pine,Southbound stop in Portland (Stop ID 7631),45.522236,-122.675827,B,http://trimet.org/#tracker/stop/7631,0,,South,Opposite
+7667,7667,SW 51st & Custer,Northbound stop in Portland (Stop ID 7667),45.469664,-122.728688,B,http://trimet.org/#tracker/stop/7667,0,,North,Nearside
+7668,7668,SW 51st & Moss,Northbound stop in Portland (Stop ID 7668),45.467968,-122.728705,B,http://trimet.org/#tracker/stop/7668,0,,North,Nearside
+7698,7698,SW 52nd & Maplewood School,Northbound stop in Portland (Stop ID 7698),45.470854,-122.730468,B,http://trimet.org/#tracker/stop/7698,0,,North,At
+7700,7700,SW 52nd & Nevada Ct,Northbound stop in Portland (Stop ID 7700),45.472839,-122.730516,B,http://trimet.org/#tracker/stop/7700,0,,North,Nearside
+7728,7728,SW 55th & Texas,Northbound stop in Portland (Stop ID 7728),45.474024,-122.733395,B,http://trimet.org/#tracker/stop/7728,0,,North,Nearside
+7729,7729,SW 55th & Vermont,Northbound stop in Portland (Stop ID 7729),45.476281,-122.733334,B,http://trimet.org/#tracker/stop/7729,0,,North,Nearside
+7765,7765,SW 6th & Jefferson,Northbound stop in Portland (Stop ID 7765),45.514866,-122.680761,B,http://trimet.org/#tracker/stop/7765,0,,North,Nearside
+7772,7772,SW 6th & Market,Northbound stop in Portland (Stop ID 7772),45.512943,-122.681811,B,http://trimet.org/#tracker/stop/7772,0,,North,Nearside
+7782,7782,SW 6th & Oak,Northbound stop in Portland (Stop ID 7782),45.521525,-122.677172,B,http://trimet.org/#tracker/stop/7782,0,,North,Nearside
+7807,7807,SW 6th & Yamhill,Northbound stop in Portland (Stop ID 7807),45.518199,-122.678975,B,http://trimet.org/#tracker/stop/7807,0,,North,Nearside
+9033,9033,SW Bertha & Chestnut,Northbound stop in Portland (Stop ID 9033),45.472242,-122.694348,B,http://trimet.org/#tracker/stop/9033,0,,North,Nearside
+9328,9328,SW 45th & Nevada,Southbound stop in Portland (Stop ID 9328),45.473722,-122.723241,B,http://trimet.org/#tracker/stop/9328,0,,South,Nearside
+10466,10466,SW 45th & Vermont,Southbound stop in Portland (Stop ID 10466),45.475871,-122.723251,B,http://trimet.org/#tracker/stop/10466,0,,South,Farside
+10467,10467,SW Vermont & 45th,Westbound stop in Portland (Stop ID 10467),45.476296,-122.722872,B,http://trimet.org/#tracker/stop/10467,0,,West,Nearside
+10491,10491,SW 5th & Hall,Southbound stop in Portland (Stop ID 10491),45.510277,-122.682286,B,http://trimet.org/#tracker/stop/10491,0,,South,Nearside
+10801,10801,7500 Block SW 45th,Southbound stop in Portland (Stop ID 10801),45.47038,-122.723235,B,http://trimet.org/#tracker/stop/10801,0,,South,At
+11211,11211,SW Bertha & Barbur,Eastbound stop in Portland (Stop ID 11211),45.471017,-122.689111,B,http://trimet.org/#tracker/stop/11211,0,,East,Nearside
+11789,11789,SW Vermont & Idaho Dr,Eastbound stop in Portland (Stop ID 11789),45.476138,-122.720279,B,http://trimet.org/#tracker/stop/11789,0,,East,Farside
+12467,12467,SW Chestnut & 12th Dr,Northbound stop in Portland (Stop ID 12467),45.474763,-122.690855,B,http://trimet.org/#tracker/stop/12467,0,,North,Nearside
+13170,13170,SW Broadway & W Burnside,Northbound stop in Portland (Stop ID 13170),45.522894,-122.677232,B,http://trimet.org/#tracker/stop/13170,0,,North,Nearside
+13703,13703,SW Shattuck & 59th Ct,Northbound stop in Portland (Stop ID 13703),45.482576,-122.736292,B,http://trimet.org/#tracker/stop/13703,0,,North,Farside
+13768,13768,SW Vermont & 34th,Westbound stop in Portland (Stop ID 13768),45.476186,-122.711952,B,http://trimet.org/#tracker/stop/13768,0,,West,Farside
+13769,13769,SW Vermont & 34th,Eastbound stop in Portland (Stop ID 13769),45.476067,-122.711253,B,http://trimet.org/#tracker/stop/13769,0,,East,Farside
