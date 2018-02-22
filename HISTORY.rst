@@ -6,7 +6,7 @@ History
 
 * Published package no longer includes unnecessary fixtures to reduce the size.
 * Naively write a feed object to a zip file with ``ptg.write_feed_dangerously``.
-* Read the earliest, busiest date and it's ``service_id``'s from a feed with ``ptg.read_busiest_date``.
+* Read the earliest, busiest date and its ``service_id``'s from a feed with ``ptg.read_busiest_date``.
 * Bug fix: Handle ``calendar.txt``/``calendar_dates.txt`` entries w/o applicable trips.
 
 
