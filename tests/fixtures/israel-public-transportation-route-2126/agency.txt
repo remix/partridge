@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url
+4,אגד תעבורה,http://www.egged-taavura.co.il,Asia/Jerusalem,he,,

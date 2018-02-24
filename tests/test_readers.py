@@ -42,6 +42,11 @@ def test_unused_service_ids():
     ptg.read_service_ids_by_date(path)
 
 
+def test_missing_calendar_dates():
+    path = fixture('israel-public-transportation-route-2126')
+    ptg.read_service_ids_by_date(path)
+
+
 @pytest.mark.parametrize('path', [
     zip_file('amazon-2017-08-06'),
     fixture('amazon-2017-08-06'),
