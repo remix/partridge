@@ -1,0 +1,2 @@
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_color
+2126,4,6א,הרימון/השיקמה-נתניה<->תחנה מרכזית נתניה/הורדה-נתניה-2ה,21006-2-ה,3,

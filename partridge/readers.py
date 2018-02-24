@@ -59,10 +59,16 @@ def _service_ids_by_date(feed):
     removals = defaultdict(set)
 
     service_ids = set(feed.trips.service_id)
+    calendar = feed.calendar
+    caldates = feed.calendar_dates
 
-    # Only consider calendar.txt/calendar_dates.txt rows with applicable trips
-    calendar = feed.calendar[feed.calendar.service_id.isin(service_ids)].copy()
-    caldates = feed.calendar_dates[feed.calendar_dates.service_id.isin(service_ids)].copy() # noqa E501
+    if not calendar.empty:
+        # Only consider calendar.txt rows with applicable trips
+        calendar = calendar[calendar.service_id.isin(service_ids)].copy()
+
+    if not caldates.empty:
+        # Only consider calendar_dates.txt rows with applicable trips
+        caldates = caldates[caldates.service_id.isin(service_ids)].copy()
 
     if not calendar.empty:
         # Parse dates
