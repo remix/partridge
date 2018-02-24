@@ -1,6 +1,12 @@
 History
 =======
 
+0.6.1 (2018-02-24)
+------------------
+
+* Fix bug in ``ptg.read_service_ids_by_date``. Reported by @cjer in #27.
+
+
 0.6.0 (2018-02-21)
 ------------------
 
