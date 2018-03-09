@@ -1,0 +1,65 @@
+stop_id,accessibility_id,cardinal_direction,relative_position,stop_city
+70011,2,EA,,San Francisco
+70012,2,WE,,San Francisco
+70021,2,EA,,San Francisco
+70022,2,WE,,San Francisco
+70031,2,EA,,San Francisco
+70032,2,WE,,San Francisco
+70041,2,EA,,South San Francisco
+70042,2,WE,,South San Francisco
+70051,2,EA,,San Bruno
+70052,2,WE,,San Bruno
+70061,2,EA,,Millbrae
+70062,2,WE,,Millbrae
+70071,2,EA,,Burlingame
+70072,2,WE,,Burlingame
+70081,2,EA,,Burlingame
+70082,2,WE,,Burlingame
+70091,2,EA,,San Mateo
+70092,2,WE,,San Mateo
+70101,2,EA,,San Mateo
+70102,2,WE,,San Mateo
+70111,2,EA,,San Mateo
+70112,2,WE,,San Mateo
+70121,2,EA,,Belmont
+70122,2,WE,,Belmont
+70131,2,EA,,San Carlos
+70132,2,WE,,San Carlos
+70141,2,EA,,Redwood City
+70142,2,WE,,Redwood City
+70151,2,EA,,Atherton
+70152,2,WE,,Atherton
+70161,2,EA,,Menlo Park
+70162,2,WE,,Menlo Park
+70171,2,EA,,Palo Alto
+70172,2,WE,,Palo Alto
+70191,2,EA,,Palo Alto
+70192,2,WE,,Palo Alto
+70201,2,EA,,Mountain View (Santa Clara)
+70202,2,WE,,Mountain View (Santa Clara)
+70211,2,EA,,Mountain View (Santa Clara)
+70212,2,WE,,Mountain View (Santa Clara)
+70221,2,EA,,Sunnyvale
+70222,2,WE,,Sunnyvale
+70231,2,EA,,Sunnyvale
+70232,2,WE,,Sunnyvale
+70241,2,EA,,Santa Clara
+70242,2,WE,,Santa Clara
+70251,2,EA,,San Jose
+70252,2,WE,,San Jose
+70261,2,EA,,San Jose
+70262,2,WE,,San Jose
+70271,2,EA,,San Jose
+70272,2,WE,,San Jose
+70281,2,EA,,San Jose
+70282,2,WE,,San Jose
+70291,2,EA,,San Jose
+70292,2,WE,,San Jose
+70301,2,EA,,Morgan Hill
+70302,2,WE,,Morgan Hill
+70311,2,EA,,San Martin
+70312,2,WE,,San Martin
+70321,2,EA,,Gilroy
+70322,2,WE,,Gilroy
+777402,2,,,San Jose
+777403,2,,,San Jose
