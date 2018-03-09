@@ -46,6 +46,16 @@ from .helpers import fixture, zip_file
         'shapes.txt': (1094, 5),
         'stops.txt': (50, 12),
     }),
+    (zip_file('nested'), [datetime.date(2017, 8, 6)], {
+        'agency.txt': (1, 6),
+        'calendar.txt': (1, 10),
+        'calendar_dates.txt': (6, 3),
+        'fare_attributes.txt': (4, 6),
+        'fare_rules.txt': (48, 4),
+        'routes.txt': (3, 7),
+        'shapes.txt': (1094, 5),
+        'stops.txt': (50, 12),
+    }),
     (zip_file('amazon-2017-08-06'), [], {
         'agency.txt': (1, 7),
         'calendar.txt': (2, 10),
@@ -95,6 +105,16 @@ from .helpers import fixture, zip_file
         'stops.txt': (64, 12),
     }),
     (fixture('caltrain-2017-07-24'), [datetime.date(2017, 8, 6)], {
+        'agency.txt': (1, 6),
+        'calendar.txt': (1, 10),
+        'calendar_dates.txt': (6, 3),
+        'fare_attributes.txt': (4, 6),
+        'fare_rules.txt': (48, 4),
+        'routes.txt': (3, 7),
+        'shapes.txt': (1094, 5),
+        'stops.txt': (50, 12),
+    }),
+    (fixture('nested'), [datetime.date(2017, 8, 6)], {
         'agency.txt': (1, 6),
         'calendar.txt': (1, 10),
         'calendar_dates.txt': (6, 3),

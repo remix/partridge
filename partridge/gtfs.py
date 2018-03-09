@@ -165,29 +165,29 @@ class feed(object):
         of the same name. Load file paths into internal dictionary.
         """
         with ZipFile(self.path) as zipreader:
-            for zpath in zipreader.namelist():
-                basename = os.path.basename(zpath)
-                if zpath.endswith('.txt'):
-                    assert basename not in self.zmap, \
-                        'More than one {} in zip'.format(basename)
-                self.zmap[basename] = zpath
+            for entry in zipreader.filelist:
+                # ZipInfo.is_dir was added in Python 3.6
+                # http://harp.pythonanywhere.com/python_doc/whatsnew/3.6.html
+                # https://hg.python.org/cpython/rev/7fea2cebc604#l4.58
+                if entry.filename[-1] == '/':
+                    continue
+
+                basename = os.path.basename(entry.filename)
+                assert basename not in self.zmap, \
+                    'More than one {} in zip'.format(basename)
+                self.zmap[basename] = entry.filename
 
     def _verify_folder_contents(self):
         """
         Verify that the folder does not contain multiple files
         of the same name. Load file paths into internal dictionary.
         """
-        files = [
-            os.path.join(self.path, f)
-            for f in os.listdir(self.path)
-            if os.path.isfile(os.path.join(self.path, f))
-        ]
-        for gtfs_file in files:
-            basename = os.path.basename(gtfs_file)
-            if gtfs_file.endswith('.txt'):
-                assert gtfs_file not in self.zmap, \
-                    'More than one {} in zip'.format(basename)
-            self.zmap[basename] = gtfs_file
+        for root, _subdirs, files in os.walk(self.path):
+            for fname in files:
+                basename = os.path.basename(fname)
+                assert basename not in self.zmap, \
+                    'More than one {} in folder'.format(basename)
+                self.zmap[basename] = os.path.join(root, fname)
 
 
 # No pruning or type coercion
