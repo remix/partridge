@@ -46,6 +46,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
 	rm -f .coverage
 	rm -fr htmlcov/
+	rm tests/fixtures/*.zip
 
 dependency-graph.png:
 	dot -Tpng dependency-graph.dot -o dependency-graph.png
