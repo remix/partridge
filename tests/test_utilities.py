@@ -32,6 +32,9 @@ def test_remove_node_attributes():
     X = remove_node_attributes(G, 'label')
     Y = remove_node_attributes(G, ['label', 'welcome'])
 
+    assert G.nodes[1] == {'label': 'foo', 'hello': 'world'}
+    assert G.nodes[2] == {'label': 'bar', 'welcome': 1}
+
     assert id(X) != id(G)
     assert X.nodes[1] == {'hello': 'world'}
     assert X.nodes[2] == {'welcome': 1}

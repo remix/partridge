@@ -2,8 +2,9 @@ import os
 import shutil
 import tempfile
 
-from partridge.config import config_for_root, default_config
+from partridge.config import default_config
 from partridge.readers import get_filtered_feed
+from partridge.utilities import remove_node_attributes
 
 
 DEFAULT_NODES = frozenset(default_config().nodes())
@@ -19,8 +20,9 @@ def extract_routes(inpath, outpath, route_ids):
     return extract_feed(inpath, outpath, filters)
 
 
-def extract_feed(inpath, outpath, filters):
-    config = config_for_root('trips.txt')
+def extract_feed(inpath, outpath, filters, config=None):
+    config = default_config() if config is None else config
+    config = remove_node_attributes(config, 'converters')
     feed = get_filtered_feed(inpath, filters, config)
     return write_feed_dangerously(feed, outpath)
 
