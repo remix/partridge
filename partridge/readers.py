@@ -1,8 +1,10 @@
 from collections import defaultdict
 import datetime
 
+from partridge.config import default_config, reroot_graph
 from partridge.gtfs import feed as mkfeed, raw_feed
 from partridge.parsers import vparse_date
+from partridge.utilities import remove_node_attributes
 
 
 DAY_NAMES = (
@@ -11,6 +13,23 @@ DAY_NAMES = (
 
 
 '''Public'''
+
+
+def get_filtered_feed(path, filters, config=None):
+    '''
+    Multi-file feed filtering
+    '''
+    filter_config = default_config() if config is None else config.copy()
+    filter_config = remove_node_attributes(filter_config, 'converters')
+
+    trip_ids = set(raw_feed(path).trips.trip_id)
+    for filename, column_filters in filters.items():
+        feed = mkfeed(path,
+                      config=reroot_graph(filter_config, filename),
+                      view={filename: column_filters})
+        trip_ids &= set(feed.trips.trip_id)
+
+    return mkfeed(path, config, {'trips.txt': {'trip_id': trip_ids}})
 
 
 def get_representative_feed(path):

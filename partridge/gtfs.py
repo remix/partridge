@@ -74,9 +74,8 @@ class feed(object):
 
         # Gather the dependencies between this file and others
         file_dependencies = {
-            depfile: data['dependencies'].items()
+            depfile: data.get('dependencies', [])
             for _, depfile, data in config.out_edges(filename, data=True)
-            if 'dependencies' in data
         }
 
         # Gather applicable view filter params
@@ -112,11 +111,14 @@ class feed(object):
                         chunk = chunk[chunk[col].isin(values)]
 
                 # Prune the chunk
-                for depfile, dependencies in file_dependencies.items():
+                for depfile, deplist in file_dependencies.items():
                     # Read the filtered, pruned, and cached file dependency
                     depdf = self.get(depfile)
 
-                    for col, depcol in dependencies:
+                    for deps in deplist:
+                        col = deps[filename]
+                        depcol = deps[depfile]
+
                         # If applicable, prune this chunk by the other
                         if col in chunk.columns and depcol in depdf.columns:
                             chunk = chunk[chunk[col].isin(depdf[depcol])]

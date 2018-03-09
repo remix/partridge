@@ -17,3 +17,16 @@ def setwrap(value):
     one object or a list of objects.
     """
     return set(map(np.unicode, set(flatten([value]))))
+
+
+def remove_node_attributes(G, attributes):
+    """
+    Return a copy of the graph with the given attributes
+    deleted from all nodes.
+    """
+    G = G.copy()
+    for _, data in G.nodes(data=True):
+        for attribute in setwrap(attributes):
+            if attribute in data:
+                del data[attribute]
+    return G
