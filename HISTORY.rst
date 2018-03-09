@@ -1,6 +1,13 @@
 History
 =======
 
+0.7.0 (2018-03-09)
+------------------
+
+* Fix handling of nested folders and zip containing nested folders.
+* Add ``ptg.get_filtered_feed`` for multi-file filtering.
+
+
 0.6.1 (2018-02-24)
 ------------------
 
