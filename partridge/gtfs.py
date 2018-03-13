@@ -87,13 +87,7 @@ class feed(object):
 
         # Read CSV in chunks, prune it according to the dependency graph
         chunks = []
-        with self._io_adapter(filename) as iowrapper:
-            # Build a chunked DataFrame reader
-            reader = pd.read_csv(
-                iowrapper, chunksize=10000,
-                dtype=np.unicode, index_col=False,
-                low_memory=False, skipinitialspace=True)
-
+        with self._io_adapter(filename) as reader:
             # Process the file in chunks
             for i, chunk in enumerate(reader):
                 # Cleanup column names just to be safe
@@ -151,15 +145,30 @@ class feed(object):
         Yield an IO object for the given file
         from a zip file or folder
         """
+        def reader(iowrapper):
+            """
+            Build a chunked DataFrame reader
+            """
+            return pd.read_csv(
+                iowrapper, chunksize=10000,
+                dtype=np.unicode, index_col=False,
+                low_memory=False, skipinitialspace=True)
+
         if self.is_dir:
             with open(self.zmap[filename], 'rb') as iowrapper:
-                yield iowrapper
+                try:
+                    yield reader(iowrapper)
+                except pd.errors.EmptyDataError:
+                    yield iter([])
         else:
             with ZipFile(self.path) as zipreader:
                 with zipreader.open(self.zmap[filename], 'r') as zfile:
                     with io.TextIOWrapper(zfile,
                                           encoding='utf-8-sig') as iowrapper:
-                        yield iowrapper
+                        try:
+                            yield reader(iowrapper)
+                        except pd.errors.EmptyDataError:
+                            yield iter([])
 
     def _verify_zip_contents(self):
         """

@@ -168,7 +168,7 @@ def test_read_file(path, dates, shapes):
 @pytest.mark.parametrize('path,shapes', [
     (zip_file('empty'), {
         'agency.txt': (0, 3),
-        'calendar.txt': (0, 10),
+        'calendar.txt': (0, 0),
         'calendar_dates.txt': (0, 3),
         'fare_attributes.txt': (0, 5),
         'fare_rules.txt': (0, 1),
@@ -197,7 +197,7 @@ def test_read_file(path, dates, shapes):
     }),
     (fixture('empty'), {
         'agency.txt': (0, 3),
-        'calendar.txt': (0, 10),
+        'calendar.txt': (0, 0),
         'calendar_dates.txt': (0, 3),
         'fare_attributes.txt': (0, 5),
         'fare_rules.txt': (0, 1),
