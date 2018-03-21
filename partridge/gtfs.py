@@ -1,8 +1,3 @@
-try:
-    from functools import lru_cache
-except ImportError:
-    from functools32 import lru_cache
-
 from contextlib import contextmanager
 import io
 import os
@@ -13,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 from partridge.config import default_config, empty_config
-from partridge.utilities import empty_df, setwrap
+from partridge.utilities import empty_df, lru_cache, setwrap
 
 
 def read_file(filename):
