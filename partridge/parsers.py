@@ -3,9 +3,13 @@ from functools import partial
 import numpy as np
 import pandas as pd
 
+from partridge.utilities import lru_cache
+
 DATE_FORMAT = '%Y%m%d'
 
 
+# Why 2^17? See https://git.io/vxB2P.
+@lru_cache(maxsize=2**17)
 def parse_time(val):
     if val is np.nan:
         return val
