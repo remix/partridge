@@ -1,6 +1,12 @@
 History
 =======
 
+0.9.0 (2018-03-24)
+------------------
+
+* Improves read time for large feeds by adding LRU caching to ``ptg.parsers.parse_time``.
+
+
 0.8.0 (2018-03-14)
 ------------------
 
