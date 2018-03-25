@@ -1,5 +1,4 @@
 import datetime
-import os
 import pytest
 
 import partridge as ptg
@@ -160,8 +159,7 @@ def test_read_file(path, dates, shapes):
         feed = ptg.feed(path)
 
     for filename, shape in shapes.items():
-        attrname, _ = os.path.splitext(filename)
-        assert getattr(feed, attrname).shape == shape, \
+        assert feed.get(filename).shape == shape, \
             '{}/{} dataframe shape was incorrect'.format(path, filename)
 
 
@@ -229,8 +227,7 @@ def test_raw_feed(path, shapes):
     feed = ptg.raw_feed(path)
 
     for filename, shape in shapes.items():
-        attrname, _ = os.path.splitext(filename)
-        assert getattr(feed, attrname).shape == shape, \
+        assert feed.get(filename).shape == shape, \
             '{}/{} dataframe shape was incorrect'.format(path, filename)
 
 

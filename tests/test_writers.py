@@ -46,17 +46,15 @@ def test_extract_agencies(path):
 
         nodes = []
         for node in fd.config.nodes():
-            attrname, _ = os.path.splitext(node)
-            df = getattr(fd, attrname)
+            df = fd.get(node)
             if not df.empty:
                 nodes.append(node)
 
         assert len(nodes)
 
         for node in nodes:
-            attrname, _ = os.path.splitext(node)
-            original_df = getattr(fd, attrname)
-            new_df = getattr(new_fd, attrname)
+            original_df = fd.get(node)
+            new_df = new_fd.get(node)
             assert set(original_df.columns) == set(new_df.columns)
 
     finally:
@@ -101,17 +99,15 @@ def test_extract_routes(path):
 
         nodes = []
         for node in fd.config.nodes():
-            attrname, _ = os.path.splitext(node)
-            df = getattr(fd, attrname)
+            df = fd.get(node)
             if not df.empty:
                 nodes.append(node)
 
         assert len(nodes)
 
         for node in nodes:
-            attrname, _ = os.path.splitext(node)
-            original_df = getattr(fd, attrname)
-            new_df = getattr(new_fd, attrname)
+            original_df = fd.get(node)
+            new_df = new_fd.get(node)
             assert set(original_df.columns) == set(new_df.columns)
 
     finally:
