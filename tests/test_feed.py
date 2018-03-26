@@ -232,11 +232,8 @@ def test_raw_feed(path, shapes):
 
 
 def test_missing_zip():
-    try:
+    with pytest.raises(AssertionError, message='File or path not found'):
         ptg.feed(fixture('missing.zip'))
-        assert False
-    except AssertionError as err:
-        assert 'File or path not found' in repr(err)
 
 
 def test_config_must_be_dag():
@@ -247,11 +244,9 @@ def test_config_must_be_dag():
     # Make a cycle
     config.add_edge('trips.txt', 'routes.txt')
 
-    try:
-        path = zip_file('amazon-2017-08-06')
+    path = zip_file('amazon-2017-08-06')
+    with pytest.raises(AssertionError, message='Config must be a DAG'):
         ptg.feed(path, config=config)
-    except AssertionError as err:
-        assert 'Config must be a DAG' in repr(err)
 
 
 @pytest.mark.parametrize('path', [
