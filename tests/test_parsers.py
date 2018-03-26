@@ -9,7 +9,6 @@ from partridge.parsers import \
 
 def test_parse_date():
     assert parse_date('20990101') == datetime.date(2099, 1, 1)
-    assert parse_date(datetime.date(2099, 1, 1)) == datetime.date(2099, 1, 1)
 
 
 def test_parse_date_with_invalid_month():
@@ -33,7 +32,6 @@ def test_vparse_date():
     dateobjs = [datetime.date(2099, 1, 1), datetime.date(2099, 1, 2)]
 
     assert np.array_equal(vparse_date(np.array(datestrs)), dateobjs)
-    assert np.array_equal(vparse_date(np.array(dateobjs)), dateobjs)
 
 
 def test_parse_time():
