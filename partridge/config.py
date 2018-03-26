@@ -267,7 +267,6 @@ def add_node_config(g):
     ])
 
 
-
 def reroot_graph(G, node):
     '''Return a copy of the graph rooted at the given node'''
     G = G.copy()
