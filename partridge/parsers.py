@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime
 from functools import partial
 import numpy as np
 import pandas as pd
@@ -27,9 +27,6 @@ def parse_time(val):
 
 
 def parse_date(val):
-    if isinstance(val, date):
-        return val
-
     return datetime.strptime(val, DATE_FORMAT).date()
 
 

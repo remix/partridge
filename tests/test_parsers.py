@@ -1,6 +1,6 @@
 import datetime
 import numpy as np
-
+import pytest
 
 from partridge.parsers import \
     parse_time, parse_date, \
@@ -9,23 +9,16 @@ from partridge.parsers import \
 
 def test_parse_date():
     assert parse_date('20990101') == datetime.date(2099, 1, 1)
-    assert parse_date(datetime.date(2099, 1, 1)) == datetime.date(2099, 1, 1)
 
 
 def test_parse_date_with_invalid_month():
-    try:
+    with pytest.raises(ValueError, message='unconverted data remains: 01'):
         parse_date('20991401')
-        assert False
-    except ValueError as e:
-        assert 'unconverted data remains: 01' in repr(e)
 
 
 def test_parse_date_with_invalid_day():
-    try:
+    with pytest.raises(ValueError, message='unconverted data remains: 3'):
         parse_date('20990133')
-        assert False
-    except ValueError as e:
-        assert 'unconverted data remains: 3' in repr(e)
 
 
 def test_vparse_date():
@@ -33,7 +26,6 @@ def test_vparse_date():
     dateobjs = [datetime.date(2099, 1, 1), datetime.date(2099, 1, 2)]
 
     assert np.array_equal(vparse_date(np.array(datestrs)), dateobjs)
-    assert np.array_equal(vparse_date(np.array(dateobjs)), dateobjs)
 
 
 def test_parse_time():
@@ -48,11 +40,8 @@ def test_parse_time():
 
 
 def test_parse_time_with_invalid_input():
-    try:
+    with pytest.raises(ValueError, message='invalid literal for int()'):
         parse_time('10:15:00am')
-        assert False
-    except ValueError as e:
-        assert 'invalid literal for int()' in repr(e)
 
 
 def test_vparse_time():

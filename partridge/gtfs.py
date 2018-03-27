@@ -144,26 +144,23 @@ class feed(object):
             """
             Build a chunked DataFrame reader
             """
-            return pd.read_csv(
-                iowrapper, chunksize=10000,
-                dtype=np.unicode, index_col=False,
-                low_memory=False, skipinitialspace=True)
+            try:
+                return pd.read_csv(
+                    iowrapper, chunksize=10000,
+                    dtype=np.unicode, index_col=False,
+                    low_memory=False, skipinitialspace=True)
+            except pd.errors.EmptyDataError:
+                return iter([])
 
         if self.is_dir:
             with open(self.zmap[filename], 'rb') as iowrapper:
-                try:
-                    yield reader(iowrapper)
-                except pd.errors.EmptyDataError:
-                    yield iter([])
+                yield reader(iowrapper)
         else:
             with ZipFile(self.path) as zipreader:
                 with zipreader.open(self.zmap[filename], 'r') as zfile:
                     with io.TextIOWrapper(zfile,
                                           encoding='utf-8-sig') as iowrapper:
-                        try:
-                            yield reader(iowrapper)
-                        except pd.errors.EmptyDataError:
-                            yield iter([])
+                        yield reader(iowrapper)
 
     def _verify_zip_contents(self):
         """
