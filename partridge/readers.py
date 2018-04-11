@@ -5,6 +5,7 @@ from partridge.config import default_config, reroot_graph
 from partridge.gtfs import feed as mkfeed, raw_feed
 from partridge.parsers import vparse_date
 from partridge.utilities import remove_node_attributes
+from isoweek import Week
 
 
 DAY_NAMES = (
@@ -42,14 +43,13 @@ def get_representative_feed(path):
 def read_busiest_date(path):
     '''Find the date with the most trips'''
     feed = raw_feed(path)
+    return _busiest_day(feed)
 
-    service_ids_by_date = _service_ids_by_date(feed)
-    trip_counts_by_date = _trip_counts_by_date(feed)
 
-    date, _ = max(trip_counts_by_date.items(), key=lambda p: (p[1], p[0]))
-    service_ids = service_ids_by_date[date]
-
-    return date, service_ids
+def read_busiest_week(path):
+    '''Read the earliest, busiest week'''
+    feed = raw_feed(path)
+    return _busiest_week(feed)
 
 
 def read_service_ids_by_date(path):
@@ -132,6 +132,41 @@ def _service_ids_by_date(feed):
                 del results[date]
 
     return {k: frozenset(v) for k, v in results.items()}
+
+
+def _busiest_day(feed):
+    service_ids_by_date = _service_ids_by_date(feed)
+    trip_counts_by_date = _trip_counts_by_date(feed)
+
+    def max_by(kv):
+        date, count = kv
+        return (count, -date.toordinal())
+
+    date, _ = max(trip_counts_by_date.items(), key=max_by)
+    service_ids = service_ids_by_date[date]
+
+    return date, service_ids
+
+
+def _busiest_week(feed):
+    service_ids_by_date = _service_ids_by_date(feed)
+    trip_counts_by_date = _trip_counts_by_date(feed)
+
+    weekly_trip_counts = defaultdict(int)
+    weekly_dates = defaultdict(list)
+    for date in service_ids_by_date.keys():
+        key = Week.withdate(date)
+        weekly_trip_counts[key] += trip_counts_by_date[date]
+        weekly_dates[key].append(date)
+
+    def max_by(kv):
+        week, count = kv
+        return (count, -week.toordinal())
+
+    week, _ = max(weekly_trip_counts.items(), key=max_by)
+    dates = weekly_dates[week]
+
+    return {date: service_ids_by_date[date] for date in dates}
 
 
 def _dates_by_service_ids(feed):
