@@ -3,12 +3,14 @@ try:
 except ImportError:
     from functools32 import lru_cache
 
+from chardet import UniversalDetector
 import numpy as np
 import pandas as pd
 from pandas.core.common import flatten
 
 
 __all__ = [
+    'detect_encoding',
     'empty_df',
     'lru_cache',
     'remove_node_attributes',
@@ -43,3 +45,14 @@ def remove_node_attributes(G, attributes):
             if attribute in data:
                 del data[attribute]
     return G
+
+
+def detect_encoding(f):
+    u = UniversalDetector()
+    for line in f:
+        line = bytearray(line)
+        u.feed(line)
+        if u.done:
+            break
+    u.close()
+    return u.result['encoding']

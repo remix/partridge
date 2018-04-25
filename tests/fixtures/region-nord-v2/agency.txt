@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url
+160,AtB,https://www.atb.no/,Europe/Oslo,nb,02820,https://www.atb.no/priser/
