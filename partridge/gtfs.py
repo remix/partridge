@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 from partridge.config import default_config, empty_config
-from partridge.utilities import empty_df, lru_cache, setwrap
+from partridge.utilities import empty_df, detect_encoding, lru_cache, setwrap
 
 
 def read_file(filename):
@@ -82,7 +82,7 @@ class feed(object):
 
         # Read CSV in chunks, prune it according to the dependency graph
         chunks = []
-        with self._io_adapter(filename) as reader:
+        with self.read_file_chunks(filename) as reader:
             # Process the file in chunks
             for i, chunk in enumerate(reader):
                 # Cleanup column names just to be safe
@@ -135,32 +135,38 @@ class feed(object):
         return df
 
     @contextmanager
-    def _io_adapter(self, filename):
+    def read_file_chunks(self, filename):
         """
-        Yield an IO object for the given file
-        from a zip file or folder
+        Yield a pandas DataFrame iterator for the given file.
         """
-        def reader(iowrapper):
-            """
-            Build a chunked DataFrame reader
-            """
+        with self._io_adapter(self.zmap[filename]) as result:
+            iowrapper, encoding = result
             try:
-                return pd.read_csv(
+                yield pd.read_csv(
                     iowrapper, chunksize=10000,
-                    dtype=np.unicode, index_col=False,
+                    dtype=np.unicode, encoding=encoding, index_col=False,
                     low_memory=False, skipinitialspace=True)
             except pd.errors.EmptyDataError:
-                return iter([])
+                yield iter([])
 
+    @contextmanager
+    def _io_adapter(self, fpath):
+        """
+        Yield an IO object and its encoding for the given file path.
+        Reads from a zip file or folder.
+        """
         if self.is_dir:
-            with open(self.zmap[filename], 'rb') as iowrapper:
-                yield reader(iowrapper)
+            with open(fpath, 'rb') as iowrapper:
+                encoding = detect_encoding(iowrapper)
+                iowrapper.seek(0)  # Rewind to the beginning of the file
+                yield iowrapper, encoding
         else:
             with ZipFile(self.path) as zipreader:
-                with zipreader.open(self.zmap[filename], 'r') as zfile:
-                    with io.TextIOWrapper(zfile,
-                                          encoding='utf-8-sig') as iowrapper:
-                        yield reader(iowrapper)
+                with zipreader.open(fpath, 'r') as zfile:
+                    encoding = detect_encoding(zfile)
+                with zipreader.open(fpath, 'r') as zfile:
+                    with io.TextIOWrapper(zfile, encoding) as iowrapper:
+                        yield iowrapper, encoding
 
     def _verify_zip_contents(self):
         """

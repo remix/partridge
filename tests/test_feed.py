@@ -55,6 +55,16 @@ from .helpers import fixture, zip_file
         'shapes.txt': (1094, 5),
         'stops.txt': (50, 12),
     }),
+    (zip_file('region-nord-v2'), [], {
+        'agency.txt': (1, 7),
+        'calendar.txt': (0, 10),
+        'calendar_dates.txt': (333, 3),
+        'fare_attributes.txt': (0, 5),
+        'fare_rules.txt': (0, 1),
+        'routes.txt': (181, 12),
+        'shapes.txt': (0, 4),
+        'stops.txt': (3693, 15),
+    }),
     (zip_file('amazon-2017-08-06'), [], {
         'agency.txt': (1, 7),
         'calendar.txt': (2, 10),
@@ -143,6 +153,16 @@ from .helpers import fixture, zip_file
         'shapes.txt': (3, 5),
         'stops.txt': (2, 12),
     }),
+    (fixture('region-nord-v2'), [], {
+        'agency.txt': (1, 7),
+        'calendar.txt': (0, 10),
+        'calendar_dates.txt': (333, 3),
+        'fare_attributes.txt': (0, 5),
+        'fare_rules.txt': (0, 1),
+        'routes.txt': (181, 12),
+        'shapes.txt': (0, 4),
+        'stops.txt': (3693, 15),
+    }),
 ])
 def test_read_file(path, dates, shapes):
     service_ids_by_date = ptg.read_service_ids_by_date(path)
@@ -193,6 +213,16 @@ def test_read_file(path, dates, shapes):
         'shapes.txt': (12032, 5),
         'stops.txt': (35, 12),
     }),
+    (zip_file('region-nord-v2'), {
+        'agency.txt': (1, 7),
+        'calendar.txt': (0, 0),
+        'calendar_dates.txt': (333, 3),
+        'fare_attributes.txt': (0, 0),
+        'fare_rules.txt': (0, 0),
+        'routes.txt': (181, 12),
+        'shapes.txt': (0, 0),
+        'stops.txt': (3693, 15),
+    }),
     (fixture('empty'), {
         'agency.txt': (0, 3),
         'calendar.txt': (0, 0),
@@ -221,6 +251,16 @@ def test_read_file(path, dates, shapes):
         'routes.txt': (50, 9),
         'shapes.txt': (12032, 5),
         'stops.txt': (35, 12),
+    }),
+    (fixture('region-nord-v2'), {
+        'agency.txt': (1, 7),
+        'calendar.txt': (0, 0),
+        'calendar_dates.txt': (333, 3),
+        'fare_attributes.txt': (0, 0),
+        'fare_rules.txt': (0, 0),
+        'routes.txt': (181, 12),
+        'shapes.txt': (0, 0),
+        'stops.txt': (3693, 15),
     }),
 ])
 def test_raw_feed(path, shapes):
