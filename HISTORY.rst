@@ -1,6 +1,14 @@
 History
 =======
 
+0.10.0 (2018-04-30)
+-------------------
+
+* Improved handling of non-standard compliant file encodings
+* Only require functools32 for Python < 3
+* ``ptg.parsers.parse_date`` no longer accepts dates, only strings
+
+
 0.9.0 (2018-03-24)
 ------------------
 
