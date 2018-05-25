@@ -8,39 +8,47 @@ from partridge.utilities import remove_node_attributes
 
 
 DAY_NAMES = (
-    'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
-    'saturday', 'sunday')
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+)
 
 
-'''Public'''
+"""Public"""
 
 
 def get_filtered_feed(path, filters, config=None):
-    '''
+    """
     Multi-file feed filtering
-    '''
+    """
     filter_config = default_config() if config is None else config.copy()
-    filter_config = remove_node_attributes(filter_config, 'converters')
+    filter_config = remove_node_attributes(filter_config, "converters")
 
     trip_ids = set(raw_feed(path).trips.trip_id)
     for filename, column_filters in filters.items():
-        feed = mkfeed(path,
-                      config=reroot_graph(filter_config, filename),
-                      view={filename: column_filters})
+        feed = mkfeed(
+            path,
+            config=reroot_graph(filter_config, filename),
+            view={filename: column_filters},
+        )
         trip_ids &= set(feed.trips.trip_id)
 
-    return mkfeed(path, config, {'trips.txt': {'trip_id': trip_ids}})
+    return mkfeed(path, config, {"trips.txt": {"trip_id": trip_ids}})
 
 
 def get_representative_feed(path):
-    '''Return a feed filtered to the busiest date'''
+    """Return a feed filtered to the busiest date"""
     _, service_ids = read_busiest_date(path)
-    view = {'trips.txt': {'service_id': service_ids}}
+    view = {"trips.txt": {"service_id": service_ids}}
     return mkfeed(path, view=view)
 
 
 def read_busiest_date(path):
-    '''Find the date with the most trips'''
+    """Find the date with the most trips"""
     feed = raw_feed(path)
 
     service_ids_by_date = _service_ids_by_date(feed)
@@ -53,24 +61,24 @@ def read_busiest_date(path):
 
 
 def read_service_ids_by_date(path):
-    '''Find all service identifiers by date'''
+    """Find all service identifiers by date"""
     feed = raw_feed(path)
     return _service_ids_by_date(feed)
 
 
 def read_dates_by_service_ids(path):
-    '''Find dates with identical service'''
+    """Find dates with identical service"""
     feed = raw_feed(path)
     return _dates_by_service_ids(feed)
 
 
 def read_trip_counts_by_date(path):
-    '''A useful proxy for busyness'''
+    """A useful proxy for busyness"""
     feed = raw_feed(path)
     return _trip_counts_by_date(feed)
 
 
-'''Private'''
+"""Private"""
 
 
 def _service_ids_by_date(feed):
@@ -110,8 +118,8 @@ def _service_ids_by_date(feed):
         caldates.date = vparse_date(caldates.date)
 
         # Split out additions and removals
-        cdadd = caldates[caldates.exception_type == '1']
-        cdrem = caldates[caldates.exception_type == '2']
+        cdadd = caldates[caldates.exception_type == "1"]
+        cdrem = caldates[caldates.exception_type == "2"]
 
         # Add to results by date
         for _, cd in cdadd.iterrows():

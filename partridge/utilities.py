@@ -10,11 +10,11 @@ from pandas.core.common import flatten
 
 
 __all__ = [
-    'detect_encoding',
-    'empty_df',
-    'lru_cache',
-    'remove_node_attributes',
-    'setwrap',
+    "detect_encoding",
+    "empty_df",
+    "lru_cache",
+    "remove_node_attributes",
+    "setwrap",
 ]
 
 
@@ -55,4 +55,4 @@ def detect_encoding(f):
         if u.done:
             break
     u.close()
-    return u.result['encoding']
+    return u.result["encoding"]
