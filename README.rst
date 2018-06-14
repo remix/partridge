@@ -24,20 +24,22 @@ Philosphy
 
 The design of Partridge is guided by the following principles:
 
-- as much as possible
+**As much as possible**
 
-  - favor speed
-  - allow for extension
-  - succeed lazily on expensive paths
-  - fail eagerly on inexpensive paths
+- Favor speed
+- Allow for extension
+- Succeed lazily on expensive paths
+- Fail eagerly on inexpensive paths
 
-- as little as possible
+**As little as possible**
 
-  - do anything other than efficiently read GTFS files into DataFrames
-  - take an opinion on the GTFS spec
+- Do anything other than efficiently read GTFS files into DataFrames
+- Take an opinion on the GTFS spec
 
 Usage
 -----
+
+**Reading a feed**
 
 .. code:: python
 
@@ -48,20 +50,44 @@ Usage
 
     service_ids_by_date = ptg.read_service_ids_by_date(path)
 
-    service_ids = service_ids_by_date[datetime.date(2017, 9, 25)]
+    date = datetime.date(2017, 9, 25)
+    service_ids = service_ids_by_date[date]
 
     feed = ptg.feed(path, view={
         'trips.txt': {
             'service_id': service_ids,
-            'route_id': '12300', # 18-46TH AVENUE
+            'route_id': '12300',
         },
     })
 
-    assert set(feed.trips.service_id) == service_ids
-    assert list(feed.routes.route_id) == ['12300']
+    assert service_ids == set(feed.trips.service_id)
 
-    # Buses running the 18 - 46th Ave line use 88 stops (on September 25, 2017, at least).
-    assert len(feed.stops) == 88
+    len(feed.stops)
+    #  88
+
+    feed.routes.head()
+    #  route_id agency_id route_short_name route_long_name route_desc  route_type  \
+    #     12300     SFMTA               18     46TH AVENUE        NaN           3
+    #
+    #  route_url route_color route_text_color
+    #        NaN         NaN              NaN
+
+
+**Extracting a new feed**
+
+.. code:: python
+
+    import partridge as ptg
+
+    inpath = 'gtfs.zip'
+    outpath = 'gtfs-slim.zip'
+
+    date, service_ids = ptg.read_busiest_date(inpath)
+
+    ptg.writers.extract_feed(inpath, outpath, {'trips.txt': {'service_id': service_ids}})
+
+    assert service_ids == set(ptg.feed(outpath).trips.service_id)
+
 
 Features
 --------
