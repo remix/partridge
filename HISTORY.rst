@@ -1,6 +1,11 @@
 History
 =======
 
+0.11.0 (2018-08-01)
+-------------------
+* Fix major performance issue related to encoding detection. Thank you to @cjer for reporting the issue and advising on a solution.
+
+
 0.10.0 (2018-04-30)
 -------------------
 
