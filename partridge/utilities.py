@@ -47,12 +47,18 @@ def remove_node_attributes(G, attributes):
     return G
 
 
-def detect_encoding(f):
+def detect_encoding(f, limit=100):
     u = UniversalDetector()
     for line in f:
         line = bytearray(line)
         u.feed(line)
-        if u.done:
+
+        limit -= 1
+        if u.done or limit < 1:
             break
+
     u.close()
-    return u.result['encoding']
+    if u.result['encoding'] == 'ascii':
+        return 'utf-8'
+    else:
+        return u.result['encoding']
