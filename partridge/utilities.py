@@ -3,6 +3,10 @@ try:
 except ImportError:
     from functools32 import lru_cache
 
+from collections import defaultdict
+from itertools import tee
+
+
 from chardet import UniversalDetector
 import numpy as np
 import pandas as pd
@@ -16,6 +20,16 @@ __all__ = [
     'remove_node_attributes',
     'setwrap',
 ]
+
+
+def ddict():
+    return defaultdict(ddict)
+
+
+def cached_property(f):
+    f = lru_cache(maxsize=None)(f)
+    f = property(f)
+    return f
 
 
 def empty_df(columns=None):
@@ -62,3 +76,27 @@ def detect_encoding(f, limit=100):
         return 'utf-8'
     else:
         return u.result['encoding']
+
+
+def pairwise(iterable):
+    "s -> (s0,s1), (s1,s2), (s2, s3), ..."
+    a, b = tee(iterable)
+    next(b, None)
+    return zip(a, b)
+
+
+def ddict2dict(d):
+    for k, v in d.items():
+        if isinstance(v, dict):
+            d[k] = ddict2dict(v)
+    return dict(d)
+
+
+def dict_argmax(d):
+    maxk = None
+    maxv = -np.inf
+    for k, v in d.items():
+        if v > maxv:
+            maxv = v
+            maxk = k
+    return maxk
