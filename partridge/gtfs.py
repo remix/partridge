@@ -148,6 +148,8 @@ class feed(object):
                     low_memory=False, skipinitialspace=True)
             except pd.errors.EmptyDataError:
                 yield iter([])
+            except pd.errors.ParserError as e:
+                raise pd.errors.ParserError('[{}] {}'.format(filename, e))
 
     @contextmanager
     def _io_adapter(self, fpath):
