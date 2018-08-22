@@ -20,11 +20,13 @@ with io.open('partridge/__version__.py', 'r', encoding='utf-8') as f:
 
 requirements = [
     'chardet',
+    'click',
     'functools32;python_version<"3"',
     'networkx>=2.0',
     'pandas',
     'rtree',
     'shapely',
+    'tqdm',
     'utm',
 ]
 
