@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 import numpy as np
 from rtree.index import Index
 from shapely.geometry import LineString, Point
@@ -110,7 +108,7 @@ def sparse_viterbi(N, init_probs, emiss_probs, trans_probs):
     emiss_probs[i][j] = p
     '''
     P = [{} for _ in range(N)]
-    preds = defaultdict(list)
+    preds = {}
 
     for seg_idx, eprob in emiss_probs[0].items():
         if seg_idx in init_probs[0]:
@@ -141,12 +139,7 @@ def sparse_viterbi(N, init_probs, emiss_probs, trans_probs):
                         prob > P[bstop_idx][bseg_idx]
                     ):
                         P[bstop_idx][bseg_idx] = prob
-                        preds[bstop_idx, bseg_idx].append((
-                            astop_idx, aseg_idx))
-
-    def get_prob(candidate):
-        stop_idx, seg_idx = candidate
-        return P[stop_idx][seg_idx]
+                        preds[bstop_idx, bseg_idx] = (astop_idx, aseg_idx)
 
     last_stop_idx = N - 1
 
@@ -159,7 +152,7 @@ def sparse_viterbi(N, init_probs, emiss_probs, trans_probs):
     for i in range(last_stop_idx):
         if path[-1] not in preds:
             raise NoPathError('HMM break at observation {}'.format(N - i))
-        path.append(max(preds[path[-1]], key=get_prob))
+        path.append(preds[path[-1]])
 
     path.reverse()
 
