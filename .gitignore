@@ -67,3 +67,4 @@ venv/
 
 scratch/
 .DS_Store
+.pytest_cache
