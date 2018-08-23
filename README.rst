@@ -89,6 +89,25 @@ Usage
     assert service_ids == set(ptg.feed(outpath).trips.service_id)
 
 
+**Stop-to-shape matching**
+
+Estimate the driving distance between stops. The resulting GTFS feed will have the ``shape_dist_traveled`` column filled out in ``stop_times.txt``. These distances (in meters) can then be used to calculate segments speeds and create better visualizations of route patterns.
+
+.. code:: console
+
+    Usage: partridge odometer [OPTIONS] INFILE OUTFILE
+
+      A tool for measuring the distance traveled by a vehicle.
+
+    Options:
+      --help  Show this message and exit.
+
+
+.. code:: console
+
+    $ partridge odometer gtfs-in.zip gtfs-out.zip
+
+
 Features
 --------
 
@@ -99,6 +118,7 @@ Features
    (TODO: document this)
 -  Handle nested folders and bad data in zips
 -  Predictable type conversions
+-  Estimate the driving distance between stops
 
 Installation
 ------------
