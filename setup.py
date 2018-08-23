@@ -22,11 +22,11 @@ requirements = [
     'chardet',
     'click',
     'functools32;python_version<"3"',
+    'halo',
     'networkx>=2.0',
     'pandas',
     'rtree',
     'shapely',
-    'tqdm',
     'utm',
 ]
 
