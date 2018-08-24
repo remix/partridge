@@ -2,16 +2,16 @@ import numpy as np
 from shapely.geometry import Point
 import utm
 
-from partridge.utilities import pairwise
-
 EARTH_RADIUS_METERS = 6371009
 
 
 class InsufficientCoordinateLength(Exception):
     pass
 
+
 class UnequalCoordinateLengths(Exception):
     pass
+
 
 def bbox_from_point(lon, lat, meters):
     easting, northing, zn, zl = utm.from_latlon(lat, lon)
