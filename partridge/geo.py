@@ -7,6 +7,12 @@ from partridge.utilities import pairwise
 EARTH_RADIUS_METERS = 6371009
 
 
+class InsufficientCoordinateLength(Exception):
+    pass
+
+class UnequalCoordinateLengths(Exception):
+    pass
+
 def bbox_from_point(lon, lat, meters):
     easting, northing, zn, zl = utm.from_latlon(lat, lon)
     point = Point(easting, northing)
@@ -21,21 +27,15 @@ def bbox_from_point(lon, lat, meters):
 
 
 def pairwise_great_circle_vec(lons, lats, earth_radius=EARTH_RADIUS_METERS):
-    assert len(lats) > 1
-    assert len(lats) == len(lons)
-    npoints = len(lats)
-    nsegs = npoints - 1
-    lon1 = np.zeros(nsegs)
-    lat1 = np.zeros(nsegs)
-    lon2 = np.zeros(nsegs)
-    lat2 = np.zeros(nsegs)
-    # There must be a better way to do this with numpy?
-    for i, (a, b) in enumerate(pairwise(range(npoints))):
-        lon1[i] = lons[a]
-        lat1[i] = lats[a]
-        lon2[i] = lons[b]
-        lat2[i] = lats[b]
-    return great_circle_vec(lon1, lat1, lon2, lat2, earth_radius)
+    for l in [lats, lons]:
+        if len(l) <= 1:
+            raise InsufficientCoordinateLength(
+                'Not enough coordinates to perform pairwise operation.')
+    if not len(lats) == len(lons):
+        raise UnequalCoordinateLengths(
+            'Different counts of latitudes and longitudes')
+    return great_circle_vec(
+        lons[:-1], lats[:-1], lons[1:], lats[1:], earth_radius)
 
 
 def great_circle_vec(lon1, lat1, lon2, lat2, earth_radius=EARTH_RADIUS_METERS):
