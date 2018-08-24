@@ -5,14 +5,6 @@ import utm
 EARTH_RADIUS_METERS = 6371009
 
 
-class InsufficientCoordinateLength(Exception):
-    pass
-
-
-class UnequalCoordinateLengths(Exception):
-    pass
-
-
 def bbox_from_point(lon, lat, meters):
     easting, northing, zn, zl = utm.from_latlon(lat, lon)
     point = Point(easting, northing)
@@ -27,13 +19,8 @@ def bbox_from_point(lon, lat, meters):
 
 
 def pairwise_great_circle_vec(lons, lats, earth_radius=EARTH_RADIUS_METERS):
-    for l in [lats, lons]:
-        if len(l) <= 1:
-            raise InsufficientCoordinateLength(
-                'Not enough coordinates to perform pairwise operation.')
-    if not len(lats) == len(lons):
-        raise UnequalCoordinateLengths(
-            'Different counts of latitudes and longitudes')
+    assert len(lats) > 1
+    assert len(lats) == len(lons)
     return great_circle_vec(
         lons[:-1], lats[:-1], lons[1:], lats[1:], earth_radius)
 
