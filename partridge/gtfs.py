@@ -36,9 +36,9 @@ class feed(object):
                 'of the config graph: {} {}'.format(filename, param)
 
         if self.is_dir:
-            self._verify_folder_contents()
+            self._prepare_folder_contents()
         else:
-            self._verify_zip_contents()
+            self._prepare_zip_contents()
 
     agency = read_file('agency.txt')
     calendar = read_file('calendar.txt')
@@ -168,7 +168,7 @@ class feed(object):
                     with io.TextIOWrapper(zfile, encoding) as iowrapper:
                         yield iowrapper, encoding
 
-    def _verify_zip_contents(self):
+    def _prepare_zip_contents(self):
         """
         Verify that the folder does not contain multiple files
         of the same name. Load file paths into internal dictionary.
@@ -186,7 +186,7 @@ class feed(object):
                     'More than one {} in zip'.format(basename)
                 self.zmap[basename] = entry.filename
 
-    def _verify_folder_contents(self):
+    def _prepare_folder_contents(self):
         """
         Verify that the folder does not contain multiple files
         of the same name. Load file paths into internal dictionary.
