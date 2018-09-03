@@ -1,6 +1,7 @@
 import os
 import shutil
 import tempfile
+from multiprocessing.pool import ThreadPool
 
 from partridge.config import default_config
 from partridge.readers import get_filtered_feed
@@ -38,11 +39,17 @@ def write_feed_dangerously(feed, outpath, nodes=None):
     try:
         tmpdir = tempfile.mkdtemp()
 
-        for node in nodes:
+        def write_node(node):
             df = feed.get(node)
             if not df.empty:
                 path = os.path.join(tmpdir, node)
                 df.to_csv(path, index=False)
+
+        pool = ThreadPool(len(nodes))
+        try:
+            pool.map(write_node, nodes)
+        finally:
+            pool.terminate()
 
         if outpath.endswith('.zip'):
             outpath, _ = os.path.splitext(outpath)
