@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 import io
 import os
+from threading import RLock
 from zipfile import ZipFile
 
 import networkx as nx
@@ -27,6 +28,8 @@ class feed(object):
         self.config = default_config() if config is None else config
         self.view = {} if view is None else view
         self.zmap = {}
+        self._shared_lock = RLock()
+        self._locks = {}
 
         assert os.path.isfile(self.path) or self.is_dir, \
             'File or path not found: {}'.format(self.path)
@@ -177,6 +180,7 @@ class feed(object):
         """
         Verify that the folder does not contain multiple files
         of the same name. Load file paths into internal dictionary.
+        Initialize a reentrant lock for synchronizing reads of each file.
         """
         with ZipFile(self.path) as zipreader:
             for entry in zipreader.filelist:
@@ -190,11 +194,13 @@ class feed(object):
                 assert basename not in self.zmap, \
                     'More than one {} in zip'.format(basename)
                 self.zmap[basename] = entry.filename
+                self._locks[basename] = RLock()
 
     def _prepare_folder_contents(self):
         """
         Verify that the folder does not contain multiple files
         of the same name. Load file paths into internal dictionary.
+        Initialize a reentrant lock for synchronizing reads of each file.
         """
         for root, _subdirs, files in os.walk(self.path):
             for fname in files:
@@ -202,6 +208,7 @@ class feed(object):
                 assert basename not in self.zmap, \
                     'More than one {} in folder'.format(basename)
                 self.zmap[basename] = os.path.join(root, fname)
+                self._locks[basename] = RLock()
 
 
 # No pruning or type coercion
