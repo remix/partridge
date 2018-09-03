@@ -62,8 +62,13 @@ class feed(object):
     transfers = read_file('transfers.txt')
     trips = read_file('trips.txt')
 
-    @lru_method_cache(maxsize=None)
     def get(self, filename):
+        lock = self._locks.get(filename, self._shared_lock)
+        with lock:
+            return self._get(filename)
+
+    @lru_method_cache(maxsize=None)
+    def _get(self, filename):
         config = self.config
 
         # Get config for node
