@@ -1,7 +1,9 @@
 try:
-    from functools import lru_cache
+    from functools import lru_cache, wraps
 except ImportError:
-    from functools32 import lru_cache
+    from functools32 import lru_cache, wraps
+
+import weakref
 
 from chardet import UniversalDetector
 import numpy as np
@@ -62,3 +64,27 @@ def detect_encoding(f, limit=100):
         return 'utf-8'
     else:
         return u.result['encoding']
+
+
+def lru_method_cache(*lru_args, **lru_kwargs):
+    """
+    An LRU cache decorator for methods. It keeps a
+    cache per instance and allows the instance to
+    be properly garbage collected.
+
+    Credit: https://stackoverflow.com/a/33672499
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapped_func(self, *args, **kwargs):
+            self_weak = weakref.ref(self)
+
+            @wraps(func)
+            @lru_cache(*lru_args, **lru_kwargs)
+            def cached_method(*args, **kwargs):
+                return func(self_weak(), *args, **kwargs)
+
+            setattr(self, func.__name__, cached_method)
+            return cached_method(*args, **kwargs)
+        return wrapped_func
+    return decorator

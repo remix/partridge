@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 import io
 import os
+from threading import RLock
 from zipfile import ZipFile
 
 import networkx as nx
@@ -8,7 +9,12 @@ import numpy as np
 import pandas as pd
 
 from partridge.config import default_config, empty_config
-from partridge.utilities import empty_df, detect_encoding, lru_cache, setwrap
+from partridge.utilities import (
+    empty_df,
+    detect_encoding,
+    lru_method_cache,
+    setwrap,
+)
 
 
 def read_file(filename):
@@ -22,6 +28,8 @@ class feed(object):
         self.config = default_config() if config is None else config
         self.view = {} if view is None else view
         self.zmap = {}
+        self._shared_lock = RLock()
+        self._locks = {}
 
         assert os.path.isfile(self.path) or self.is_dir, \
             'File or path not found: {}'.format(self.path)
@@ -36,9 +44,9 @@ class feed(object):
                 'of the config graph: {} {}'.format(filename, param)
 
         if self.is_dir:
-            self._verify_folder_contents()
+            self._prepare_folder_contents()
         else:
-            self._verify_zip_contents()
+            self._prepare_zip_contents()
 
     agency = read_file('agency.txt')
     calendar = read_file('calendar.txt')
@@ -54,8 +62,13 @@ class feed(object):
     transfers = read_file('transfers.txt')
     trips = read_file('trips.txt')
 
-    @lru_cache(maxsize=None)
     def get(self, filename):
+        lock = self._locks.get(filename, self._shared_lock)
+        with lock:
+            return self._get(filename)
+
+    @lru_method_cache(maxsize=None)
+    def _get(self, filename):
         config = self.config
 
         # Get config for node
@@ -168,10 +181,11 @@ class feed(object):
                     with io.TextIOWrapper(zfile, encoding) as iowrapper:
                         yield iowrapper, encoding
 
-    def _verify_zip_contents(self):
+    def _prepare_zip_contents(self):
         """
         Verify that the folder does not contain multiple files
         of the same name. Load file paths into internal dictionary.
+        Initialize a reentrant lock for synchronizing reads of each file.
         """
         with ZipFile(self.path) as zipreader:
             for entry in zipreader.filelist:
@@ -185,11 +199,13 @@ class feed(object):
                 assert basename not in self.zmap, \
                     'More than one {} in zip'.format(basename)
                 self.zmap[basename] = entry.filename
+                self._locks[basename] = RLock()
 
-    def _verify_folder_contents(self):
+    def _prepare_folder_contents(self):
         """
         Verify that the folder does not contain multiple files
         of the same name. Load file paths into internal dictionary.
+        Initialize a reentrant lock for synchronizing reads of each file.
         """
         for root, _subdirs, files in os.walk(self.path):
             for fname in files:
@@ -197,6 +213,7 @@ class feed(object):
                 assert basename not in self.zmap, \
                     'More than one {} in folder'.format(basename)
                 self.zmap[basename] = os.path.join(root, fname)
+                self._locks[basename] = RLock()
 
 
 # No pruning or type coercion
