@@ -8,7 +8,12 @@ import numpy as np
 import pandas as pd
 
 from partridge.config import default_config, empty_config
-from partridge.utilities import empty_df, detect_encoding, lru_cache, setwrap
+from partridge.utilities import (
+    empty_df,
+    detect_encoding,
+    lru_method_cache,
+    setwrap,
+)
 
 
 def read_file(filename):
@@ -54,7 +59,7 @@ class feed(object):
     transfers = read_file('transfers.txt')
     trips = read_file('trips.txt')
 
-    @lru_cache(maxsize=None)
+    @lru_method_cache(maxsize=None)
     def get(self, filename):
         config = self.config
 
