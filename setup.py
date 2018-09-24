@@ -23,6 +23,7 @@ requirements = [
     'functools32;python_version<"3"',
     'networkx>=2.0',
     'pandas',
+    'isoweek',
 ]
 
 setup_requirements = [

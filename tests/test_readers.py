@@ -93,3 +93,18 @@ def test_busiest_date(path):
     date, service_ids = ptg.read_busiest_date(path)
     assert date == datetime.date(2017, 8, 1)
     assert service_ids == frozenset({'0', '1'})
+
+
+@pytest.mark.parametrize('path', [
+    zip_file('amazon-2017-08-06'),
+    fixture('amazon-2017-08-06'),
+])
+def test_busiest_week(path):
+    service_ids_by_date = ptg.read_busiest_week(path)
+    assert service_ids_by_date == {
+        datetime.date(2017, 8, 1): frozenset({'0', '1'}),
+        datetime.date(2017, 8, 2): frozenset({'0', '1'}),
+        datetime.date(2017, 8, 3): frozenset({'0', '1'}),
+        datetime.date(2017, 8, 4): frozenset({'0', '1'}),
+        datetime.date(2017, 8, 5): frozenset({'1'}),
+    }

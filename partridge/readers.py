@@ -1,6 +1,8 @@
 from collections import defaultdict
 import datetime
 
+from isoweek import Week
+
 from partridge.config import default_config, reroot_graph
 from partridge.gtfs import Feed, RawFeed
 from partridge.parsers import vparse_date
@@ -46,6 +48,12 @@ def read_busiest_date(path):
     return _busiest_date(feed)
 
 
+def read_busiest_week(path):
+    '''Find the earliest week with the most trips'''
+    feed = RawFeed(path)
+    return _busiest_week(feed)
+
+
 def read_service_ids_by_date(path):
     '''Find all service identifiers by date'''
     feed = RawFeed(path)
@@ -79,6 +87,27 @@ def _busiest_date(feed):
     service_ids = service_ids_by_date[date]
 
     return date, service_ids
+
+
+def _busiest_week(feed):
+    service_ids_by_date = _service_ids_by_date(feed)
+    trip_counts_by_date = _trip_counts_by_date(feed)
+
+    weekly_trip_counts = defaultdict(int)
+    weekly_dates = defaultdict(list)
+    for date in service_ids_by_date.keys():
+        key = Week.withdate(date)
+        weekly_trip_counts[key] += trip_counts_by_date[date]
+        weekly_dates[key].append(date)
+
+    def max_by(kv):
+        week, count = kv
+        return (count, -week.toordinal())
+
+    week, _ = max(weekly_trip_counts.items(), key=max_by)
+    dates = weekly_dates[week]
+
+    return {date: service_ids_by_date[date] for date in dates}
 
 
 def _service_ids_by_date(feed):
