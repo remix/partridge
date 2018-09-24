@@ -53,7 +53,7 @@ Usage
     date = datetime.date(2017, 9, 25)
     service_ids = service_ids_by_date[date]
 
-    feed = ptg.feed(path, view={
+    feed = ptg.Feed(path, view={
         'trips.txt': {
             'service_id': service_ids,
             'route_id': '12300',
@@ -86,7 +86,7 @@ Usage
 
     ptg.writers.extract_feed(inpath, outpath, {'trips.txt': {'service_id': service_ids}})
 
-    assert service_ids == set(ptg.feed(outpath).trips.service_id)
+    assert service_ids == set(ptg.Feed(outpath).trips.service_id)
 
 
 Features

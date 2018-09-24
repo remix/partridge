@@ -1,5 +1,5 @@
 from partridge.__version__ import __version__
-from partridge.gtfs import feed, raw_feed
+from partridge.gtfs import Feed, RawFeed
 from partridge.readers import (
     get_filtered_feed,
     get_representative_feed,
@@ -16,8 +16,8 @@ from partridge.writers import (
 
 __all__ = [
     '__version__',
-    'feed',
-    'raw_feed',
+    'Feed',
+    'RawFeed',
     'get_filtered_feed',
     'get_representative_feed',
     'read_busiest_date',

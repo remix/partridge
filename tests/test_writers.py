@@ -13,7 +13,7 @@ from .helpers import fixture, zip_file
     fixture('seattle-area-2017-11-16'),
 ])
 def test_extract_agencies(path):
-    fd = ptg.feed(path)
+    fd = ptg.Feed(path)
 
     agencies = fd.agency
     assert len(agencies) == 3
@@ -37,7 +37,7 @@ def test_extract_agencies(path):
         result = ptg.extract_agencies(path, outfile, agency_ids)
         assert result == outfile
 
-        new_fd = ptg.feed(outfile)
+        new_fd = ptg.Feed(outfile)
         assert list(new_fd.agency.agency_id) == agency_ids
         assert set(new_fd.routes.route_id) == route_ids
         assert set(new_fd.trips.trip_id) == trip_ids
@@ -66,7 +66,7 @@ def test_extract_agencies(path):
     fixture('seattle-area-2017-11-16'),
 ])
 def test_extract_routes(path):
-    fd = ptg.feed(path)
+    fd = ptg.Feed(path)
 
     agencies = fd.agency
     assert len(agencies) == 3
@@ -90,7 +90,7 @@ def test_extract_routes(path):
         result = ptg.extract_routes(path, outfile, route_ids)
         assert result == outfile
 
-        new_fd = ptg.feed(outfile)
+        new_fd = ptg.Feed(outfile)
         assert list(new_fd.routes.route_id) == route_ids
         assert set(new_fd.agency.agency_id) == agency_ids
         assert set(new_fd.trips.trip_id) == trip_ids

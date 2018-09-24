@@ -21,7 +21,7 @@ def read_file(filename):
     return property(lambda feed: feed.get(filename))
 
 
-class feed(object):
+class Feed(object):
     def __init__(self, path, config=None, view=None):
         self.path = path
         self.is_dir = os.path.isdir(self.path)
@@ -217,6 +217,6 @@ class feed(object):
 
 
 # No pruning or type coercion
-class raw_feed(feed):
+class RawFeed(Feed):
     def __init__(self, path):
-        super(raw_feed, self).__init__(path, config=empty_config())
+        super(RawFeed, self).__init__(path, config=empty_config())

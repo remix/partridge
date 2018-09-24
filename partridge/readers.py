@@ -2,7 +2,7 @@ from collections import defaultdict
 import datetime
 
 from partridge.config import default_config, reroot_graph
-from partridge.gtfs import feed as mkfeed, raw_feed
+from partridge.gtfs import Feed, RawFeed
 from partridge.parsers import vparse_date
 from partridge.utilities import remove_node_attributes
 
@@ -22,26 +22,26 @@ def get_filtered_feed(path, filters, config=None):
     filter_config = default_config() if config is None else config.copy()
     filter_config = remove_node_attributes(filter_config, 'converters')
 
-    trip_ids = set(raw_feed(path).trips.trip_id)
+    trip_ids = set(RawFeed(path).trips.trip_id)
     for filename, column_filters in filters.items():
-        feed = mkfeed(path,
-                      config=reroot_graph(filter_config, filename),
-                      view={filename: column_filters})
+        feed = Feed(path,
+                    config=reroot_graph(filter_config, filename),
+                    view={filename: column_filters})
         trip_ids &= set(feed.trips.trip_id)
 
-    return mkfeed(path, config, {'trips.txt': {'trip_id': trip_ids}})
+    return Feed(path, config, {'trips.txt': {'trip_id': trip_ids}})
 
 
 def get_representative_feed(path):
     '''Return a feed filtered to the busiest date'''
     _, service_ids = read_busiest_date(path)
     view = {'trips.txt': {'service_id': service_ids}}
-    return mkfeed(path, view=view)
+    return Feed(path, view=view)
 
 
 def read_busiest_date(path):
     '''Find the date with the most trips'''
-    feed = raw_feed(path)
+    feed = RawFeed(path)
 
     service_ids_by_date = _service_ids_by_date(feed)
     trip_counts_by_date = _trip_counts_by_date(feed)
@@ -54,19 +54,19 @@ def read_busiest_date(path):
 
 def read_service_ids_by_date(path):
     '''Find all service identifiers by date'''
-    feed = raw_feed(path)
+    feed = RawFeed(path)
     return _service_ids_by_date(feed)
 
 
 def read_dates_by_service_ids(path):
     '''Find dates with identical service'''
-    feed = raw_feed(path)
+    feed = RawFeed(path)
     return _dates_by_service_ids(feed)
 
 
 def read_trip_counts_by_date(path):
     '''A useful proxy for busyness'''
-    feed = raw_feed(path)
+    feed = RawFeed(path)
     return _trip_counts_by_date(feed)
 
 

@@ -174,9 +174,9 @@ def test_read_file(path, dates, shapes):
     }
 
     if service_ids:
-        feed = ptg.feed(path, view={'trips.txt': {'service_id': service_ids}})
+        feed = ptg.Feed(path, view={'trips.txt': {'service_id': service_ids}})
     else:
-        feed = ptg.feed(path)
+        feed = ptg.Feed(path)
 
     for filename, shape in shapes.items():
         assert feed.get(filename).shape == shape, \
@@ -264,7 +264,7 @@ def test_read_file(path, dates, shapes):
     }),
 ])
 def test_raw_feed(path, shapes):
-    feed = ptg.raw_feed(path)
+    feed = ptg.RawFeed(path)
 
     for filename, shape in shapes.items():
         assert feed.get(filename).shape == shape, \
@@ -273,7 +273,7 @@ def test_raw_feed(path, shapes):
 
 def test_missing_zip():
     with pytest.raises(AssertionError, message='File or path not found'):
-        ptg.feed(fixture('missing.zip'))
+        ptg.Feed(fixture('missing.zip'))
 
 
 def test_config_must_be_dag():
@@ -286,7 +286,7 @@ def test_config_must_be_dag():
 
     path = zip_file('amazon-2017-08-06')
     with pytest.raises(AssertionError, message='Config must be a DAG'):
-        ptg.feed(path, config=config)
+        ptg.Feed(path, config=config)
 
 
 @pytest.mark.parametrize('path', [
@@ -299,10 +299,10 @@ def test_filtered_columns(path):
     service_ids_by_date = ptg.read_service_ids_by_date(path)
     service_ids = list(service_ids_by_date.values())[0]
 
-    feed_full = ptg.feed(path)
-    feed_view = ptg.feed(path,
+    feed_full = ptg.Feed(path)
+    feed_view = ptg.Feed(path,
                          view={'trips.txt': {'service_id': service_ids}})
-    feed_null = ptg.feed(path,
+    feed_null = ptg.Feed(path,
                          view={'trips.txt': {'service_id': 'never-match'}})
 
     assert set(feed_full.trips.columns) == set(feed_view.trips.columns)

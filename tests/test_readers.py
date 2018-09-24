@@ -14,7 +14,7 @@ def test_get_representative_feed(path):
     date, service_ids = ptg.read_busiest_date(path)
     feed = ptg.get_representative_feed(path)
 
-    assert isinstance(feed, ptg.feed)
+    assert isinstance(feed, ptg.Feed)
     assert feed.view == {'trips.txt': {'service_id': service_ids}}
 
 
