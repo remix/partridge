@@ -22,7 +22,7 @@ def read_file(filename):
 
 
 class Feed(object):
-    def __init__(self, path, config=None, view=None):
+    def __init__(self, path, view=None, config=None):
         self.path = path
         self.is_dir = os.path.isdir(self.path)
         self.config = default_config() if config is None else config

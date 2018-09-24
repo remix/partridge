@@ -53,7 +53,7 @@ Usage
     date = datetime.date(2017, 9, 25)
     service_ids = service_ids_by_date[date]
 
-    feed = ptg.Feed(path, view={
+    feed = ptg.Feed(path, {
         'trips.txt': {
             'service_id': service_ids,
             'route_id': '12300',

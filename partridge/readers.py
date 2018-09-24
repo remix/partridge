@@ -29,14 +29,15 @@ def get_filtered_feed(path, filters, config=None):
                     view={filename: column_filters})
         trip_ids &= set(feed.trips.trip_id)
 
-    return Feed(path, config, {'trips.txt': {'trip_id': trip_ids}})
+    view = {'trips.txt': {'trip_id': trip_ids}}
+    return Feed(path, view, config)
 
 
 def get_representative_feed(path):
     '''Return a feed filtered to the busiest date'''
     _, service_ids = read_busiest_date(path)
     view = {'trips.txt': {'service_id': service_ids}}
-    return Feed(path, view=view)
+    return Feed(path, view)
 
 
 def read_busiest_date(path):
