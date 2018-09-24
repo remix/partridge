@@ -43,14 +43,7 @@ def get_representative_feed(path):
 def read_busiest_date(path):
     '''Find the date with the most trips'''
     feed = RawFeed(path)
-
-    service_ids_by_date = _service_ids_by_date(feed)
-    trip_counts_by_date = _trip_counts_by_date(feed)
-
-    date, _ = max(trip_counts_by_date.items(), key=lambda p: (p[1], p[0]))
-    service_ids = service_ids_by_date[date]
-
-    return date, service_ids
+    return _busiest_date(feed)
 
 
 def read_service_ids_by_date(path):
@@ -72,6 +65,16 @@ def read_trip_counts_by_date(path):
 
 
 '''Private'''
+
+
+def _busiest_date(feed):
+    service_ids_by_date = _service_ids_by_date(feed)
+    trip_counts_by_date = _trip_counts_by_date(feed)
+
+    date, _ = max(trip_counts_by_date.items(), key=lambda p: (p[1], p[0]))
+    service_ids = service_ids_by_date[date]
+
+    return date, service_ids
 
 
 def _service_ids_by_date(feed):

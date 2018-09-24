@@ -83,3 +83,13 @@ def test_trip_counts_by_date(path):
         datetime.date(2017, 8, 5): 1,
         datetime.date(2017, 8, 7): 442,
     }
+
+
+@pytest.mark.parametrize('path', [
+    zip_file('amazon-2017-08-06'),
+    fixture('amazon-2017-08-06'),
+])
+def test_busiest_date(path):
+    date, service_ids = ptg.read_busiest_date(path)
+    assert date == datetime.date(2017, 8, 7)
+    assert service_ids == frozenset({'0', '1'})
