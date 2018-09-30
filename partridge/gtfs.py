@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from partridge.config import default_config, empty_config
-from partridge.utilities import empty_df, detect_encoding, lru_method_cache, setwrap
+from partridge.utilities import empty_df, detect_encoding, setwrap
 
 
 def read_file(filename):
@@ -22,6 +22,7 @@ class Feed(object):
         self.is_dir = os.path.isdir(self.path)
         self.config = default_config() if config is None else config
         self.view = {} if view is None else view
+        self._cache = {}
         self._pathmap = {}
         self._shared_lock = RLock()
         self._locks = {}
@@ -61,9 +62,12 @@ class Feed(object):
     def get(self, filename):
         lock = self._locks.get(filename, self._shared_lock)
         with lock:
-            return self._get(filename)
+            df = self._cache.get(filename)
+            if df is None:
+                df = self._get(filename)
+                self._cache[filename] = df
+            return df
 
-    @lru_method_cache(maxsize=None)
     def _get(self, filename):
         config = self.config
 

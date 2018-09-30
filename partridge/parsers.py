@@ -1,9 +1,12 @@
+try:
+    from functools import lru_cache
+except ImportError:
+    from functools32 import lru_cache
+
 from datetime import datetime
 from functools import partial
 import numpy as np
 import pandas as pd
-
-from partridge.utilities import lru_cache
 
 DATE_FORMAT = "%Y%m%d"
 
