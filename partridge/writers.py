@@ -11,16 +11,6 @@ from partridge.utilities import remove_node_attributes
 DEFAULT_NODES = frozenset(default_config().nodes())
 
 
-def extract_agencies(inpath, outpath, agency_ids):
-    filters = {"routes.txt": {"agency_id": agency_ids}}
-    return extract_feed(inpath, outpath, filters)
-
-
-def extract_routes(inpath, outpath, route_ids):
-    filters = {"trips.txt": {"route_id": route_ids}}
-    return extract_feed(inpath, outpath, filters)
-
-
 def extract_feed(inpath, outpath, filters, config=None):
     config = default_config() if config is None else config
     config = remove_node_attributes(config, "converters")

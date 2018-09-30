@@ -57,7 +57,7 @@ black:
 	black partridge tests
 
 lint: ## check style with black
-	black --check partridge tests
+	black --check --diff partridge tests
 
 ## run tests quickly with the default Python
 test: lint

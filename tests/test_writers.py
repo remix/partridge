@@ -33,7 +33,9 @@ def test_extract_agencies(path):
         tmpdir = tempfile.mkdtemp()
         outfile = os.path.join(tmpdir, "test.zip")
 
-        result = ptg.extract_agencies(path, outfile, agency_ids)
+        result = ptg.extract_feed(
+            path, outfile, {"routes.txt": {"agency_id": agency_ids}}
+        )
         assert result == outfile
 
         new_fd = ptg.Feed(outfile)
@@ -85,7 +87,7 @@ def test_extract_routes(path):
         tmpdir = tempfile.mkdtemp()
         outfile = os.path.join(tmpdir, "test.zip")
 
-        result = ptg.extract_routes(path, outfile, route_ids)
+        result = ptg.extract_feed(path, outfile, {"trips.txt": {"route_id": route_ids}})
         assert result == outfile
 
         new_fd = ptg.Feed(outfile)
