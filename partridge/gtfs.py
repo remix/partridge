@@ -22,7 +22,7 @@ class Feed(object):
         self.is_dir = os.path.isdir(self.path)
         self.config = default_config() if config is None else config
         self.view = {} if view is None else view
-        self.zmap = {}
+        self._pathmap = {}
         self._shared_lock = RLock()
         self._locks = {}
 
@@ -73,7 +73,7 @@ class Feed(object):
         converters = node.get("converters", {})
 
         # If the file isn't in the zip, return an empty DataFrame.
-        if filename not in self.zmap:
+        if filename not in self._pathmap:
             return empty_df(columns)
 
         # Gather the dependencies between this file and others
@@ -148,7 +148,7 @@ class Feed(object):
         """
         Yield a pandas DataFrame iterator for the given file.
         """
-        with self._io_adapter(self.zmap[filename]) as result:
+        with self._io_adapter(self._pathmap[filename]) as result:
             iowrapper, encoding = result
             try:
                 yield pd.read_csv(
@@ -197,10 +197,10 @@ class Feed(object):
                     continue
 
                 basename = os.path.basename(entry.filename)
-                assert basename not in self.zmap, "More than one {} in zip".format(
+                assert basename not in self._pathmap, "More than one {} in zip".format(
                     basename
                 )
-                self.zmap[basename] = entry.filename
+                self._pathmap[basename] = entry.filename
                 self._locks[basename] = RLock()
 
     def _prepare_folder_contents(self):
@@ -212,10 +212,10 @@ class Feed(object):
         for root, _subdirs, files in os.walk(self.path):
             for fname in files:
                 basename = os.path.basename(fname)
-                assert basename not in self.zmap, "More than one {} in folder".format(
-                    basename
-                )
-                self.zmap[basename] = os.path.join(root, fname)
+                assert (
+                    basename not in self._pathmap
+                ), "More than one {} in folder".format(basename)
+                self._pathmap[basename] = os.path.join(root, fname)
                 self._locks[basename] = RLock()
 
 
