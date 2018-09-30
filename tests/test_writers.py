@@ -12,7 +12,7 @@ from .helpers import fixture, zip_file
     "path", [zip_file("seattle-area-2017-11-16"), fixture("seattle-area-2017-11-16")]
 )
 def test_extract_agencies(path):
-    fd = ptg.Feed(path)
+    fd = ptg.load_feed(path)
 
     agencies = fd.agency
     assert len(agencies) == 3
@@ -38,7 +38,7 @@ def test_extract_agencies(path):
         )
         assert result == outfile
 
-        new_fd = ptg.Feed(outfile)
+        new_fd = ptg.load_feed(outfile)
         assert list(new_fd.agency.agency_id) == agency_ids
         assert set(new_fd.routes.route_id) == route_ids
         assert set(new_fd.trips.trip_id) == trip_ids
@@ -46,7 +46,7 @@ def test_extract_agencies(path):
         assert set(new_fd.stops.stop_id) == stop_ids
 
         nodes = []
-        for node in fd.config.nodes():
+        for node in fd._config.nodes():
             df = fd.get(node)
             if not df.empty:
                 nodes.append(node)
@@ -66,7 +66,7 @@ def test_extract_agencies(path):
     "path", [zip_file("seattle-area-2017-11-16"), fixture("seattle-area-2017-11-16")]
 )
 def test_extract_routes(path):
-    fd = ptg.Feed(path)
+    fd = ptg.load_feed(path)
 
     agencies = fd.agency
     assert len(agencies) == 3
@@ -90,7 +90,7 @@ def test_extract_routes(path):
         result = ptg.extract_feed(path, outfile, {"trips.txt": {"route_id": route_ids}})
         assert result == outfile
 
-        new_fd = ptg.Feed(outfile)
+        new_fd = ptg.load_feed(outfile)
         assert list(new_fd.routes.route_id) == route_ids
         assert set(new_fd.agency.agency_id) == agency_ids
         assert set(new_fd.trips.trip_id) == trip_ids
@@ -98,7 +98,7 @@ def test_extract_routes(path):
         assert set(new_fd.stops.stop_id) == stop_ids
 
         nodes = []
-        for node in fd.config.nodes():
+        for node in fd._config.nodes():
             df = fd.get(node)
             if not df.empty:
                 nodes.append(node)

@@ -1,10 +1,15 @@
 from collections import defaultdict
 import datetime
+import os
+import shutil
+import tempfile
+import weakref
 
 from isoweek import Week
+import networkx as nx
 
-from partridge.config import default_config, reroot_graph
-from partridge.gtfs import Feed, RawFeed
+from partridge.config import default_config, empty_config, reroot_graph
+from partridge.gtfs import Feed
 from partridge.parsers import vparse_date
 from partridge.utilities import remove_node_attributes
 
@@ -23,14 +28,39 @@ DAY_NAMES = (
 """Public"""
 
 
-def get_filtered_feed(path, filters, config=None):
+def load_feed(path, filters=None, config=None):
     """
     Multi-file feed filtering
     """
-    filter_config = default_config() if config is None else config.copy()
-    filter_config = remove_node_attributes(filter_config, "converters")
+    config = default_config() if config is None else config
+    filters = {} if filters is None else filters
 
-    trip_ids = set(RawFeed(path).trips.trip_id)
+    is_file, is_dir = os.path.isfile(path), os.path.isdir(path)
+    assert is_file or is_dir, "File or path not found: {}".format(path)
+    assert nx.is_directed_acyclic_graph(config), "Config must be a DAG"
+
+    if is_file:
+        return unpack_feed_(path, filters, config)
+
+    return load_feed_(path, filters, config)
+
+
+def load_raw_feed(path):
+    return load_feed(path, filters={}, config=empty_config())
+
+
+def unpack_feed_(path, filters, config):
+    tmpfile = tempfile.mkdtemp()
+    shutil.unpack_archive(path, tmpfile)
+    feed = load_feed_(tmpfile, filters, config)
+    weakref.finalize(feed, lambda: shutil.rmtree(tmpfile))
+    return feed
+
+
+def load_feed_(path, filters, config):
+    filter_config = remove_node_attributes(config, "converters")
+    trip_ids = set(Feed(path, config=empty_config()).trips.trip_id)
+
     for filename, column_filters in filters.items():
         feed = Feed(
             path,
@@ -45,31 +75,31 @@ def get_filtered_feed(path, filters, config=None):
 
 def read_busiest_date(path):
     """Find the earliest date with the most trips"""
-    feed = RawFeed(path)
+    feed = load_raw_feed(path)
     return _busiest_date(feed)
 
 
 def read_busiest_week(path):
     """Find the earliest week with the most trips"""
-    feed = RawFeed(path)
+    feed = load_raw_feed(path)
     return _busiest_week(feed)
 
 
 def read_service_ids_by_date(path):
     """Find all service identifiers by date"""
-    feed = RawFeed(path)
+    feed = load_raw_feed(path)
     return _service_ids_by_date(feed)
 
 
 def read_dates_by_service_ids(path):
     """Find dates with identical service"""
-    feed = RawFeed(path)
+    feed = load_raw_feed(path)
     return _dates_by_service_ids(feed)
 
 
 def read_trip_counts_by_date(path):
     """A useful proxy for busyness"""
-    feed = RawFeed(path)
+    feed = load_raw_feed(path)
     return _trip_counts_by_date(feed)
 
 

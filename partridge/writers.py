@@ -4,7 +4,7 @@ import tempfile
 from multiprocessing.pool import ThreadPool
 
 from partridge.config import default_config
-from partridge.readers import get_filtered_feed
+from partridge.readers import load_feed
 from partridge.utilities import remove_node_attributes
 
 
@@ -14,7 +14,7 @@ DEFAULT_NODES = frozenset(default_config().nodes())
 def extract_feed(inpath, outpath, filters, config=None):
     config = default_config() if config is None else config
     config = remove_node_attributes(config, "converters")
-    feed = get_filtered_feed(inpath, filters, config)
+    feed = load_feed(inpath, filters, config)
     return write_feed_dangerously(feed, outpath)
 
 
