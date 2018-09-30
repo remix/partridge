@@ -53,8 +53,11 @@ dependency-graph.png:
 
 dot: dependency-graph.png
 
-lint: ## check style with flake8
-	flake8 partridge tests
+black:
+	black partridge tests
+
+lint: ## check style with black
+	black --check partridge tests
 
 ## run tests quickly with the default Python
 test: lint

@@ -12,18 +12,18 @@ DEFAULT_NODES = frozenset(default_config().nodes())
 
 
 def extract_agencies(inpath, outpath, agency_ids):
-    filters = {'routes.txt': {'agency_id': agency_ids}}
+    filters = {"routes.txt": {"agency_id": agency_ids}}
     return extract_feed(inpath, outpath, filters)
 
 
 def extract_routes(inpath, outpath, route_ids):
-    filters = {'trips.txt': {'route_id': route_ids}}
+    filters = {"trips.txt": {"route_id": route_ids}}
     return extract_feed(inpath, outpath, filters)
 
 
 def extract_feed(inpath, outpath, filters, config=None):
     config = default_config() if config is None else config
-    config = remove_node_attributes(config, 'converters')
+    config = remove_node_attributes(config, "converters")
     feed = get_filtered_feed(inpath, filters, config)
     return write_feed_dangerously(feed, outpath)
 
@@ -51,10 +51,10 @@ def write_feed_dangerously(feed, outpath, nodes=None):
         finally:
             pool.terminate()
 
-        if outpath.endswith('.zip'):
+        if outpath.endswith(".zip"):
             outpath, _ = os.path.splitext(outpath)
 
-        outpath = shutil.make_archive(outpath, 'zip', tmpdir)
+        outpath = shutil.make_archive(outpath, "zip", tmpdir)
     finally:
         shutil.rmtree(tmpdir)
 

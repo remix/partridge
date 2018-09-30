@@ -9,12 +9,7 @@ import numpy as np
 import pandas as pd
 
 from partridge.config import default_config, empty_config
-from partridge.utilities import (
-    empty_df,
-    detect_encoding,
-    lru_method_cache,
-    setwrap,
-)
+from partridge.utilities import empty_df, detect_encoding, lru_method_cache, setwrap
 
 
 def read_file(filename):
@@ -31,36 +26,37 @@ class Feed(object):
         self._shared_lock = RLock()
         self._locks = {}
 
-        assert os.path.isfile(self.path) or self.is_dir, \
-            'File or path not found: {}'.format(self.path)
+        assert (
+            os.path.isfile(self.path) or self.is_dir
+        ), "File or path not found: {}".format(self.path)
 
-        assert nx.is_directed_acyclic_graph(self.config), \
-            'Config must be a DAG'
+        assert nx.is_directed_acyclic_graph(self.config), "Config must be a DAG"
 
         roots = {n for n, d in self.config.out_degree() if d == 0}
         for filename, param in self.view.items():
-            assert filename in roots, \
-                'Filter param given for a non-root node ' \
-                'of the config graph: {} {}'.format(filename, param)
+            assert filename in roots, (
+                "Filter param given for a non-root node "
+                "of the config graph: {} {}".format(filename, param)
+            )
 
         if self.is_dir:
             self._prepare_folder_contents()
         else:
             self._prepare_zip_contents()
 
-    agency = read_file('agency.txt')
-    calendar = read_file('calendar.txt')
-    calendar_dates = read_file('calendar_dates.txt')
-    fare_attributes = read_file('fare_attributes.txt')
-    fare_rules = read_file('fare_rules.txt')
-    feed_info = read_file('feed_info.txt')
-    frequencies = read_file('frequencies.txt')
-    routes = read_file('routes.txt')
-    shapes = read_file('shapes.txt')
-    stops = read_file('stops.txt')
-    stop_times = read_file('stop_times.txt')
-    transfers = read_file('transfers.txt')
-    trips = read_file('trips.txt')
+    agency = read_file("agency.txt")
+    calendar = read_file("calendar.txt")
+    calendar_dates = read_file("calendar_dates.txt")
+    fare_attributes = read_file("fare_attributes.txt")
+    fare_rules = read_file("fare_rules.txt")
+    feed_info = read_file("feed_info.txt")
+    frequencies = read_file("frequencies.txt")
+    routes = read_file("routes.txt")
+    shapes = read_file("shapes.txt")
+    stops = read_file("stops.txt")
+    stop_times = read_file("stop_times.txt")
+    transfers = read_file("transfers.txt")
+    trips = read_file("trips.txt")
 
     def get(self, filename):
         lock = self._locks.get(filename, self._shared_lock)
@@ -73,8 +69,8 @@ class Feed(object):
 
         # Get config for node
         node = config.nodes.get(filename, {})
-        columns = node.get('required_columns', [])
-        converters = node.get('converters', {})
+        columns = node.get("required_columns", [])
+        converters = node.get("converters", {})
 
         # If the file isn't in the zip, return an empty DataFrame.
         if filename not in self.zmap:
@@ -82,7 +78,7 @@ class Feed(object):
 
         # Gather the dependencies between this file and others
         file_dependencies = {
-            depfile: data.get('dependencies', [])
+            depfile: data.get("dependencies", [])
             for _, depfile, data in config.out_edges(filename, data=True)
         }
 
@@ -156,9 +152,14 @@ class Feed(object):
             iowrapper, encoding = result
             try:
                 yield pd.read_csv(
-                    iowrapper, chunksize=10000,
-                    dtype=np.unicode, encoding=encoding, index_col=False,
-                    low_memory=False, skipinitialspace=True)
+                    iowrapper,
+                    chunksize=10000,
+                    dtype=np.unicode,
+                    encoding=encoding,
+                    index_col=False,
+                    low_memory=False,
+                    skipinitialspace=True,
+                )
             except pd.errors.EmptyDataError:
                 yield iter([])
 
@@ -169,15 +170,15 @@ class Feed(object):
         Reads from a zip file or folder.
         """
         if self.is_dir:
-            with open(fpath, 'rb') as iowrapper:
+            with open(fpath, "rb") as iowrapper:
                 encoding = detect_encoding(iowrapper)
                 iowrapper.seek(0)  # Rewind to the beginning of the file
                 yield iowrapper, encoding
         else:
             with ZipFile(self.path) as zipreader:
-                with zipreader.open(fpath, 'r') as zfile:
+                with zipreader.open(fpath, "r") as zfile:
                     encoding = detect_encoding(zfile)
-                with zipreader.open(fpath, 'r') as zfile:
+                with zipreader.open(fpath, "r") as zfile:
                     with io.TextIOWrapper(zfile, encoding) as iowrapper:
                         yield iowrapper, encoding
 
@@ -192,12 +193,13 @@ class Feed(object):
                 # ZipInfo.is_dir was added in Python 3.6
                 # http://harp.pythonanywhere.com/python_doc/whatsnew/3.6.html
                 # https://hg.python.org/cpython/rev/7fea2cebc604#l4.58
-                if entry.filename[-1] == '/':
+                if entry.filename[-1] == "/":
                     continue
 
                 basename = os.path.basename(entry.filename)
-                assert basename not in self.zmap, \
-                    'More than one {} in zip'.format(basename)
+                assert basename not in self.zmap, "More than one {} in zip".format(
+                    basename
+                )
                 self.zmap[basename] = entry.filename
                 self._locks[basename] = RLock()
 
@@ -210,8 +212,9 @@ class Feed(object):
         for root, _subdirs, files in os.walk(self.path):
             for fname in files:
                 basename = os.path.basename(fname)
-                assert basename not in self.zmap, \
-                    'More than one {} in folder'.format(basename)
+                assert basename not in self.zmap, "More than one {} in folder".format(
+                    basename
+                )
                 self.zmap[basename] = os.path.join(root, fname)
                 self._locks[basename] = RLock()
 

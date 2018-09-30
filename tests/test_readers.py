@@ -6,60 +6,55 @@ import pytest
 from .helpers import fixture, zip_file
 
 
-@pytest.mark.parametrize('path', [
-    zip_file('amazon-2017-08-06'),
-    fixture('amazon-2017-08-06'),
-])
+@pytest.mark.parametrize(
+    "path", [zip_file("amazon-2017-08-06"), fixture("amazon-2017-08-06")]
+)
 def test_service_ids_by_date(path):
     service_ids_by_date = ptg.read_service_ids_by_date(path)
 
     assert service_ids_by_date == {
-        datetime.date(2017, 8, 1): frozenset({'1', '0'}),
-        datetime.date(2017, 8, 2): frozenset({'1', '0'}),
-        datetime.date(2017, 8, 3): frozenset({'1', '0'}),
-        datetime.date(2017, 8, 4): frozenset({'1', '0'}),
-        datetime.date(2017, 8, 5): frozenset({'1'}),
-        datetime.date(2017, 8, 7): frozenset({'1', '0'})
+        datetime.date(2017, 8, 1): frozenset({"1", "0"}),
+        datetime.date(2017, 8, 2): frozenset({"1", "0"}),
+        datetime.date(2017, 8, 3): frozenset({"1", "0"}),
+        datetime.date(2017, 8, 4): frozenset({"1", "0"}),
+        datetime.date(2017, 8, 5): frozenset({"1"}),
+        datetime.date(2017, 8, 7): frozenset({"1", "0"}),
     }
 
 
 def test_unused_service_ids():
     # Feed has rows in calendar.txt and calendar_dates.txt
     # with `service_id`s that have no applicable trips
-    path = fixture('trimet-vermont-2018-02-06')
+    path = fixture("trimet-vermont-2018-02-06")
     ptg.read_service_ids_by_date(path)
 
 
 def test_missing_calendar_dates():
-    path = fixture('israel-public-transportation-route-2126')
+    path = fixture("israel-public-transportation-route-2126")
     ptg.read_service_ids_by_date(path)
 
 
-@pytest.mark.parametrize('path', [
-    zip_file('amazon-2017-08-06'),
-    fixture('amazon-2017-08-06'),
-])
+@pytest.mark.parametrize(
+    "path", [zip_file("amazon-2017-08-06"), fixture("amazon-2017-08-06")]
+)
 def test_dates_by_service_ids(path):
     dates_by_service_ids = ptg.read_dates_by_service_ids(path)
 
     assert dates_by_service_ids == {
-        frozenset({'1'}): {
-            datetime.date(2017, 8, 5),
-        },
-        frozenset({'1', '0'}): {
+        frozenset({"1"}): {datetime.date(2017, 8, 5)},
+        frozenset({"1", "0"}): {
             datetime.date(2017, 8, 1),
             datetime.date(2017, 8, 2),
             datetime.date(2017, 8, 3),
             datetime.date(2017, 8, 4),
             datetime.date(2017, 8, 7),
-        }
+        },
     }
 
 
-@pytest.mark.parametrize('path', [
-    zip_file('amazon-2017-08-06'),
-    fixture('amazon-2017-08-06'),
-])
+@pytest.mark.parametrize(
+    "path", [zip_file("amazon-2017-08-06"), fixture("amazon-2017-08-06")]
+)
 def test_trip_counts_by_date(path):
     trip_counts_by_date = ptg.read_trip_counts_by_date(path)
 
@@ -73,26 +68,24 @@ def test_trip_counts_by_date(path):
     }
 
 
-@pytest.mark.parametrize('path', [
-    zip_file('amazon-2017-08-06'),
-    fixture('amazon-2017-08-06'),
-])
+@pytest.mark.parametrize(
+    "path", [zip_file("amazon-2017-08-06"), fixture("amazon-2017-08-06")]
+)
 def test_busiest_date(path):
     date, service_ids = ptg.read_busiest_date(path)
     assert date == datetime.date(2017, 8, 1)
-    assert service_ids == frozenset({'0', '1'})
+    assert service_ids == frozenset({"0", "1"})
 
 
-@pytest.mark.parametrize('path', [
-    zip_file('amazon-2017-08-06'),
-    fixture('amazon-2017-08-06'),
-])
+@pytest.mark.parametrize(
+    "path", [zip_file("amazon-2017-08-06"), fixture("amazon-2017-08-06")]
+)
 def test_busiest_week(path):
     service_ids_by_date = ptg.read_busiest_week(path)
     assert service_ids_by_date == {
-        datetime.date(2017, 8, 1): frozenset({'0', '1'}),
-        datetime.date(2017, 8, 2): frozenset({'0', '1'}),
-        datetime.date(2017, 8, 3): frozenset({'0', '1'}),
-        datetime.date(2017, 8, 4): frozenset({'0', '1'}),
-        datetime.date(2017, 8, 5): frozenset({'1'}),
+        datetime.date(2017, 8, 1): frozenset({"0", "1"}),
+        datetime.date(2017, 8, 2): frozenset({"0", "1"}),
+        datetime.date(2017, 8, 3): frozenset({"0", "1"}),
+        datetime.date(2017, 8, 4): frozenset({"0", "1"}),
+        datetime.date(2017, 8, 5): frozenset({"1"}),
     }

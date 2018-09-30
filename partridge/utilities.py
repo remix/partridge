@@ -12,11 +12,11 @@ from pandas.core.common import flatten
 
 
 __all__ = [
-    'detect_encoding',
-    'empty_df',
-    'lru_cache',
-    'remove_node_attributes',
-    'setwrap',
+    "detect_encoding",
+    "empty_df",
+    "lru_cache",
+    "remove_node_attributes",
+    "setwrap",
 ]
 
 
@@ -60,10 +60,10 @@ def detect_encoding(f, limit=100):
             break
 
     u.close()
-    if u.result['encoding'] == 'ascii':
-        return 'utf-8'
+    if u.result["encoding"] == "ascii":
+        return "utf-8"
     else:
-        return u.result['encoding']
+        return u.result["encoding"]
 
 
 def lru_method_cache(*lru_args, **lru_kwargs):
@@ -74,6 +74,7 @@ def lru_method_cache(*lru_args, **lru_kwargs):
 
     Credit: https://stackoverflow.com/a/33672499
     """
+
     def decorator(func):
         @wraps(func)
         def wrapped_func(self, *args, **kwargs):
@@ -86,5 +87,7 @@ def lru_method_cache(*lru_args, **lru_kwargs):
 
             setattr(self, func.__name__, cached_method)
             return cached_method(*args, **kwargs)
+
         return wrapped_func
+
     return decorator

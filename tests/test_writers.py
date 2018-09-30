@@ -8,10 +8,9 @@ import pytest
 from .helpers import fixture, zip_file
 
 
-@pytest.mark.parametrize('path', [
-    zip_file('seattle-area-2017-11-16'),
-    fixture('seattle-area-2017-11-16'),
-])
+@pytest.mark.parametrize(
+    "path", [zip_file("seattle-area-2017-11-16"), fixture("seattle-area-2017-11-16")]
+)
 def test_extract_agencies(path):
     fd = ptg.Feed(path)
 
@@ -32,7 +31,7 @@ def test_extract_agencies(path):
 
     try:
         tmpdir = tempfile.mkdtemp()
-        outfile = os.path.join(tmpdir, 'test.zip')
+        outfile = os.path.join(tmpdir, "test.zip")
 
         result = ptg.extract_agencies(path, outfile, agency_ids)
         assert result == outfile
@@ -61,10 +60,9 @@ def test_extract_agencies(path):
         shutil.rmtree(tmpdir)
 
 
-@pytest.mark.parametrize('path', [
-    zip_file('seattle-area-2017-11-16'),
-    fixture('seattle-area-2017-11-16'),
-])
+@pytest.mark.parametrize(
+    "path", [zip_file("seattle-area-2017-11-16"), fixture("seattle-area-2017-11-16")]
+)
 def test_extract_routes(path):
     fd = ptg.Feed(path)
 
@@ -85,7 +83,7 @@ def test_extract_routes(path):
 
     try:
         tmpdir = tempfile.mkdtemp()
-        outfile = os.path.join(tmpdir, 'test.zip')
+        outfile = os.path.join(tmpdir, "test.zip")
 
         result = ptg.extract_routes(path, outfile, route_ids)
         assert result == outfile
