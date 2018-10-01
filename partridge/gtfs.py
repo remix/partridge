@@ -53,6 +53,7 @@ class Feed(object):
 
     def _get(self, filename):
         path = self._pathmap.get(filename)
+        view = self._view
         config = self._config
 
         # Get config for node
@@ -63,19 +64,6 @@ class Feed(object):
         # If the file isn't in the zip, return an empty DataFrame.
         if path is None:
             return empty_df(columns)
-
-        # Gather the dependencies between this file and others
-        file_dependencies = {
-            depfile: data.get("dependencies", [])
-            for _, depfile, data in config.out_edges(filename, data=True)
-        }
-
-        # Gather applicable view filter params
-        view_filters = {
-            # column name : set of strings
-            col: setwrap(values)
-            for col, values in self._view.get(filename, {}).items()
-        }
 
         with open(path, "rb") as f:
             encoding = detect_encoding(f)
@@ -100,18 +88,18 @@ class Feed(object):
                 df[col] = df[col].str.strip()
 
         # Apply view filters
-        for col, values in view_filters.items():
+        for col, values in view.get(filename, {}).items():
             # If applicable, filter this dataframe by the
             # given set of values
             if col in df.columns:
-                df = df[df[col].isin(values)]
+                df = df[df[col].isin(setwrap(values))]
 
         # Prune the dataframe
-        for depfile, deplist in file_dependencies.items():
+        for _, depfile, data in config.out_edges(filename, data=True):
             # Read the filtered, pruned, and cached file dependency
             depdf = self.get(depfile)
 
-            for deps in deplist:
+            for deps in data.get("dependencies", []):
                 col = deps[filename]
                 depcol = deps[depfile]
 
