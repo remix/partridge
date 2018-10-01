@@ -50,15 +50,15 @@ def load_raw_feed(path):
 
 
 def unpack_feed_(path, filters, config):
-    tmpfile = tempfile.mkdtemp()
-    shutil.unpack_archive(path, tmpfile)
-    feed = load_feed_(tmpfile, filters, config)
+    tmpdir = tempfile.mkdtemp()
+    shutil.unpack_archive(path, tmpdir)
+    feed = load_feed_(tmpdir, filters, config)
 
     # Eager cleanup
     feed._delete_after_reading = True
 
     # Lazy cleanup
-    weakref.finalize(feed, lambda: shutil.rmtree(tmpfile))
+    weakref.finalize(feed, lambda: shutil.rmtree(tmpdir))
 
     return feed
 
