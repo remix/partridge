@@ -8,8 +8,8 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
-from partridge.config import default_config, empty_config
-from partridge.utilities import empty_df, detect_encoding, setwrap
+from .config import default_config, empty_config
+from .utilities import empty_df, detect_encoding, setwrap
 
 
 def read_file(filename):

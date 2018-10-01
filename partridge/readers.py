@@ -8,10 +8,10 @@ import weakref
 from isoweek import Week
 import networkx as nx
 
-from partridge.config import default_config, empty_config, reroot_graph
-from partridge.gtfs import Feed
-from partridge.parsers import vparse_date
-from partridge.utilities import remove_node_attributes
+from .config import default_config, empty_config, reroot_graph
+from .gtfs import Feed
+from .parsers import vparse_date
+from .utilities import remove_node_attributes
 
 
 DAY_NAMES = (

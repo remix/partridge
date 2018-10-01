@@ -2,7 +2,7 @@
 
 import networkx as nx
 
-from partridge.parsers import vparse_date, vparse_time, vparse_numeric
+from .parsers import vparse_date, vparse_time, vparse_numeric
 
 
 def empty_config():

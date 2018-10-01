@@ -3,9 +3,9 @@ import shutil
 import tempfile
 from multiprocessing.pool import ThreadPool
 
-from partridge.config import default_config
-from partridge.readers import load_feed
-from partridge.utilities import remove_node_attributes
+from .config import default_config
+from .readers import load_feed
+from .utilities import remove_node_attributes
 
 
 DEFAULT_NODES = frozenset(default_config().nodes())
