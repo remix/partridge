@@ -53,7 +53,13 @@ def unpack_feed_(path, filters, config):
     tmpfile = tempfile.mkdtemp()
     shutil.unpack_archive(path, tmpfile)
     feed = load_feed_(tmpfile, filters, config)
+
+    # Eager cleanup
+    feed._delete_after_reading = True
+
+    # Lazy cleanup
     weakref.finalize(feed, lambda: shutil.rmtree(tmpfile))
+
     return feed
 
 

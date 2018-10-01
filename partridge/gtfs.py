@@ -23,6 +23,7 @@ class Feed(object):
         self._view = {} if view is None else view
         self._cache = {}
         self._pathmap = {}
+        self._delete_after_reading = False
         self._shared_lock = RLock()
         self._locks = {}
         self._prepare()
@@ -89,6 +90,9 @@ class Feed(object):
             )
         except pd.errors.EmptyDataError:
             return empty_df(columns)
+        finally:
+            if self._delete_after_reading:
+                os.unlink(path)
 
         # Strip leading/trailing whitespace
         if not df.empty:
