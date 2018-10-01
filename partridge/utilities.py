@@ -1,6 +1,6 @@
 import weakref
 
-from chardet import UniversalDetector
+from cchardet import UniversalDetector
 import numpy as np
 import pandas as pd
 from pandas.core.common import flatten
@@ -38,7 +38,6 @@ def remove_node_attributes(G, attributes):
 def detect_encoding(f, limit=100):
     u = UniversalDetector()
     for line in f:
-        line = bytearray(line)
         u.feed(line)
 
         limit -= 1
