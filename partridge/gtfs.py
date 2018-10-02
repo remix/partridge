@@ -127,8 +127,7 @@ class Feed(object):
         for root, _subdirs, files in os.walk(self._path):
             for fname in files:
                 basename = os.path.basename(fname)
-                assert (
-                    basename not in self._pathmap
-                ), "More than one {} in folder".format(basename)
+                if basename in self._pathmap:
+                    raise ValueError("More than one {} in folder".format(basename))
                 self._pathmap[basename] = os.path.join(root, fname)
                 self._locks[basename] = RLock()

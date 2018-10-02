@@ -7,7 +7,7 @@ from .helpers import fixture, zip_file
 
 
 def test_missing_dir():
-    with pytest.raises(AssertionError, message="File or path not found"):
+    with pytest.raises(ValueError, message="File or path not found"):
         ptg.load_feed(fixture("missing"))
 
 
@@ -20,7 +20,7 @@ def test_config_must_be_dag():
     config.add_edge("trips.txt", "routes.txt")
 
     path = fixture("amazon-2017-08-06")
-    with pytest.raises(AssertionError, message="Config must be a DAG"):
+    with pytest.raises(ValueError, message="Config must be a DAG"):
         ptg.load_feed(path, config=config)
 
 

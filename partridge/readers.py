@@ -35,14 +35,17 @@ def load_feed(path, filters=None, config=None):
     config = default_config() if config is None else config
     filters = {} if filters is None else filters
 
-    is_file, is_dir = os.path.isfile(path), os.path.isdir(path)
-    assert is_file or is_dir, "File or path not found: {}".format(path)
-    assert nx.is_directed_acyclic_graph(config), "Config must be a DAG"
+    if not nx.is_directed_acyclic_graph(config):
+        raise ValueError("Config must be a DAG")
 
-    if is_file:
-        return unpack_feed_(path, filters, config)
+    if os.path.isdir(path):
+        feed = load_feed_(path, filters, config)
+    elif os.path.isfile(path):
+        feed = unpack_feed_(path, filters, config)
+    else:
+        raise ValueError("File or path not found: {}".format(path))
 
-    return load_feed_(path, filters, config)
+    return feed
 
 
 def load_raw_feed(path):
