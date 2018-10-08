@@ -35,7 +35,7 @@ def remove_node_attributes(G, attributes):
     return G
 
 
-def detect_encoding(f, limit=100):
+def detect_encoding(f, limit=2500):
     u = UniversalDetector()
     for line in f:
         u.feed(line)
