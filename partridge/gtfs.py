@@ -52,14 +52,19 @@ class Feed(object):
             return df
 
     def _get(self, filename):
-        path = self._pathmap.get(filename)
-        view = self._view
-        config = self._config
+        df = self._read_file(filename)
+        self._apply_view(df, filename)
+        self._apply_dependency_filters(df, filename)
+        self._convert_types(df, filename)
+        return df.reset_index(drop=True)
 
-        # Get config for node
-        node = config.nodes.get(filename, {})
+    def _read_file(self, filename):
+        """
+        Read CSV into a DataFrame
+        """
+        path = self._pathmap.get(filename)
+        node = self._config.nodes.get(filename, {})
         columns = node.get("required_columns", [])
-        converters = node.get("converters", {})
 
         # If the file isn't in the zip, return an empty DataFrame.
         if path is None:
@@ -82,41 +87,70 @@ class Feed(object):
             if self._delete_after_reading:
                 os.unlink(path)
 
-        # Strip leading/trailing whitespace
+        # Strip leading/trailing whitespace from column names
+        df.rename(columns=lambda x: x.strip(), inplace=True)
+
         if not df.empty:
+            # Strip leading/trailing whitespace from column values
             for col in df.columns:
                 df[col] = df[col].str.strip()
 
-        # Apply view filters
-        for col, values in view.get(filename, {}).items():
-            # If applicable, filter this dataframe by the
-            # given set of values
+        return df
+
+    def _apply_view(self, df, filename):
+        """
+        Apply view filters
+        """
+        view = self._view.get(filename)
+        if view is None or df.empty:
+            return
+
+        keep = df.index
+        for col, values in view.items():
+            # If applicable, filter this dataframe by the given set of values
             if col in df.columns:
-                df = df[df[col].isin(setwrap(values))]
+                mask = df[col].isin(setwrap(values))
+                keep = keep.intersection(df[mask].index)
 
-        # Prune the dataframe
-        for _, depfile, data in config.out_edges(filename, data=True):
-            # Read the filtered, pruned, and cached file dependency
+        drop = df.index.difference(keep)
+        df.drop(drop, inplace=True)
+
+    def _apply_dependency_filters(self, df, filename):
+        """
+        Depth-first search through the dependency graph
+        and prune dependent DataFrames along the way.
+        """
+        out_edges = self._config.out_edges(filename, data=True)
+        if not out_edges or df.empty:
+            return
+
+        keep = df.index
+        for _, depfile, data in out_edges:
+            # Read the filtered, cached file dependency
             depdf = self.get(depfile)
-
             for deps in data.get("dependencies", []):
                 col = deps[filename]
                 depcol = deps[depfile]
-
                 # If applicable, prune this dataframe by the other
                 if col in df.columns and depcol in depdf.columns:
-                    df = df[df[col].isin(depdf[depcol])]
+                    mask = df[col].isin(depdf[depcol])
+                    keep = keep.intersection(df[mask].index)
 
-        if df.empty:
-            return df
+        drop = df.index.difference(keep)
+        df.drop(drop, inplace=True)
 
-        # Apply type conversions
+    def _convert_types(self, df, filename):
+        """
+        Apply type conversions
+        """
+        converters = self._config.nodes.get(filename, {}).get("converters")
+        if converters is None or df.empty:
+            return
+
         for col in df.columns:
             if col in converters:
                 vfunc = converters[col]
                 df[col] = vfunc(df[col])
-
-        return df
 
     def _prepare(self):
         """
