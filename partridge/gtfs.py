@@ -26,7 +26,18 @@ class Feed(object):
         self._delete_after_reading = False
         self._shared_lock = RLock()
         self._locks = {}
-        self._prepare()
+
+        # Walk recursively through the directory
+        for root, _subdirs, files in os.walk(self._path):
+            for fname in files:
+                basename = os.path.basename(fname)
+                if basename in self._pathmap:
+                    # Verify that the folder does not contain multiple files of the same name.
+                    raise ValueError("More than one {} in folder".format(basename))
+                # Index paths by their basename.
+                self._pathmap[basename] = os.path.join(root, fname)
+                # Build a lock for each file to synchronize reads.
+                self._locks[basename] = RLock()
 
     agency = read_file("agency.txt")
     calendar = read_file("calendar.txt")
@@ -151,17 +162,3 @@ class Feed(object):
             if col in converters:
                 vfunc = converters[col]
                 df[col] = vfunc(df[col])
-
-    def _prepare(self):
-        """
-        Verify that the folder does not contain multiple files
-        of the same name. Load file paths into internal dictionary.
-        Initialize a reentrant lock for synchronizing reads of each file.
-        """
-        for root, _subdirs, files in os.walk(self._path):
-            for fname in files:
-                basename = os.path.basename(fname)
-                if basename in self._pathmap:
-                    raise ValueError("More than one {} in folder".format(basename))
-                self._pathmap[basename] = os.path.join(root, fname)
-                self._locks[basename] = RLock()
