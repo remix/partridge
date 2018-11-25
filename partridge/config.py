@@ -323,11 +323,8 @@ def add_node_config(g):
 def reroot_graph(G, node):
     """Return a copy of the graph rooted at the given node"""
     G = G.copy()
-    to_add, to_remove = [], []
-    for n, successors in nx.bfs_successors(G, source=node):
+    for n, successors in list(nx.bfs_successors(G, source=node)):
         for s in successors:
-            to_add.append([s, n, G.edges[n, s]])
-            to_remove.append([n, s])
-    G.remove_edges_from(to_remove)
-    G.add_edges_from(to_add)
+            G.add_edge(s, n, **G.edges[n, s])
+            G.remove_edge(n, s)
     return G
