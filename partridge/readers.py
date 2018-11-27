@@ -142,7 +142,7 @@ def _busiest_week(feed):
 
     def max_by(kv):
         week, count = kv
-        return (count, -week.toordinal())
+        return count, -week.toordinal()
 
     week, _ = max(weekly_trip_counts.items(), key=max_by)
     dates = weekly_dates[week]
