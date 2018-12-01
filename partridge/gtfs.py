@@ -1,14 +1,10 @@
-from contextlib import contextmanager
-import io
 import os
 from threading import RLock
-from zipfile import ZipFile
 
-import networkx as nx
 import numpy as np
 import pandas as pd
 
-from .config import default_config, empty_config
+from .config import default_config
 from .utilities import empty_df, detect_encoding, setwrap
 
 

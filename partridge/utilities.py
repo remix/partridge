@@ -1,5 +1,3 @@
-import weakref
-
 from cchardet import UniversalDetector
 import numpy as np
 import pandas as pd

@@ -3,7 +3,6 @@
 
 """The setup script."""
 import io
-import sys
 
 from setuptools import setup, find_packages
 
