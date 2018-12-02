@@ -43,7 +43,7 @@ def detect_encoding(f, limit=2500):
             break
 
     u.close()
-    if u.result["encoding"] == "ascii":
+    if u.result["encoding"].lower() == "ascii":
         return "utf-8"
     else:
         return u.result["encoding"]
