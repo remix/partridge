@@ -1,9 +1,11 @@
 import datetime
 import pytest
 
+import numpy as np
+import pandas as pd
 import partridge as ptg
 from partridge.config import empty_config
-from partridge.gtfs import Feed
+from partridge.gtfs import Feed, empty_df
 
 from .helpers import fixture
 
@@ -222,3 +224,13 @@ def test_filtered_columns(path):
 
     assert set(feed_full.trips.columns) == set(feed_view.trips.columns)
     assert set(feed_full.trips.columns) == set(feed_null.trips.columns)
+
+
+def test_empty_df():
+    actual = empty_df(["foo", "bar"])
+
+    expected = pd.DataFrame(
+        {"foo": [], "bar": []}, columns=["foo", "bar"], dtype=np.unicode
+    )
+
+    assert actual.equals(expected)

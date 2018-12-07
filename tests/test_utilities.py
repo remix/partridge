@@ -1,18 +1,6 @@
-import numpy as np
 import networkx as nx
-import pandas as pd
 
-from partridge.utilities import empty_df, setwrap, remove_node_attributes
-
-
-def test_empty_df():
-    actual = empty_df(["foo", "bar"])
-
-    expected = pd.DataFrame(
-        {"foo": [], "bar": []}, columns=["foo", "bar"], dtype=np.unicode
-    )
-
-    assert actual.equals(expected)
+from partridge.utilities import setwrap, remove_node_attributes
 
 
 def test_setwrap():
