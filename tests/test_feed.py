@@ -14,32 +14,6 @@ from .helpers import fixture
     "path,dates,shapes",
     [
         (
-            fixture("empty"),
-            [],
-            {
-                "agency.txt": (0, 3),
-                "calendar.txt": (0, 10),
-                "calendar_dates.txt": (0, 3),
-                "fare_attributes.txt": (0, 5),
-                "fare_rules.txt": (0, 1),
-                "routes.txt": (0, 4),
-                "stops.txt": (0, 4),
-            },
-        ),
-        (
-            fixture("empty"),
-            [datetime.date(2099, 1, 1)],
-            {
-                "agency.txt": (0, 3),
-                "calendar.txt": (0, 10),
-                "calendar_dates.txt": (0, 3),
-                "fare_attributes.txt": (0, 5),
-                "fare_rules.txt": (0, 1),
-                "routes.txt": (0, 4),
-                "stops.txt": (0, 4),
-            },
-        ),
-        (
             fixture("caltrain-2017-07-24"),
             [],
             {

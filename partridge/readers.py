@@ -208,6 +208,8 @@ def _service_ids_by_date(feed):
             if len(results[date]) == 0:
                 del results[date]
 
+    assert results, "No service found in feed."
+
     return {k: frozenset(v) for k, v in results.items()}
 
 
