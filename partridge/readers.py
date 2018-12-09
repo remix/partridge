@@ -29,9 +29,6 @@ DAY_NAMES = (
 
 
 def load_feed(path, filters=None, config=None):
-    """
-    Multi-file feed filtering
-    """
     config = default_config() if config is None else config
     filters = {} if filters is None else filters
 
@@ -39,9 +36,9 @@ def load_feed(path, filters=None, config=None):
         raise ValueError("Config must be a DAG")
 
     if os.path.isdir(path):
-        feed = load_feed_(path, filters, config)
+        feed = _load_feed(path, filters, config)
     elif os.path.isfile(path):
-        feed = unpack_feed_(path, filters, config)
+        feed = _unpack_feed(path, filters, config)
     else:
         raise ValueError("File or path not found: {}".format(path))
 
@@ -50,36 +47,6 @@ def load_feed(path, filters=None, config=None):
 
 def load_raw_feed(path):
     return load_feed(path, filters={}, config=empty_config())
-
-
-def unpack_feed_(path, filters, config):
-    tmpdir = tempfile.mkdtemp()
-    shutil.unpack_archive(path, tmpdir)
-    feed = load_feed_(tmpdir, filters, config)
-
-    # Eager cleanup
-    feed._delete_after_reading = True
-
-    # Lazy cleanup
-    weakref.finalize(feed, lambda: shutil.rmtree(tmpdir))
-
-    return feed
-
-
-def load_feed_(path, filters, config):
-    filter_config = remove_node_attributes(config, "converters")
-    trip_ids = set(Feed(path, config=empty_config()).trips.trip_id)
-
-    for filename, column_filters in filters.items():
-        feed = Feed(
-            path,
-            config=reroot_graph(filter_config, filename),
-            view={filename: column_filters},
-        )
-        trip_ids &= set(feed.trips.trip_id)
-
-    view = {"trips.txt": {"trip_id": trip_ids}}
-    return Feed(path, view, config)
 
 
 def read_busiest_date(path):
@@ -113,6 +80,39 @@ def read_trip_counts_by_date(path):
 
 
 """Private"""
+
+
+def _unpack_feed(path, filters, config):
+    tmpdir = tempfile.mkdtemp()
+    shutil.unpack_archive(path, tmpdir)
+    feed = _load_feed(tmpdir, filters, config)
+
+    # Eager cleanup
+    feed._delete_after_reading = True
+
+    # Lazy cleanup
+    weakref.finalize(feed, lambda: shutil.rmtree(tmpdir))
+
+    return feed
+
+
+def _load_feed(path, filters, config):
+    """
+    Multi-file feed filtering
+    """
+    filter_config = remove_node_attributes(config, "converters")
+    trip_ids = set(Feed(path, config=empty_config()).trips.trip_id)
+
+    for filename, column_filters in filters.items():
+        feed = Feed(
+            path,
+            config=reroot_graph(filter_config, filename),
+            view={filename: column_filters},
+        )
+        trip_ids &= set(feed.trips.trip_id)
+
+    view = {"trips.txt": {"trip_id": trip_ids}}
+    return Feed(path, view, config)
 
 
 def _busiest_date(feed):
