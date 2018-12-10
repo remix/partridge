@@ -1,13 +1,33 @@
 import datetime
 import pytest
 
-import numpy as np
-import pandas as pd
 import partridge as ptg
-from partridge.config import empty_config
-from partridge.gtfs import Feed, empty_df
+from partridge.config import default_config, empty_config
+from partridge.gtfs import Feed
 
-from .helpers import fixture
+from .helpers import fixture, fixtures_dir
+
+
+def test_invalid_source():
+    with pytest.raises(ValueError, message="Invalid source"):
+        Feed(fixture("missing"))
+
+
+def test_duplicate_files():
+    with pytest.raises(ValueError, message="More than one"):
+        Feed(fixtures_dir)
+
+
+def test_bad_edge_config():
+    config = default_config()
+
+    # Remove the `dependencies` key from an edge config
+    config.edges["stop_times.txt", "trips.txt"].pop("dependencies")
+
+    feed = Feed(fixture("caltrain-2017-07-24"), config=config)
+
+    with pytest.raises(ValueError, message="Edge missing `dependencies` attribute"):
+        feed.stop_times
 
 
 @pytest.mark.parametrize(
@@ -198,13 +218,3 @@ def test_filtered_columns(path):
 
     assert set(feed_full.trips.columns) == set(feed_view.trips.columns)
     assert set(feed_full.trips.columns) == set(feed_null.trips.columns)
-
-
-def test_empty_df():
-    actual = empty_df(["foo", "bar"])
-
-    expected = pd.DataFrame(
-        {"foo": [], "bar": []}, columns=["foo", "bar"], dtype=np.unicode
-    )
-
-    assert actual.equals(expected)

@@ -1,6 +1,8 @@
 import networkx as nx
 
-from partridge.utilities import setwrap, remove_node_attributes
+import numpy as np
+import pandas as pd
+from partridge.utilities import setwrap, remove_node_attributes, empty_df
 
 
 def test_setwrap():
@@ -29,3 +31,13 @@ def test_remove_node_attributes():
     assert id(Y) != id(G)
     assert Y.nodes[1] == {"hello": "world"}
     assert Y.nodes[2] == {}
+
+
+def test_empty_df():
+    actual = empty_df(["foo", "bar"])
+
+    expected = pd.DataFrame(
+        {"foo": [], "bar": []}, columns=["foo", "bar"], dtype=np.unicode
+    )
+
+    assert actual.equals(expected)

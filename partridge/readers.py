@@ -106,7 +106,7 @@ def _load_feed(path, filters, config):
         filter_config = reroot_graph(filter_config, filename)
         view = {filename: column_filters}
         feed = Feed(feed, config=filter_config, view=view)
-    return feed
+    return Feed(feed, config=config)
 
 
 def _busiest_date(feed):

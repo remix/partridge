@@ -1,9 +1,17 @@
 import datetime
 
+import numpy as np
 import partridge as ptg
 import pytest
 
 from .helpers import fixture, zip_file
+
+
+def test_load_feed():
+    feed = ptg.load_feed(fixture("amazon-2017-08-06"))
+    assert feed.stop_times.dtypes["stop_id"] == np.object
+    assert feed.stop_times.dtypes["stop_sequence"] == np.int64
+    assert feed.stop_times.dtypes["arrival_time"] == np.float64
 
 
 def test_missing_dir():

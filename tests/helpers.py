@@ -2,17 +2,19 @@ import os
 import shutil
 
 
+fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures")
+
+
 def fixture(filename):
     """
     Get the handle / path to the test data folder.
     """
-    return os.path.join(os.path.dirname(__file__), "fixtures", filename)
+    return os.path.join(fixtures_dir, filename)
 
 
 def zip_file(scenario):
     """
     Get the file handle / path to the zip file.
     """
-    fixture_dir = os.path.join(os.path.dirname(__file__), "fixtures")
-    scenario_dir = os.path.join(fixture_dir, scenario)
+    scenario_dir = os.path.join(fixtures_dir, scenario)
     return shutil.make_archive(scenario_dir, "zip", scenario_dir)

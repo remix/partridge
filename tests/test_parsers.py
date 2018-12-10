@@ -27,6 +27,7 @@ def test_vparse_date():
 
 
 def test_parse_time():
+    assert parse_time(np.nan) is np.nan
     assert parse_time("") is np.nan
     assert parse_time("  ") is np.nan
     assert parse_time("00:00:00") == 0

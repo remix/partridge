@@ -1,5 +1,6 @@
 from cchardet import UniversalDetector
 import numpy as np
+import pandas as pd
 from pandas.core.common import flatten
 
 
@@ -40,3 +41,9 @@ def detect_encoding(f, limit=2500):
         return "utf-8"
     else:
         return u.result["encoding"]
+
+
+def empty_df(columns=None):
+    columns = [] if columns is None else columns
+    empty = {col: [] for col in columns}
+    return pd.DataFrame(empty, columns=columns, dtype=np.unicode)
