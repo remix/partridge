@@ -58,13 +58,11 @@ black:
 
 lint: ## check style with black
 	black --check --diff partridge tests
+	flake8
 
 ## run tests quickly with the default Python
 test: lint
 	py.test
-
-test-all: ## run tests on every Python version with tox
-	tox
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source partridge -m pytest
