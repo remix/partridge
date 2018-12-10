@@ -101,18 +101,12 @@ def _load_feed(path, filters, config):
     Multi-file feed filtering
     """
     filter_config = remove_node_attributes(config, "converters")
-    trip_ids = set(Feed(path, config=empty_config()).trips.trip_id)
-
+    feed = Feed(path, config=filter_config, view={})
     for filename, column_filters in filters.items():
-        feed = Feed(
-            path,
-            config=reroot_graph(filter_config, filename),
-            view={filename: column_filters},
-        )
-        trip_ids &= set(feed.trips.trip_id)
-
-    view = {"trips.txt": {"trip_id": trip_ids}}
-    return Feed(path, view, config)
+        filter_config = reroot_graph(filter_config, filename)
+        view = {filename: column_filters}
+        feed = Feed(feed, config=filter_config, view=view)
+    return feed
 
 
 def _busiest_date(feed):
