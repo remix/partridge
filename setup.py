@@ -27,7 +27,7 @@ requirements = [
 
 setup_requirements = ["pytest-runner"]
 
-test_requirements = ["black", "pytest"]
+test_requirements = ["black", "flake8", "pytest"]
 
 setup(
     name="partridge",
