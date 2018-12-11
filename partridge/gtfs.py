@@ -22,9 +22,9 @@ class Feed(object):
         self._shared_lock = RLock()
         self._locks = {}
         if isinstance(source, self.__class__):
-            self._reader = source.get
+            self._read = source.get
         elif os.path.isdir(source):
-            self._reader = self._read_csv
+            self._read = self._read_csv
             self._bootstrap(source)
         else:
             raise ValueError("Invalid source")
@@ -34,8 +34,8 @@ class Feed(object):
         with lock:
             df = self._cache.get(filename)
             if df is None:
-                df = self._reader(filename)
-                df = self._apply_view(filename, df)
+                df = self._read(filename)
+                df = self._filter(filename, df)
                 df = self._prune(filename, df)
                 self._convert_types(filename, df)
                 self._cache[filename] = df.reset_index(drop=True)
@@ -93,7 +93,7 @@ class Feed(object):
 
         return df
 
-    def _apply_view(self, filename, df):
+    def _filter(self, filename, df):
         """
         Apply view filters
         """
