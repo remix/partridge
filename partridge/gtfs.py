@@ -101,15 +101,12 @@ class Feed(object):
         if view is None:
             return df
 
-        keep = df.index
         for col, values in view.items():
             # If applicable, filter this dataframe by the given set of values
             if col in df.columns:
-                mask = df[col].isin(setwrap(values))
-                keep = keep.intersection(df[mask].index)
+                df = df[df[col].isin(setwrap(values))]
 
-        drop = df.index.difference(keep)
-        return df.drop(drop)
+        return df
 
     def _prune(self, filename, df):
         """
@@ -127,7 +124,6 @@ class Feed(object):
         if not dependencies:
             return df
 
-        keep = df.index
         for depfile, column_pairs in dependencies:
             # Read the filtered, cached file dependency
             depdf = self.get(depfile)
@@ -136,11 +132,9 @@ class Feed(object):
                 depcol = deps[depfile]
                 # If applicable, prune this dataframe by the other
                 if col in df.columns and depcol in depdf.columns:
-                    mask = df[col].isin(depdf[depcol])
-                    keep = keep.intersection(df[mask].index)
+                    df = df[df[col].isin(depdf[depcol])]
 
-        drop = df.index.difference(keep)
-        return df.drop(drop)
+        return df
 
     def _convert_types(self, filename, df):
         """
