@@ -23,9 +23,7 @@ History
 0.8.0 (2018-03-14)
 ------------------
 
-* Gracefully handle completely empty files. This change unifies the behavior of reading from a CSV
-with a header only (no data rows) and a completely empty (zero bytes)
-file in the zip.
+* Gracefully handle completely empty files. This change unifies the behavior of reading from a CSV with a header only (no data rows) and a completely empty (zero bytes) file in the zip.
 
 
 0.7.0 (2018-03-09)

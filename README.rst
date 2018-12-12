@@ -1,3 +1,4 @@
+=========
 Partridge
 =========
 
@@ -36,44 +37,99 @@ The design of Partridge is guided by the following principles:
 - Do anything other than efficiently read GTFS files into DataFrames
 - Take an opinion on the GTFS spec
 
+
+Installation
+------------
+
+.. code:: console
+
+    pip install partridge
+
+
 Usage
 -----
 
-**Reading a feed**
+**Setup**
 
 .. code:: python
 
-    import datetime
     import partridge as ptg
 
-    path = 'path/to/sfmta-2017-08-22.zip'
+    inpath = 'path/to/caltrain-2017-07-24/'
+
+
+Inspecting the calendar
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
+**The date with the most trips**
+
+.. code:: python
+
+    date, service_ids = ptg.read_busiest_date(inpath)
+    #  datetime.date(2017, 7, 17), frozenset({'CT-17JUL-Combo-Weekday-01'})
+
+
+**The week with the most trips**
+
+
+.. code:: python
+
+    service_ids_by_date = ptg.read_busiest_week(inpath)
+    #  {datetime.date(2017, 7, 17): frozenset({'CT-17JUL-Combo-Weekday-01'}),
+    #   datetime.date(2017, 7, 18): frozenset({'CT-17JUL-Combo-Weekday-01'}),
+    #   datetime.date(2017, 7, 19): frozenset({'CT-17JUL-Combo-Weekday-01'}),
+    #   datetime.date(2017, 7, 20): frozenset({'CT-17JUL-Combo-Weekday-01'}),
+    #   datetime.date(2017, 7, 21): frozenset({'CT-17JUL-Combo-Weekday-01'}),
+    #   datetime.date(2017, 7, 22): frozenset({'CT-17JUL-Caltrain-Saturday-03'}),
+    #   datetime.date(2017, 7, 23): frozenset({'CT-17JUL-Caltrain-Sunday-01'})}
+
+
+**Dates with active service**
+
+.. code:: python
 
     service_ids_by_date = ptg.read_service_ids_by_date(path)
 
-    date = datetime.date(2017, 9, 25)
-    service_ids = service_ids_by_date[date]
+    date, service_ids = min(service_ids_by_date.items())
+    #  (datetime.date(2017, 7, 15), frozenset({'CT-17JUL-Caltrain-Saturday-03'}))
 
-    feed = ptg.Feed(path, {
+    date, service_ids = max(service_ids_by_date.items())
+    #  (datetime.date(2019, 7, 20), frozenset({'CT-17JUL-Caltrain-Saturday-03'}))
+
+
+**Dates with identical service**
+
+
+.. code:: python
+
+    dates_by_service_ids = ptg.read_dates_by_service_ids(inpath)
+
+    busiest_date, busiest_service = ptg.read_busiest_date(inpath)
+    dates = dates_by_service_ids[busiest_service]
+
+    min(dates), max(dates)
+    #  datetime.date(2017, 7, 17), datetime.date(2019, 7, 19)
+
+
+Reading a feed
+~~~~~~~~~~~~~~
+
+.. code:: python
+
+    _date, service_ids = ptg.read_busiest_date(inpath)
+
+    filters = {
         'trips.txt': {
             'service_id': service_ids,
-            'route_id': '12300',
         },
-    })
+    }
 
-    assert service_ids == set(feed.trips.service_id)
-
-    len(feed.stops)
-    #  88
-
-    feed.routes.head()
-    #  route_id agency_id route_short_name route_long_name route_desc  route_type  \
-    #     12300     SFMTA               18     46TH AVENUE        NaN           3
-    #
-    #  route_url route_color route_text_color
-    #        NaN         NaN              NaN
+    feed = ptg.load_feed(path, filters)
 
 
-**Extracting a new feed**
+Extracting a new feed
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -99,13 +155,6 @@ Features
    (TODO: document this)
 -  Handle nested folders and bad data in zips
 -  Predictable type conversions
-
-Installation
-------------
-
-.. code:: console
-
-    pip install partridge
 
 Thank You
 ---------
