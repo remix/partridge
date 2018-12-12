@@ -11,7 +11,7 @@ from .types import View
 from .utilities import detect_encoding, empty_df, setwrap
 
 
-Cache = Dict[str, pd.DataFrame]
+DataFrameCache = Dict[str, pd.DataFrame]
 RLockMapping = Dict[str, RLock]
 PathMapping = Dict[str, str]
 
@@ -32,7 +32,7 @@ class Feed(object):
     ):
         self._config: nx.DiGraph = default_config() if config is None else config
         self._view: View = {} if view is None else view
-        self._cache: Cache = {}
+        self._cache: DataFrameCache = {}
         self._pathmap: PathMapping = {}
         self._delete_after_reading: bool = False
         self._shared_lock = RLock()
