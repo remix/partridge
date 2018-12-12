@@ -1,10 +1,15 @@
+from typing import Dict, Iterable, Optional, Set, Union
+
 from cchardet import UniversalDetector
+import networkx as nx
 import numpy as np
 import pandas as pd
 from pandas.core.common import flatten
 
+from .types import Value
 
-def setwrap(value):
+
+def setwrap(value: Value) -> Set:
     """
     Returns a flattened and stringified set from the given object or iterable.
 
@@ -14,7 +19,7 @@ def setwrap(value):
     return set(map(np.unicode, set(flatten([value]))))
 
 
-def remove_node_attributes(G, attributes):
+def remove_node_attributes(G: nx.DiGraph, attributes: Union[str, Iterable[str]]):
     """
     Return a copy of the graph with the given attributes
     deleted from all nodes.
@@ -27,7 +32,7 @@ def remove_node_attributes(G, attributes):
     return G
 
 
-def detect_encoding(f, limit=2500):
+def detect_encoding(f, limit: int = 2500) -> str:
     u = UniversalDetector()
     for line in f:
         u.feed(line)
@@ -43,7 +48,7 @@ def detect_encoding(f, limit=2500):
         return u.result["encoding"]
 
 
-def empty_df(columns=None):
+def empty_df(columns: Optional[Iterable[str]] = None) -> pd.DataFrame:
     columns = [] if columns is None else columns
-    empty = {col: [] for col in columns}
+    empty: Dict = {col: [] for col in columns}
     return pd.DataFrame(empty, columns=columns, dtype=np.unicode)

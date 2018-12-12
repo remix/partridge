@@ -3,6 +3,7 @@ import datetime
 import os
 import shutil
 import tempfile
+from typing import Optional, Tuple, DefaultDict
 import weakref
 
 from isoweek import Week
@@ -11,6 +12,15 @@ import networkx as nx
 from .config import default_config, empty_config, reroot_graph
 from .gtfs import Feed
 from .parsers import vparse_date
+from .types import (
+    CountsByDate,
+    Dates,
+    ServiceID,
+    Service,
+    ServicesByDate,
+    DatesByService,
+    View,
+)
 from .utilities import remove_node_attributes
 
 
@@ -28,7 +38,9 @@ DAY_NAMES = (
 """Public"""
 
 
-def load_feed(path, filters=None, config=None):
+def load_feed(
+    path: str, filters: Optional[View] = None, config: Optional[nx.DiGraph] = None
+) -> Feed:
     config = default_config() if config is None else config
     filters = {} if filters is None else filters
 
@@ -45,35 +57,35 @@ def load_feed(path, filters=None, config=None):
     return feed
 
 
-def load_raw_feed(path):
+def load_raw_feed(path: str) -> Feed:
     return load_feed(path, filters={}, config=empty_config())
 
 
-def read_busiest_date(path):
+def read_busiest_date(path: str) -> Tuple[datetime.date, Service]:
     """Find the earliest date with the most trips"""
     feed = load_raw_feed(path)
     return _busiest_date(feed)
 
 
-def read_busiest_week(path):
+def read_busiest_week(path: str) -> ServicesByDate:
     """Find the earliest week with the most trips"""
     feed = load_raw_feed(path)
     return _busiest_week(feed)
 
 
-def read_service_ids_by_date(path):
+def read_service_ids_by_date(path: str) -> ServicesByDate:
     """Find all service identifiers by date"""
     feed = load_raw_feed(path)
     return _service_ids_by_date(feed)
 
 
-def read_dates_by_service_ids(path):
+def read_dates_by_service_ids(path: str) -> DatesByService:
     """Find dates with identical service"""
     feed = load_raw_feed(path)
     return _dates_by_service_ids(feed)
 
 
-def read_trip_counts_by_date(path):
+def read_trip_counts_by_date(path: str) -> CountsByDate:
     """A useful proxy for busyness"""
     feed = load_raw_feed(path)
     return _trip_counts_by_date(feed)
@@ -82,34 +94,37 @@ def read_trip_counts_by_date(path):
 """Private"""
 
 
-def _unpack_feed(path, filters, config):
+def _unpack_feed(path: str, filters: View, config: nx.DiGraph) -> Feed:
     tmpdir = tempfile.mkdtemp()
     shutil.unpack_archive(path, tmpdir)
-    feed = _load_feed(tmpdir, filters, config)
+    feed: Feed = _load_feed(tmpdir, filters, config)
 
     # Eager cleanup
     feed._delete_after_reading = True
 
+    def finalize() -> None:
+        shutil.rmtree(tmpdir)
+
     # Lazy cleanup
-    weakref.finalize(feed, lambda: shutil.rmtree(tmpdir))
+    weakref.finalize(feed, finalize)
 
     return feed
 
 
-def _load_feed(path, filters, config):
+def _load_feed(path: str, filters: View, config: nx.DiGraph) -> Feed:
     """
     Multi-file feed filtering
     """
     filter_config = remove_node_attributes(config, "converters")
-    feed = Feed(path, config=filter_config, view={})
+    feed = Feed(path, view={}, config=filter_config)
     for filename, column_filters in filters.items():
         filter_config = reroot_graph(filter_config, filename)
         view = {filename: column_filters}
-        feed = Feed(feed, config=filter_config, view=view)
+        feed = Feed(feed, view=view, config=filter_config)
     return Feed(feed, config=config)
 
 
-def _busiest_date(feed):
+def _busiest_date(feed: Feed) -> Tuple[datetime.date, Service]:
     service_ids_by_date = _service_ids_by_date(feed)
     trip_counts_by_date = _trip_counts_by_date(feed)
 
@@ -123,12 +138,12 @@ def _busiest_date(feed):
     return date, service_ids
 
 
-def _busiest_week(feed):
+def _busiest_week(feed: Feed) -> ServicesByDate:
     service_ids_by_date = _service_ids_by_date(feed)
     trip_counts_by_date = _trip_counts_by_date(feed)
 
-    weekly_trip_counts = defaultdict(int)
-    weekly_dates = defaultdict(list)
+    weekly_trip_counts: DefaultDict[Week, int] = defaultdict(int)
+    weekly_dates: DefaultDict[Week, Dates] = defaultdict(list)
     for date in service_ids_by_date.keys():
         key = Week.withdate(date)
         weekly_trip_counts[key] += trip_counts_by_date[date]
@@ -174,7 +189,7 @@ def _service_ids_by_date(feed):
             for ordinal in range(start, end + 1):
                 date = datetime.date.fromordinal(ordinal)
                 if int(dow[date.weekday()]):
-                    results[date].add(cal.service_id)
+                    results[date].add(ServiceID(cal.service_id))
 
     if not caldates.empty:
         # Parse dates
@@ -186,11 +201,11 @@ def _service_ids_by_date(feed):
 
         # Add to results by date
         for _, cd in cdadd.iterrows():
-            results[cd.date].add(cd.service_id)
+            results[cd.date].add(ServiceID(cd.service_id))
 
         # Collect removals
         for _, cd in cdrem.iterrows():
-            removals[cd.date].add(cd.service_id)
+            removals[cd.date].add(ServiceID(cd.service_id))
 
         # Finally, process removals by date
         for date in removals:

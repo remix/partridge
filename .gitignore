@@ -70,3 +70,4 @@ scratch/
 .pytest_cache
 .ipynb_checkpoints/*
 *.ipynb
+.mypy_cache

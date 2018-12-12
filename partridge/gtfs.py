@@ -1,35 +1,51 @@
 import os
 from threading import RLock
+from typing import Dict, Optional, Union
 
+import networkx as nx
 import numpy as np
 import pandas as pd
 
 from .config import default_config
+from .types import View
 from .utilities import detect_encoding, empty_df, setwrap
 
 
-def _read_file(filename):
-    return property(lambda feed: feed.get(filename))
+Cache = Dict[str, pd.DataFrame]
+RLockMapping = Dict[str, RLock]
+PathMapping = Dict[str, str]
+
+
+def _read_file(filename: str) -> property:
+    def getter(self) -> pd.DataFrame:
+        return self.get(filename)
+
+    return property(getter)
 
 
 class Feed(object):
-    def __init__(self, source, view=None, config=None):
-        self._config = default_config() if config is None else config
-        self._view = {} if view is None else view
-        self._cache = {}
-        self._pathmap = {}
-        self._delete_after_reading = False
+    def __init__(
+        self,
+        source: Union[str, "Feed"],
+        view: Optional[View] = None,
+        config: Optional[nx.DiGraph] = None,
+    ):
+        self._config: nx.DiGraph = default_config() if config is None else config
+        self._view: View = {} if view is None else view
+        self._cache: Cache = {}
+        self._pathmap: PathMapping = {}
+        self._delete_after_reading: bool = False
         self._shared_lock = RLock()
-        self._locks = {}
+        self._locks: RLockMapping = {}
         if isinstance(source, self.__class__):
             self._read = source.get
-        elif os.path.isdir(source):
+        elif isinstance(source, str) and os.path.isdir(source):
             self._read = self._read_csv
             self._bootstrap(source)
         else:
             raise ValueError("Invalid source")
 
-    def get(self, filename):
+    def get(self, filename: str) -> pd.DataFrame:
         lock = self._locks.get(filename, self._shared_lock)
         with lock:
             df = self._cache.get(filename)
@@ -55,7 +71,7 @@ class Feed(object):
     transfers = _read_file("transfers.txt")
     trips = _read_file("trips.txt")
 
-    def _bootstrap(self, path):
+    def _bootstrap(self, path: str) -> None:
         # Walk recursively through the directory
         for root, _subdirs, files in os.walk(path):
             for fname in files:
@@ -68,7 +84,7 @@ class Feed(object):
                 # Build a lock for each file to synchronize reads.
                 self._locks[basename] = RLock()
 
-    def _read_csv(self, filename):
+    def _read_csv(self, filename: str) -> pd.DataFrame:
         path = self._pathmap.get(filename)
         columns = self._config.nodes.get(filename, {}).get("required_columns", [])
 
@@ -93,10 +109,8 @@ class Feed(object):
 
         return df
 
-    def _filter(self, filename, df):
-        """
-        Apply view filters
-        """
+    def _filter(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
+        """Apply view filters"""
         view = self._view.get(filename)
         if view is None:
             return df
@@ -108,9 +122,8 @@ class Feed(object):
 
         return df
 
-    def _prune(self, filename, df):
-        """
-        Depth-first search through the dependency graph
+    def _prune(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
+        """Depth-first search through the dependency graph
         and prune dependent DataFrames along the way.
         """
         dependencies = []
@@ -136,7 +149,7 @@ class Feed(object):
 
         return df
 
-    def _convert_types(self, filename, df):
+    def _convert_types(self, filename: str, df: pd.DataFrame) -> None:
         """
         Apply type conversions
         """

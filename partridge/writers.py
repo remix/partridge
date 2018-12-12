@@ -2,23 +2,32 @@ import os
 import shutil
 import tempfile
 from multiprocessing.pool import ThreadPool
+from typing import Collection, Optional
+
+import networkx as nx
 
 from .config import default_config
+from .gtfs import Feed
 from .readers import load_feed
+from .types import View
 from .utilities import remove_node_attributes
 
 
 DEFAULT_NODES = frozenset(default_config().nodes())
 
 
-def extract_feed(inpath, outpath, filters, config=None):
+def extract_feed(
+    inpath: str, outpath: str, filters: View, config: nx.DiGraph = None
+) -> str:
     config = default_config() if config is None else config
     config = remove_node_attributes(config, "converters")
     feed = load_feed(inpath, filters, config)
     return write_feed_dangerously(feed, outpath)
 
 
-def write_feed_dangerously(feed, outpath, nodes=None):
+def write_feed_dangerously(
+    feed: Feed, outpath: str, nodes: Optional[Collection[str]] = None
+) -> str:
     """
     Naively write a feed to a zipfile
 

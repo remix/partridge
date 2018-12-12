@@ -28,7 +28,6 @@ def parse_date(val):
     return datetime.strptime(val, DATE_FORMAT).date()
 
 
-# Vectorized parse operations
 vparse_date = np.vectorize(parse_date)
 vparse_time = np.vectorize(parse_time)
 vparse_numeric = partial(pd.to_numeric, errors="raise")

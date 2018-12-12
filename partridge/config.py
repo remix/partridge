@@ -5,23 +5,21 @@ import networkx as nx
 from .parsers import vparse_date, vparse_time, vparse_numeric
 
 
-def empty_config():
+def empty_config() -> nx.DiGraph:
     return nx.DiGraph()
 
 
-"""
-Default configs
-"""
+"""Default configs"""
 
 
-def default_config():
+def default_config() -> nx.DiGraph:
     G = empty_config()
     add_edge_config(G)
     add_node_config(G)
     return G
 
 
-def add_edge_config(g):
+def add_edge_config(g: nx.DiGraph) -> nx.DiGraph:
     g.add_edges_from(
         [
             (
@@ -131,7 +129,7 @@ def add_edge_config(g):
     )
 
 
-def add_node_config(g):
+def add_node_config(g: nx.DiGraph) -> nx.DiGraph:
     g.add_nodes_from(
         [
             (
@@ -320,7 +318,7 @@ def add_node_config(g):
     )
 
 
-def reroot_graph(G, node):
+def reroot_graph(G: nx.DiGraph, node: str) -> nx.DiGraph:
     """Return a copy of the graph rooted at the given node"""
     G = G.copy()
     for n, successors in list(nx.bfs_successors(G, source=node)):

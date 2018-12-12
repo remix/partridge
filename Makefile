@@ -60,8 +60,11 @@ lint: ## check style with black
 	black --check --diff partridge tests
 	flake8
 
+type-check:
+	mypy partridge --ignore-missing-imports
+
 ## run tests quickly with the default Python
-test: lint
+test: lint type-check
 	py.test
 
 coverage: ## check code coverage quickly with the default Python
