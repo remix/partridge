@@ -1,11 +1,10 @@
 import datetime
-from typing import Dict, FrozenSet, Iterable, List, NewType, Union
+from typing import Dict, FrozenSet, Iterable, List, Union
 
 
 CountsByDate = Dict[datetime.date, int]
 Dates = List[datetime.date]
-ServiceID = NewType("ServiceID", str)
-Service = FrozenSet[ServiceID]
+Service = FrozenSet[str]
 ServicesByDate = Dict[datetime.date, Service]
 DatesByService = Dict[Service, FrozenSet[datetime.date]]
 Value = Union[str, Iterable]

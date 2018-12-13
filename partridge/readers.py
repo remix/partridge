@@ -12,15 +12,7 @@ import networkx as nx
 from .config import default_config, empty_config, reroot_graph
 from .gtfs import Feed
 from .parsers import vparse_date
-from .types import (
-    CountsByDate,
-    Dates,
-    ServiceID,
-    Service,
-    ServicesByDate,
-    DatesByService,
-    View,
-)
+from .types import CountsByDate, Dates, Service, ServicesByDate, DatesByService, View
 from .utilities import remove_node_attributes
 
 
@@ -189,7 +181,7 @@ def _service_ids_by_date(feed):
             for ordinal in range(start, end + 1):
                 date = datetime.date.fromordinal(ordinal)
                 if int(dow[date.weekday()]):
-                    results[date].add(ServiceID(cal.service_id))
+                    results[date].add(cal.service_id)
 
     if not caldates.empty:
         # Parse dates
@@ -201,11 +193,11 @@ def _service_ids_by_date(feed):
 
         # Add to results by date
         for _, cd in cdadd.iterrows():
-            results[cd.date].add(ServiceID(cd.service_id))
+            results[cd.date].add(cd.service_id)
 
         # Collect removals
         for _, cd in cdrem.iterrows():
-            removals[cd.date].add(ServiceID(cd.service_id))
+            removals[cd.date].add(cd.service_id)
 
         # Finally, process removals by date
         for date in removals:
