@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from functools import lru_cache, partial
 import numpy as np
 import pandas as pd
@@ -8,7 +8,7 @@ DATE_FORMAT = "%Y%m%d"
 
 # Why 2^17? See https://git.io/vxB2P.
 @lru_cache(maxsize=2 ** 17)
-def parse_time(val):
+def parse_time(val: str) -> np.float64:
     if val is np.nan:
         return val
 
@@ -24,8 +24,8 @@ def parse_time(val):
     return np.float64(ssm)
 
 
-def parse_date(val):
-    return datetime.strptime(val, DATE_FORMAT).date()
+def parse_date(val: str) -> datetime.date:
+    return datetime.datetime.strptime(val, DATE_FORMAT).date()
 
 
 vparse_date = np.vectorize(parse_date)
