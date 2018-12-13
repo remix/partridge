@@ -1,7 +1,6 @@
 import datetime
-from functools import lru_cache, partial
+from functools import lru_cache
 import numpy as np
-import pandas as pd
 
 DATE_FORMAT = "%Y%m%d"
 
@@ -30,4 +29,3 @@ def parse_date(val: str) -> datetime.date:
 
 vparse_date = np.vectorize(parse_date)
 vparse_time = np.vectorize(parse_time)
-vparse_numeric = partial(pd.to_numeric, errors="raise")
