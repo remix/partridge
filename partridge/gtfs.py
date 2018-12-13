@@ -11,11 +11,6 @@ from .types import View
 from .utilities import detect_encoding, empty_df, setwrap
 
 
-DataFrameCache = Dict[str, pd.DataFrame]
-RLockMapping = Dict[str, RLock]
-PathMapping = Dict[str, str]
-
-
 def _read_file(filename: str) -> property:
     def getter(self) -> pd.DataFrame:
         return self.get(filename)
@@ -32,11 +27,11 @@ class Feed(object):
     ):
         self._config: nx.DiGraph = default_config() if config is None else config
         self._view: View = {} if view is None else view
-        self._cache: DataFrameCache = {}
-        self._pathmap: PathMapping = {}
+        self._cache: Dict[str, pd.DataFrame] = {}
+        self._pathmap: Dict[str, str] = {}
         self._delete_after_reading: bool = False
         self._shared_lock = RLock()
-        self._locks: RLockMapping = {}
+        self._locks: Dict[str, RLock] = {}
         if isinstance(source, self.__class__):
             self._read = source.get
         elif isinstance(source, str) and os.path.isdir(source):
