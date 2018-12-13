@@ -3,7 +3,7 @@ import datetime
 import os
 import shutil
 import tempfile
-from typing import Optional, Tuple, DefaultDict
+from typing import DefaultDict, Optional, Set, Tuple
 import weakref
 
 from isoweek import Week
@@ -120,7 +120,7 @@ def _busiest_date(feed: Feed) -> Tuple[datetime.date, Service]:
     service_ids_by_date = _service_ids_by_date(feed)
     trip_counts_by_date = _trip_counts_by_date(feed)
 
-    def max_by(kv):
+    def max_by(kv: Tuple[datetime.date, int]) -> Tuple[int, int]:
         date, count = kv
         return count, -date.toordinal()
 
@@ -141,7 +141,7 @@ def _busiest_week(feed: Feed) -> ServicesByDate:
         weekly_trip_counts[key] += trip_counts_by_date[date]
         weekly_dates[key].append(date)
 
-    def max_by(kv):
+    def max_by(kv: Tuple[Week, int]) -> Tuple[int, int]:
         week, count = kv
         return count, -week.toordinal()
 
@@ -151,9 +151,9 @@ def _busiest_week(feed: Feed) -> ServicesByDate:
     return {date: service_ids_by_date[date] for date in dates}
 
 
-def _service_ids_by_date(feed):
-    results = defaultdict(set)
-    removals = defaultdict(set)
+def _service_ids_by_date(feed: Feed) -> ServicesByDate:
+    results: DefaultDict[datetime.date, Set[str]] = defaultdict(set)
+    removals: DefaultDict[datetime.date, Set[str]] = defaultdict(set)
 
     service_ids = set(feed.trips.service_id)
     calendar = feed.calendar
@@ -214,15 +214,15 @@ def _service_ids_by_date(feed):
     return {k: frozenset(v) for k, v in results.items()}
 
 
-def _dates_by_service_ids(feed):
-    results = defaultdict(set)
+def _dates_by_service_ids(feed: Feed) -> DatesByService:
+    results: DefaultDict[Service, Set[datetime.date]] = defaultdict(set)
     for date, service_ids in _service_ids_by_date(feed).items():
         results[service_ids].add(date)
-    return dict(results)
+    return {k: frozenset(v) for k, v in results.items()}
 
 
-def _trip_counts_by_date(feed):
-    results = defaultdict(int)
+def _trip_counts_by_date(feed: Feed) -> CountsByDate:
+    results: DefaultDict[datetime.date, int] = defaultdict(int)
     trips = feed.trips
     for service_ids, dates in _dates_by_service_ids(feed).items():
         trip_count = trips[trips.service_id.isin(service_ids)].shape[0]
