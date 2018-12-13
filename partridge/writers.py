@@ -17,11 +17,11 @@ DEFAULT_NODES = frozenset(default_config().nodes())
 
 
 def extract_feed(
-    inpath: str, outpath: str, filters: View, config: nx.DiGraph = None
+    inpath: str, outpath: str, view: View, config: nx.DiGraph = None
 ) -> str:
     config = default_config() if config is None else config
     config = remove_node_attributes(config, "converters")
-    feed = load_feed(inpath, filters, config)
+    feed = load_feed(inpath, view, config)
     return write_feed_dangerously(feed, outpath)
 
 

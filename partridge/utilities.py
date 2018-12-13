@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, Optional, Set, Union
+from typing import Any, Dict, Iterable, Optional, Set, BinaryIO, Union
 
 from cchardet import UniversalDetector
 import networkx as nx
@@ -6,17 +6,15 @@ import numpy as np
 import pandas as pd
 from pandas.core.common import flatten
 
-from .types import Value
 
-
-def setwrap(value: Value) -> Set:
+def setwrap(value: Any) -> Set[str]:
     """
     Returns a flattened and stringified set from the given object or iterable.
 
     For use in public functions which accept argmuents or kwargs that can be
     one object or a list of objects.
     """
-    return set(map(np.unicode, set(flatten([value]))))
+    return set(map(str, set(flatten([value]))))
 
 
 def remove_node_attributes(G: nx.DiGraph, attributes: Union[str, Iterable[str]]):
@@ -32,7 +30,7 @@ def remove_node_attributes(G: nx.DiGraph, attributes: Union[str, Iterable[str]])
     return G
 
 
-def detect_encoding(f, limit: int = 2500) -> str:
+def detect_encoding(f: BinaryIO, limit: int = 2500) -> str:
     u = UniversalDetector()
     for line in f:
         u.feed(line)
