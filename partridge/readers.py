@@ -27,9 +27,6 @@ DAY_NAMES = (
 )
 
 
-"""Public"""
-
-
 def load_feed(
     path: str, view: Optional[View] = None, config: Optional[nx.DiGraph] = None
 ) -> Feed:
@@ -85,9 +82,6 @@ def read_trip_counts_by_date(path: str) -> Dict[datetime.date, int]:
     return _trip_counts_by_date(feed)
 
 
-"""Private"""
-
-
 def _unpack_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
     tmpdir = tempfile.mkdtemp()
     shutil.unpack_archive(path, tmpdir)
@@ -106,9 +100,7 @@ def _unpack_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
 
 
 def _load_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
-    """
-    Multi-file feed filtering
-    """
+    """Multi-file feed filtering"""
     config_ = remove_node_attributes(config, "converters")
     feed_ = Feed(path, view={}, config=config_)
     for filename, column_filters in view.items():

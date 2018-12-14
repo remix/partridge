@@ -10,9 +10,6 @@ def empty_config() -> nx.DiGraph:
     return nx.DiGraph()
 
 
-"""Default configs"""
-
-
 def default_config() -> nx.DiGraph:
     G = empty_config()
     add_edge_config(G)

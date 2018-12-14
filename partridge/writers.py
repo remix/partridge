@@ -19,6 +19,7 @@ DEFAULT_NODES = frozenset(default_config().nodes())
 def extract_feed(
     inpath: str, outpath: str, view: View, config: nx.DiGraph = None
 ) -> str:
+    """Extract a subset of a GTFS zip into a new file"""
     config = default_config() if config is None else config
     config = remove_node_attributes(config, "converters")
     feed = load_feed(inpath, view, config)
@@ -28,8 +29,7 @@ def extract_feed(
 def write_feed_dangerously(
     feed: Feed, outpath: str, nodes: Optional[Collection[str]] = None
 ) -> str:
-    """
-    Naively write a feed to a zipfile
+    """Naively write a feed to a zipfile
 
     This function provides no sanity checks. Use it at
     your own risk.
