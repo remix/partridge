@@ -67,3 +67,7 @@ venv/
 
 scratch/
 .DS_Store
+.pytest_cache
+.ipynb_checkpoints/*
+*.ipynb
+.mypy_cache

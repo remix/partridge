@@ -53,15 +53,19 @@ dependency-graph.png:
 
 dot: dependency-graph.png
 
-lint: ## check style with flake8
-	flake8 partridge tests
+black:
+	black partridge tests
+
+lint: ## check style with black
+	black --check --diff partridge tests
+	flake8
+
+type-check:
+	mypy partridge --ignore-missing-imports
 
 ## run tests quickly with the default Python
-test: lint
+test: lint type-check
 	py.test
-
-test-all: ## run tests on every Python version with tox
-	tox
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source partridge -m pytest

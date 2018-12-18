@@ -1,222 +1,157 @@
-from contextlib import contextmanager
-import io
 import os
 from threading import RLock
-from zipfile import ZipFile
+from typing import Dict, Optional, Union
 
 import networkx as nx
 import numpy as np
 import pandas as pd
 
-from partridge.config import default_config, empty_config
-from partridge.utilities import (
-    empty_df,
-    detect_encoding,
-    lru_method_cache,
-    setwrap,
-)
+from .config import default_config
+from .types import View
+from .utilities import detect_encoding, empty_df, setwrap
 
 
-def read_file(filename):
-    return property(lambda feed: feed.get(filename))
+def _read_file(filename: str) -> property:
+    def getter(self) -> pd.DataFrame:
+        return self.get(filename)
+
+    return property(getter)
 
 
-class feed(object):
-    def __init__(self, path, config=None, view=None):
-        self.path = path
-        self.is_dir = os.path.isdir(self.path)
-        self.config = default_config() if config is None else config
-        self.view = {} if view is None else view
-        self.zmap = {}
+class Feed(object):
+    def __init__(
+        self,
+        source: Union[str, "Feed"],
+        view: Optional[View] = None,
+        config: Optional[nx.DiGraph] = None,
+    ):
+        self._config: nx.DiGraph = default_config() if config is None else config
+        self._view: View = {} if view is None else view
+        self._cache: Dict[str, pd.DataFrame] = {}
+        self._pathmap: Dict[str, str] = {}
+        self._delete_after_reading: bool = False
         self._shared_lock = RLock()
-        self._locks = {}
-
-        assert os.path.isfile(self.path) or self.is_dir, \
-            'File or path not found: {}'.format(self.path)
-
-        assert nx.is_directed_acyclic_graph(self.config), \
-            'Config must be a DAG'
-
-        roots = {n for n, d in self.config.out_degree() if d == 0}
-        for filename, param in self.view.items():
-            assert filename in roots, \
-                'Filter param given for a non-root node ' \
-                'of the config graph: {} {}'.format(filename, param)
-
-        if self.is_dir:
-            self._prepare_folder_contents()
+        self._locks: Dict[str, RLock] = {}
+        if isinstance(source, self.__class__):
+            self._read = source.get
+        elif isinstance(source, str) and os.path.isdir(source):
+            self._read = self._read_csv
+            self._bootstrap(source)
         else:
-            self._prepare_zip_contents()
+            raise ValueError("Invalid source")
 
-    agency = read_file('agency.txt')
-    calendar = read_file('calendar.txt')
-    calendar_dates = read_file('calendar_dates.txt')
-    fare_attributes = read_file('fare_attributes.txt')
-    fare_rules = read_file('fare_rules.txt')
-    feed_info = read_file('feed_info.txt')
-    frequencies = read_file('frequencies.txt')
-    routes = read_file('routes.txt')
-    shapes = read_file('shapes.txt')
-    stops = read_file('stops.txt')
-    stop_times = read_file('stop_times.txt')
-    transfers = read_file('transfers.txt')
-    trips = read_file('trips.txt')
-
-    def get(self, filename):
+    def get(self, filename: str) -> pd.DataFrame:
         lock = self._locks.get(filename, self._shared_lock)
         with lock:
-            return self._get(filename)
+            df = self._cache.get(filename)
+            if df is None:
+                df = self._read(filename)
+                df = self._filter(filename, df)
+                df = self._prune(filename, df)
+                self._convert_types(filename, df)
+                self._cache[filename] = df.reset_index(drop=True)
+            return self._cache[filename]
 
-    @lru_method_cache(maxsize=None)
-    def _get(self, filename):
-        config = self.config
+    agency = _read_file("agency.txt")
+    calendar = _read_file("calendar.txt")
+    calendar_dates = _read_file("calendar_dates.txt")
+    fare_attributes = _read_file("fare_attributes.txt")
+    fare_rules = _read_file("fare_rules.txt")
+    feed_info = _read_file("feed_info.txt")
+    frequencies = _read_file("frequencies.txt")
+    routes = _read_file("routes.txt")
+    shapes = _read_file("shapes.txt")
+    stops = _read_file("stops.txt")
+    stop_times = _read_file("stop_times.txt")
+    transfers = _read_file("transfers.txt")
+    trips = _read_file("trips.txt")
 
-        # Get config for node
-        node = config.nodes.get(filename, {})
-        columns = node.get('required_columns', [])
-        converters = node.get('converters', {})
+    def _bootstrap(self, path: str) -> None:
+        # Walk recursively through the directory
+        for root, _subdirs, files in os.walk(path):
+            for fname in files:
+                basename = os.path.basename(fname)
+                if basename in self._pathmap:
+                    # Verify that the folder does not contain multiple files of the same name.
+                    raise ValueError("More than one {} in folder".format(basename))
+                # Index paths by their basename.
+                self._pathmap[basename] = os.path.join(root, fname)
+                # Build a lock for each file to synchronize reads.
+                self._locks[basename] = RLock()
+
+    def _read_csv(self, filename: str) -> pd.DataFrame:
+        path = self._pathmap.get(filename)
+        columns = self._config.nodes.get(filename, {}).get("required_columns", [])
+
+        if path is None or os.path.getsize(path) == 0:
+            # The file is missing or empty. Return an empty
+            # DataFrame containing any required columns.
+            return empty_df(columns)
 
         # If the file isn't in the zip, return an empty DataFrame.
-        if filename not in self.zmap:
-            return empty_df(columns)
+        with open(path, "rb") as f:
+            encoding = detect_encoding(f)
 
-        # Gather the dependencies between this file and others
-        file_dependencies = {
-            depfile: data.get('dependencies', [])
-            for _, depfile, data in config.out_edges(filename, data=True)
-        }
+        df = pd.read_csv(path, dtype=np.unicode, encoding=encoding, index_col=False)
 
-        # Gather applicable view filter params
-        view_filters = {
-            # column name : set of strings
-            col: setwrap(values)
-            for col, values in self.view.get(filename, {}).items()
-        }
+        # Strip leading/trailing whitespace from column names
+        df.rename(columns=lambda x: x.strip(), inplace=True)
 
-        # Read CSV in chunks, prune it according to the dependency graph
-        chunks = []
-        with self.read_file_chunks(filename) as reader:
-            # Process the file in chunks
-            for i, chunk in enumerate(reader):
-                # Cleanup column names just to be safe
-                chunk = chunk.rename(columns=lambda x: x.strip())
-
-                if i == 0:
-                    # Track the actual columns in the file if present
-                    columns = list(chunk.columns)
-
-                # Apply view filters
-                for col, values in view_filters.items():
-                    # If applicable, filter this chunk by the
-                    # given set of values
-                    if col in chunk.columns:
-                        chunk = chunk[chunk[col].isin(values)]
-
-                # Prune the chunk
-                for depfile, deplist in file_dependencies.items():
-                    # Read the filtered, pruned, and cached file dependency
-                    depdf = self.get(depfile)
-
-                    for deps in deplist:
-                        col = deps[filename]
-                        depcol = deps[depfile]
-
-                        # If applicable, prune this chunk by the other
-                        if col in chunk.columns and depcol in depdf.columns:
-                            chunk = chunk[chunk[col].isin(depdf[depcol])]
-
-                # Discard entirely filtered/pruned chunks
-                if not chunk.empty:
-                    chunks.append(chunk)
-
-        # If all chunks were completely filtered/pruned away,
-        # return an empty DataFrame.
-        if len(chunks) == 0:
-            return empty_df(columns)
-
-        # Concatenate chunks into one DataFrame
-        df = pd.concat(chunks)
-
-        # Apply type conversions, strip leading/trailing whitespace
-        for col in df.columns:
-            if df[col].any():
+        if not df.empty:
+            # Strip leading/trailing whitespace from column values
+            for col in df.columns:
                 df[col] = df[col].str.strip()
-                if col in converters:
-                    vfunc = converters[col]
-                    df[col] = vfunc(df[col])
 
         return df
 
-    @contextmanager
-    def read_file_chunks(self, filename):
-        """
-        Yield a pandas DataFrame iterator for the given file.
-        """
-        with self._io_adapter(self.zmap[filename]) as result:
-            iowrapper, encoding = result
-            try:
-                yield pd.read_csv(
-                    iowrapper, chunksize=10000,
-                    dtype=np.unicode, encoding=encoding, index_col=False,
-                    low_memory=False, skipinitialspace=True)
-            except pd.errors.EmptyDataError:
-                yield iter([])
+    def _filter(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
+        """Apply view filters"""
+        view = self._view.get(filename)
+        if view is None:
+            return df
 
-    @contextmanager
-    def _io_adapter(self, fpath):
-        """
-        Yield an IO object and its encoding for the given file path.
-        Reads from a zip file or folder.
-        """
-        if self.is_dir:
-            with open(fpath, 'rb') as iowrapper:
-                encoding = detect_encoding(iowrapper)
-                iowrapper.seek(0)  # Rewind to the beginning of the file
-                yield iowrapper, encoding
-        else:
-            with ZipFile(self.path) as zipreader:
-                with zipreader.open(fpath, 'r') as zfile:
-                    encoding = detect_encoding(zfile)
-                with zipreader.open(fpath, 'r') as zfile:
-                    with io.TextIOWrapper(zfile, encoding) as iowrapper:
-                        yield iowrapper, encoding
+        for col, values in view.items():
+            # If applicable, filter this dataframe by the given set of values
+            if col in df.columns:
+                df = df[df[col].isin(setwrap(values))]
 
-    def _prepare_zip_contents(self):
-        """
-        Verify that the folder does not contain multiple files
-        of the same name. Load file paths into internal dictionary.
-        Initialize a reentrant lock for synchronizing reads of each file.
-        """
-        with ZipFile(self.path) as zipreader:
-            for entry in zipreader.filelist:
-                # ZipInfo.is_dir was added in Python 3.6
-                # http://harp.pythonanywhere.com/python_doc/whatsnew/3.6.html
-                # https://hg.python.org/cpython/rev/7fea2cebc604#l4.58
-                if entry.filename[-1] == '/':
-                    continue
+        return df
 
-                basename = os.path.basename(entry.filename)
-                assert basename not in self.zmap, \
-                    'More than one {} in zip'.format(basename)
-                self.zmap[basename] = entry.filename
-                self._locks[basename] = RLock()
-
-    def _prepare_folder_contents(self):
+    def _prune(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
+        """Depth-first search through the dependency graph
+        and prune dependent DataFrames along the way.
         """
-        Verify that the folder does not contain multiple files
-        of the same name. Load file paths into internal dictionary.
-        Initialize a reentrant lock for synchronizing reads of each file.
+        dependencies = []
+        for _, depf, data in self._config.out_edges(filename, data=True):
+            deps = data.get("dependencies")
+            if deps is None:
+                msg = f"Edge missing `dependencies` attribute: {filename}->{depf}"
+                raise ValueError(msg)
+            dependencies.append((depf, deps))
+
+        if not dependencies:
+            return df
+
+        for depfile, column_pairs in dependencies:
+            # Read the filtered, cached file dependency
+            depdf = self.get(depfile)
+            for deps in column_pairs:
+                col = deps[filename]
+                depcol = deps[depfile]
+                # If applicable, prune this dataframe by the other
+                if col in df.columns and depcol in depdf.columns:
+                    df = df[df[col].isin(depdf[depcol])]
+
+        return df
+
+    def _convert_types(self, filename: str, df: pd.DataFrame) -> None:
         """
-        for root, _subdirs, files in os.walk(self.path):
-            for fname in files:
-                basename = os.path.basename(fname)
-                assert basename not in self.zmap, \
-                    'More than one {} in folder'.format(basename)
-                self.zmap[basename] = os.path.join(root, fname)
-                self._locks[basename] = RLock()
+        Apply type conversions
+        """
+        if df.empty:
+            return
 
-
-# No pruning or type coercion
-class raw_feed(feed):
-    def __init__(self, path):
-        super(raw_feed, self).__init__(path, config=empty_config())
+        converters = self._config.nodes.get(filename, {}).get("converters", {})
+        for col, converter in converters.items():
+            if col in df.columns:
+                df[col] = converter(df[col])

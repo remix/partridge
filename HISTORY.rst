@@ -1,8 +1,31 @@
 History
 =======
 
+1.0.0 (2018-12-18)
+------------------
+
+This release is a combination of major internal refactorings and some minor interface changes. Overall, you should expect your upgrade from pre-1.0 versions to be relatively painless. A big thank you to @genhernandez and @csb19815 for their valuable design feedback.
+
+Here is a list of interface changes:
+
+* The class ``partridge.gtfs.feed`` has been renamed to ``partridge.gtfs.Feed``.
+* The public interface for instantiating feeds is ``partridge.load_feed``. This function replaces the previously undocumented function ``partridge.get_filtered_feed``.
+* A new function has been added for identifying the busiest week in a feed: ``partridge.read_busiest_date``
+* The public function ``partridge.get_representative_feed`` has been removed in favor of using ``partridge.read_busiest_date`` directly.
+* The public function ``partridge.writers.extract_feed`` is now available via the top level module: ``partridge.extract_feed``.
+
+Miscellaneous minor changes:
+
+* Character encoding detection is now done by the ``cchardet`` package instead of ``chardet``. ``cchardet`` is faster, but may not always return the same result as ``chardet``.
+* Zip files are unpacked into a temporary directory instead of reading directly from the zip. These temporary directories are cleaned up when the feed is garbage collected or when the process exits.
+* The code base is now annotated with type hints and the build runs ``mypy`` to verify the types.
+* DataFrames are cached in a dictionary instead of the ``functools.lru_cache`` decorator.
+* The ``partridge.extract_feed`` function now writes files concurrently to improve performance.
+
+
 0.11.0 (2018-08-01)
 -------------------
+
 * Fix major performance issue related to encoding detection. Thank you to @cjer for reporting the issue and advising on a solution.
 
 
@@ -23,9 +46,7 @@ History
 0.8.0 (2018-03-14)
 ------------------
 
-* Gracefully handle completely empty files. This change unifies the behavior of reading from a CSV
-with a header only (no data rows) and a completely empty (zero bytes)
-file in the zip.
+* Gracefully handle completely empty files. This change unifies the behavior of reading from a CSV with a header only (no data rows) and a completely empty (zero bytes) file in the zip.
 
 
 0.7.0 (2018-03-09)

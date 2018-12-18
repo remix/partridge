@@ -2,35 +2,34 @@ import os
 import shutil
 import tempfile
 from multiprocessing.pool import ThreadPool
+from typing import Collection, Optional
 
-from partridge.config import default_config
-from partridge.readers import get_filtered_feed
-from partridge.utilities import remove_node_attributes
+import networkx as nx
+
+from .config import default_config
+from .gtfs import Feed
+from .readers import load_feed
+from .types import View
+from .utilities import remove_node_attributes
 
 
 DEFAULT_NODES = frozenset(default_config().nodes())
 
 
-def extract_agencies(inpath, outpath, agency_ids):
-    filters = {'routes.txt': {'agency_id': agency_ids}}
-    return extract_feed(inpath, outpath, filters)
-
-
-def extract_routes(inpath, outpath, route_ids):
-    filters = {'trips.txt': {'route_id': route_ids}}
-    return extract_feed(inpath, outpath, filters)
-
-
-def extract_feed(inpath, outpath, filters, config=None):
+def extract_feed(
+    inpath: str, outpath: str, view: View, config: nx.DiGraph = None
+) -> str:
+    """Extract a subset of a GTFS zip into a new file"""
     config = default_config() if config is None else config
-    config = remove_node_attributes(config, 'converters')
-    feed = get_filtered_feed(inpath, filters, config)
+    config = remove_node_attributes(config, "converters")
+    feed = load_feed(inpath, view, config)
     return write_feed_dangerously(feed, outpath)
 
 
-def write_feed_dangerously(feed, outpath, nodes=None):
-    """
-    Naively write a feed to a zipfile
+def write_feed_dangerously(
+    feed: Feed, outpath: str, nodes: Optional[Collection[str]] = None
+) -> str:
+    """Naively write a feed to a zipfile
 
     This function provides no sanity checks. Use it at
     your own risk.
@@ -51,10 +50,10 @@ def write_feed_dangerously(feed, outpath, nodes=None):
         finally:
             pool.terminate()
 
-        if outpath.endswith('.zip'):
+        if outpath.endswith(".zip"):
             outpath, _ = os.path.splitext(outpath)
 
-        outpath = shutil.make_archive(outpath, 'zip', tmpdir)
+        outpath = shutil.make_archive(outpath, "zip", tmpdir)
     finally:
         shutil.rmtree(tmpdir)
 
