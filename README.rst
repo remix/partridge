@@ -12,9 +12,11 @@ Partridge
 
 Partridge is python library for working with `GTFS <https://developers.google.com/transit/gtfs/>`__ feeds using `pandas <https://pandas.pydata.org/>`__ DataFrames.
 
-The implementation of Partridge is heavily influenced by our experience at `Remix <https://www.remix.com/>`__ ingesting, analyzing, and debugging thousands of GTFS feeds from hundreds of agencies.
+Partridge is heavily influenced by our experience at `Remix <https://www.remix.com/>`__ analyzing and debugging every GTFS feed we could find.
 
-At the core of Partridge is a dependency graph rooted at ``trips.txt``. Disconnected data is pruned away according to this graph when reading the contents of a feed. The root node can optionally be filtered to create a view of the feed specific to your needs. It's most common to filter a feed down to specific dates (``service_id``), routes (``route_id``), or both.
+At the core of Partridge is a dependency graph rooted at ``trips.txt``. Disconnected data is pruned away according to this graph when reading the contents of a feed.
+
+Feeds can also be filtered to create a view specific to your needs. It's most common to filter a feed down to specific dates (``service_id``) or routes (``route_id``), but any field can be filtered.
 
 .. figure:: dependency-graph.png
    :alt: dependency graph
@@ -115,17 +117,18 @@ Inspecting the calendar
 Reading a feed
 ~~~~~~~~~~~~~~
 
+
+
 .. code:: python
 
     _date, service_ids = ptg.read_busiest_date(inpath)
 
-    filters = {
-        'trips.txt': {
-            'service_id': service_ids,
-        },
+    view = {
+        'trips.txt': {'service_id': service_ids},
+        'stops.txt': {'stop_name': 'Gilroy Caltrain'},
     }
 
-    feed = ptg.load_feed(path, filters)
+    feed = ptg.load_feed(path, view)
 
 
 Extracting a new feed
@@ -133,16 +136,15 @@ Extracting a new feed
 
 .. code:: python
 
-    import partridge as ptg
-
-    inpath = 'gtfs.zip'
     outpath = 'gtfs-slim.zip'
 
     date, service_ids = ptg.read_busiest_date(inpath)
+    view = {'trips.txt': {'service_id': service_ids}}
 
-    ptg.writers.extract_feed(inpath, outpath, {'trips.txt': {'service_id': service_ids}})
+    ptg.extract_feed(inpath, outpath, view)
+    feed = ptg.load_feed(outpath)
 
-    assert service_ids == set(ptg.Feed(outpath).trips.service_id)
+    assert service_ids == set(feed.trips.service_id)
 
 
 Features
