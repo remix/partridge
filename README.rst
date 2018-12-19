@@ -10,7 +10,7 @@ Partridge
         :target: https://travis-ci.org/remix/partridge
 
 
-Partridge is Python 3 library for working with `GTFS <https://developers.google.com/transit/gtfs/>`__ feeds using `pandas <https://pandas.pydata.org/>`__ DataFrames.
+Partridge is a Python 3.6+ library for working with `GTFS <https://developers.google.com/transit/gtfs/>`__ feeds using `pandas <https://pandas.pydata.org/>`__ DataFrames.
 
 Partridge is heavily influenced by our experience at `Remix <https://www.remix.com/>`__ analyzing and debugging every GTFS feed we could find.
 
