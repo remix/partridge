@@ -4,7 +4,7 @@ History
 1.0.0 (2018-12-18)
 ------------------
 
-This release is a combination of major internal refactorings and some minor interface changes. Overall, you should expect your upgrade from pre-1.0 versions to be relatively painless. A big thank you to @genhernandez and @csb19815 for their valuable design feedback.
+This release is a combination of major internal refactorings and some minor interface changes. Overall, you should expect your upgrade from pre-1.0 versions to be relatively painless. A big thank you to @genhernandez and @csb19815 for their valuable design feedback. If you still need Python 2 support, please continue using version 0.11.0.
 
 Here is a list of interface changes:
 
