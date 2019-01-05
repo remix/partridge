@@ -49,8 +49,13 @@ class Feed(object):
                 df = self._filter(filename, df)
                 df = self._prune(filename, df)
                 self._convert_types(filename, df)
-                self._cache[filename] = df.reset_index(drop=True)
+                self.set(filename, df.reset_index(drop=True))
             return self._cache[filename]
+
+    def set(self, filename: str, df: pd.DataFrame) -> None:
+        lock = self._locks.get(filename, self._shared_lock)
+        with lock:
+            self._cache[filename] = df
 
     agency = _read_file("agency.txt")
     calendar = _read_file("calendar.txt")
