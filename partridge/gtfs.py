@@ -49,7 +49,9 @@ class Feed(object):
                 df = self._filter(filename, df)
                 df = self._prune(filename, df)
                 self._convert_types(filename, df)
-                self.set(filename, df.reset_index(drop=True))
+                df = df.reset_index(drop=True)
+                df = self._transform(filename, df)
+                self.set(filename, df)
             return self._cache[filename]
 
     def set(self, filename: str, df: pd.DataFrame) -> None:
@@ -160,3 +162,16 @@ class Feed(object):
         for col, converter in converters.items():
             if col in df.columns:
                 df[col] = converter(df[col])
+
+    def _transform(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
+        if df.empty:
+            return df
+
+        transformations = self._config.nodes.get(filename, {}).get(
+            "transformations", []
+        )
+
+        for transform in transformations:
+            df = transform(df)
+
+        return df

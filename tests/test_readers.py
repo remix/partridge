@@ -14,6 +14,32 @@ def test_load_feed():
     assert feed.stop_times.dtypes["arrival_time"] == np.float64
 
 
+def test_load_geo_feed():
+    gpd = pytest.importorskip("geopandas")
+
+    feed = ptg.load_geo_feed(fixture("amazon-2017-08-06"))
+    assert isinstance(feed.shapes, gpd.GeoDataFrame)
+    assert isinstance(feed.stops, gpd.GeoDataFrame)
+    assert {"LineString"} == set(feed.shapes.geom_type)
+    assert {"Point"} == set(feed.stops.geom_type)
+    assert feed.shapes.crs == {"init": "EPSG:4326"}
+    assert feed.stops.crs == {"init": "EPSG:4326"}
+    assert ["shape_id", "geometry"] == list(feed.shapes.columns)
+    assert [
+        "stop_id",
+        "stop_code",
+        "stop_name",
+        "stop_desc",
+        "zone_id",
+        "stop_url",
+        "location_type",
+        "parent_station",
+        "stop_timezone",
+        "wheelchair_boarding",
+        "geometry",
+    ] == list(feed.stops.columns)
+
+
 def test_missing_dir():
     with pytest.raises(ValueError, message="File or path not found"):
         ptg.load_feed(fixture("missing"))

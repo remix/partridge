@@ -9,7 +9,7 @@ import weakref
 from isoweek import Week
 import networkx as nx
 
-from .config import default_config, empty_config, reroot_graph
+from .config import default_config, default_geo_config, empty_config, reroot_graph
 from .gtfs import Feed
 from .parsers import vparse_date
 from .types import View
@@ -48,6 +48,10 @@ def load_feed(
 
 def load_raw_feed(path: str) -> Feed:
     return load_feed(path, view={}, config=empty_config())
+
+
+def load_geo_feed(path: str, view: Optional[View] = None) -> Feed:
+    return load_feed(path, view=view, config=default_geo_config())
 
 
 def read_busiest_date(path: str) -> Tuple[datetime.date, FrozenSet[str]]:
@@ -101,7 +105,7 @@ def _unpack_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
 
 def _load_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
     """Multi-file feed filtering"""
-    config_ = remove_node_attributes(config, "converters")
+    config_ = remove_node_attributes(config, ["converters", "transformations"])
     feed_ = Feed(path, view={}, config=config_)
     for filename, column_filters in view.items():
         config_ = reroot_graph(config_, filename)
