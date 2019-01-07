@@ -101,10 +101,10 @@ Inspecting the calendar
     service_ids_by_date = ptg.read_service_ids_by_date(path)
 
     date, service_ids = min(service_ids_by_date.items())
-    #  (datetime.date(2017, 7, 15), frozenset({'CT-17JUL-Caltrain-Saturday-03'}))
+    #  datetime.date(2017, 7, 15), frozenset({'CT-17JUL-Caltrain-Saturday-03'})
 
     date, service_ids = max(service_ids_by_date.items())
-    #  (datetime.date(2019, 7, 20), frozenset({'CT-17JUL-Caltrain-Saturday-03'}))
+    #  datetime.date(2019, 7, 20), frozenset({'CT-17JUL-Caltrain-Saturday-03'})
 
 
 **Dates with identical service**
@@ -123,7 +123,6 @@ Inspecting the calendar
 
 Reading a feed
 ~~~~~~~~~~~~~~
-
 
 
 .. code:: python
@@ -166,8 +165,7 @@ Extracting a new feed
 
     outpath = 'gtfs-slim.zip'
 
-    date, service_ids = ptg.read_busiest_date(inpath)
-    view = {'trips.txt': {'service_id': service_ids}}
+    view = {'trips.txt': {'service_id': ptg.read_busiest_date(inpath)[1]}}
 
     ptg.extract_feed(inpath, outpath, view)
     feed = ptg.load_feed(outpath)
