@@ -48,6 +48,13 @@ Installation
     pip install partridge
 
 
+**GeoPandas support**
+
+.. code:: console
+
+    pip install partridge[full]
+
+
 Usage
 -----
 
@@ -129,6 +136,27 @@ Reading a feed
     }
 
     feed = ptg.load_feed(path, view)
+
+
+**Read shapes and stops as GeoDataFrames**
+
+.. code:: python
+
+    service_ids = ptg.read_busiest_date(inpath)[1]
+    view = {'trips.txt': {'service_id': service_ids}}
+
+    feed = ptg.load_geo_feed(path, view)
+
+    feed.shapes.head()
+    #       shape_id                                           geometry
+    #  0  cal_gil_sf  LINESTRING (-121.5661454200744 37.003512297983...
+    #  1  cal_sf_gil  LINESTRING (-122.3944115638733 37.776439059278...
+    #  2   cal_sf_sj  LINESTRING (-122.3944115638733 37.776439059278...
+    #  3  cal_sf_tam  LINESTRING (-122.3944115638733 37.776439059278...
+    #  4   cal_sj_sf  LINESTRING (-121.9031703472137 37.330157067882...
+
+    minlon, minlat, maxlon, maxlat = feed.stops.total_bounds
+    #  -122.412076, 37.003485, -121.566088, 37.77639
 
 
 Extracting a new feed
