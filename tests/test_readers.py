@@ -40,6 +40,17 @@ def test_load_geo_feed():
     ] == list(feed.stops.columns)
 
 
+def test_load_geo_feed_empty():
+    gpd = pytest.importorskip("geopandas")
+
+    feed = ptg.load_geo_feed(fixture("empty"))
+
+    assert isinstance(feed.shapes, gpd.GeoDataFrame)
+    assert isinstance(feed.stops, gpd.GeoDataFrame)
+    assert feed.shapes.empty
+    assert feed.stops.empty
+
+
 def test_missing_dir():
     with pytest.raises(ValueError, message="File or path not found"):
         ptg.load_feed(fixture("missing"))

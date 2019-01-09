@@ -164,9 +164,6 @@ class Feed(object):
                 df[col] = converter(df[col])
 
     def _transform(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
-        if df.empty:
-            return df
-
         transformations = self._config.nodes.get(filename, {}).get(
             "transformations", []
         )

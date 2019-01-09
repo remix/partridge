@@ -326,10 +326,11 @@ def add_geo_config(g: nx.DiGraph) -> nx.DiGraph:
     from .geo import build_shapes, build_stops
 
     for node, transform in (("shapes.txt", build_shapes), ("stops.txt", build_stops)):
-        if node not in g.nodes:
-            g.add_node(node)
+        assert node in g.nodes, "Missing config for node: {}".format(node)
+
         if "transformations" not in g.nodes[node]:
             g.nodes[node]["transformations"] = []
+
         g.nodes[node]["transformations"].append(transform)
 
     return g
