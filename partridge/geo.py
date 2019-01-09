@@ -11,11 +11,12 @@ except ImportError as impexc:
     raise
 
 
+DEFAULT_CRS = {"init": "EPSG:4326"}
+
+
 def build_shapes(df: pd.DataFrame) -> gpd.GeoDataFrame:
     if df.empty:
-        return gpd.GeoDataFrame(
-            {"shape_id": [], "geometry": []}, crs={"init": "EPSG:4326"}
-        )
+        return gpd.GeoDataFrame({"shape_id": [], "geometry": []}, crs=DEFAULT_CRS)
 
     data: Dict[str, List] = {"shape_id": [], "geometry": []}
     for shape_id, shape in df.sort_values("shape_pt_sequence").groupby("shape_id"):
@@ -24,12 +25,12 @@ def build_shapes(df: pd.DataFrame) -> gpd.GeoDataFrame:
             LineString(list(zip(shape.shape_pt_lon, shape.shape_pt_lat)))
         )
 
-    return gpd.GeoDataFrame(data, crs={"init": "EPSG:4326"})
+    return gpd.GeoDataFrame(data, crs=DEFAULT_CRS)
 
 
 def build_stops(df: pd.DataFrame) -> gpd.GeoDataFrame:
     if df.empty:
-        return gpd.GeoDataFrame(df, geometry=[], crs={"init": "EPSG:4326"})
+        return gpd.GeoDataFrame(df, geometry=[], crs=DEFAULT_CRS)
 
     df["geometry"] = df.apply(lambda s: Point(s.stop_lon, s.stop_lat), axis=1)
 
