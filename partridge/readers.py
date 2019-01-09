@@ -9,7 +9,7 @@ import weakref
 from isoweek import Week
 import networkx as nx
 
-from .config import default_config, default_geo_config, empty_config, reroot_graph
+from .config import default_config, geo_config, empty_config, reroot_graph
 from .gtfs import Feed
 from .parsers import vparse_date
 from .types import View
@@ -51,7 +51,7 @@ def load_raw_feed(path: str) -> Feed:
 
 
 def load_geo_feed(path: str, view: Optional[View] = None) -> Feed:
-    return load_feed(path, view=view, config=default_geo_config())
+    return load_feed(path, view=view, config=geo_config())
 
 
 def read_busiest_date(path: str) -> Tuple[datetime.date, FrozenSet[str]]:

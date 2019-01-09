@@ -17,7 +17,7 @@ def default_config() -> nx.DiGraph:
     return G
 
 
-def default_geo_config() -> nx.DiGraph:
+def geo_config() -> nx.DiGraph:
     G = default_config()
     add_geo_config(G)
     return G
