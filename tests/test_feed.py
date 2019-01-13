@@ -30,6 +30,13 @@ def test_bad_edge_config():
         feed.stop_times
 
 
+def test_set():
+    feed = Feed(fixture("caltrain-2017-07-24"))
+    newval = object()
+    feed.set("newkey", newval)
+    assert feed.get("newkey") is newval
+
+
 @pytest.mark.parametrize(
     "path,dates,shapes",
     [

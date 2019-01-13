@@ -17,6 +17,12 @@ def default_config() -> nx.DiGraph:
     return G
 
 
+def geo_config() -> nx.DiGraph:
+    G = default_config()
+    add_geo_config(G)
+    return G
+
+
 def add_edge_config(g: nx.DiGraph) -> nx.DiGraph:
     g.add_edges_from(
         [
@@ -314,6 +320,20 @@ def add_node_config(g: nx.DiGraph) -> nx.DiGraph:
             ),
         ]
     )
+
+
+def add_geo_config(g: nx.DiGraph) -> nx.DiGraph:
+    from .geo import build_shapes, build_stops
+
+    for node, transform in (("shapes.txt", build_shapes), ("stops.txt", build_stops)):
+        assert node in g.nodes, "Missing config for node: {}".format(node)
+
+        if "transformations" not in g.nodes[node]:
+            g.nodes[node]["transformations"] = []
+
+        g.nodes[node]["transformations"].append(transform)
+
+    return g
 
 
 def reroot_graph(G: nx.DiGraph, node: str) -> nx.DiGraph:

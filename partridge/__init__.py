@@ -1,6 +1,7 @@
 from .__version__ import __version__
 from .readers import (
     load_feed,
+    load_geo_feed,
     load_raw_feed,
     read_busiest_date,
     read_busiest_week,
@@ -15,6 +16,7 @@ __all__ = [
     "__version__",
     "extract_feed",
     "load_feed",
+    "load_geo_feed",
     "load_raw_feed",
     "read_busiest_date",
     "read_busiest_week",
