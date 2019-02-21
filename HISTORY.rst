@@ -1,6 +1,12 @@
 History
 =======
 
+1.1.0 (2019-02-21)
+------------------
+
+* Add ``partridge.load_geo_feed`` for reading stops and shapes into GeoPandas GeoDataFrames.
+
+
 1.0.0 (2018-12-18)
 ------------------
 
