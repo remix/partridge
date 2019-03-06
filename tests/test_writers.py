@@ -8,6 +8,69 @@ import pytest
 from .helpers import fixture, zip_file
 
 
+def test_combine_routes_by_column():
+    inpath = fixture("caltrain-2017-07-24")
+
+    try:
+        tmpdir = tempfile.mkdtemp()
+        outpath = os.path.join(tmpdir, "out.zip")
+
+        ptg.writers.combine_routes_by_column(inpath, outpath, "route_type")
+
+        outfeed = ptg.load_feed(outpath)
+
+        assert ["2", "3"] == list(outfeed.routes.route_id)
+
+        trip_route_ids = set(outfeed.trips.route_id)
+        route_route_ids = set(outfeed.routes.route_id)
+        assert trip_route_ids == route_route_ids
+
+        assert {"2", "3"} == set(outfeed.fare_rules.route_id)
+    finally:
+        shutil.rmtree(tmpdir)
+
+
+def test_combine_entities_by():
+    def first_word_of_route_desc(row):
+        return row["route_desc"].split(" ")[0].strip()
+
+    inpath = fixture("seattle-area-2017-11-16")
+    infeed = ptg.load_feed(inpath)
+
+    try:
+        tmpdir = tempfile.mkdtemp()
+        outpath = os.path.join(tmpdir, "out.zip")
+
+        ptg.writers.combine_entities_by(
+            inpath, outpath, "routes.txt", "route_id", first_word_of_route_desc
+        )
+
+        outfeed = ptg.load_feed(outpath)
+
+        assert list(infeed.routes.columns) == list(outfeed.routes.columns)
+        assert list(infeed.trips.columns) == list(outfeed.trips.columns)
+        assert infeed.trips.shape == outfeed.trips.shape
+
+        assert [
+            "Bellevue",
+            "Issaquah",
+            "Kirkland",
+            "LINK:",
+            "Overlake",
+            "Redmond",
+            "Streetcar:",
+            "Water",
+            "Woodinville",
+        ] == list(outfeed.routes.route_id)
+
+        trip_route_ids = set(outfeed.trips.route_id)
+        route_route_ids = set(outfeed.routes.route_id)
+
+        assert trip_route_ids == route_route_ids
+    finally:
+        shutil.rmtree(tmpdir)
+
+
 @pytest.mark.parametrize(
     "path", [zip_file("seattle-area-2017-11-16"), fixture("seattle-area-2017-11-16")]
 )
