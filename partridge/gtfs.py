@@ -59,6 +59,16 @@ class Feed(object):
         with lock:
             self._cache[filename] = df
 
+    def successors(self, filename: str):
+        for _, depfile, data in self._config.out_edges(filename, data=True):
+            if "dependencies" not in data:
+                raise ValueError(
+                    f"Edge missing `dependencies` attribute: {filename}->{depfile}"
+                )
+
+            for rel in data["dependencies"]:
+                yield filename, rel[filename], depfile, rel[depfile]
+
     agency = _read_file("agency.txt")
     calendar = _read_file("calendar.txt")
     calendar_dates = _read_file("calendar_dates.txt")
@@ -128,26 +138,10 @@ class Feed(object):
         """Depth-first search through the dependency graph
         and prune dependent DataFrames along the way.
         """
-        dependencies = []
-        for _, depf, data in self._config.out_edges(filename, data=True):
-            deps = data.get("dependencies")
-            if deps is None:
-                msg = f"Edge missing `dependencies` attribute: {filename}->{depf}"
-                raise ValueError(msg)
-            dependencies.append((depf, deps))
-
-        if not dependencies:
-            return df
-
-        for depfile, column_pairs in dependencies:
-            # Read the filtered, cached file dependency
+        for _, col, depfile, depcol in self.successors(filename):
             depdf = self.get(depfile)
-            for deps in column_pairs:
-                col = deps[filename]
-                depcol = deps[depfile]
-                # If applicable, prune this dataframe by the other
-                if col in df.columns and depcol in depdf.columns:
-                    df = df[df[col].isin(depdf[depcol])]
+            if col in df.columns and depcol in depdf.columns:
+                df = df[df[col].isin(depdf[depcol])]
 
         return df
 
