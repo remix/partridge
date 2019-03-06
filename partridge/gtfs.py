@@ -59,6 +59,16 @@ class Feed(object):
         with lock:
             self._cache[filename] = df
 
+    def predecessors(self, filename: str):
+        for depfile, _, data in self._config.in_edges(filename, data=True):
+            if "dependencies" not in data:
+                raise ValueError(
+                    f"Edge missing `dependencies` attribute: {filename}->{depfile}"
+                )
+
+            for rel in data["dependencies"]:
+                yield filename, rel[filename], depfile, rel[depfile]
+
     def successors(self, filename: str):
         for _, depfile, data in self._config.out_edges(filename, data=True):
             if "dependencies" not in data:
