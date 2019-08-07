@@ -35,8 +35,7 @@ def write_feed_dangerously(
     your own risk.
     """
     nodes = DEFAULT_NODES if nodes is None else nodes
-    try:
-        tmpdir = tempfile.mkdtemp()
+    with tempfile.TemporaryDirectory() as tmpdir:
 
         def write_node(node):
             df = feed.get(node)
@@ -54,7 +53,5 @@ def write_feed_dangerously(
             outpath, _ = os.path.splitext(outpath)
 
         outpath = shutil.make_archive(outpath, "zip", tmpdir)
-    finally:
-        shutil.rmtree(tmpdir)
 
     return outpath

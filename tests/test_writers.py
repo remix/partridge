@@ -1,5 +1,4 @@
 import os
-import shutil
 import tempfile
 
 import partridge as ptg
@@ -29,8 +28,7 @@ def test_extract_agencies(path):
     assert len(trip_ids)
     assert len(stop_ids)
 
-    try:
-        tmpdir = tempfile.mkdtemp()
+    with tempfile.TemporaryDirectory() as tmpdir:
         outfile = os.path.join(tmpdir, "test.zip")
 
         result = ptg.extract_feed(
@@ -58,9 +56,6 @@ def test_extract_agencies(path):
             new_df = new_fd.get(node)
             assert set(original_df.columns) == set(new_df.columns)
 
-    finally:
-        shutil.rmtree(tmpdir)
-
 
 @pytest.mark.parametrize(
     "path", [zip_file("seattle-area-2017-11-16"), fixture("seattle-area-2017-11-16")]
@@ -83,8 +78,7 @@ def test_extract_routes(path):
     assert len(trip_ids)
     assert len(stop_ids)
 
-    try:
-        tmpdir = tempfile.mkdtemp()
+    with tempfile.TemporaryDirectory() as tmpdir:
         outfile = os.path.join(tmpdir, "test.zip")
 
         result = ptg.extract_feed(path, outfile, {"trips.txt": {"route_id": route_ids}})
@@ -109,6 +103,3 @@ def test_extract_routes(path):
             original_df = fd.get(node)
             new_df = new_fd.get(node)
             assert set(original_df.columns) == set(new_df.columns)
-
-    finally:
-        shutil.rmtree(tmpdir)

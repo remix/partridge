@@ -52,7 +52,7 @@ def test_load_geo_feed_empty():
 
 
 def test_missing_dir():
-    with pytest.raises(ValueError, message="File or path not found"):
+    with pytest.raises(ValueError, match=r"File or path not found"):
         ptg.load_feed(fixture("missing"))
 
 
@@ -65,13 +65,13 @@ def test_config_must_be_dag():
     config.add_edge("trips.txt", "routes.txt")
 
     path = fixture("amazon-2017-08-06")
-    with pytest.raises(ValueError, message="Config must be a DAG"):
+    with pytest.raises(ValueError, match=r"Config must be a DAG"):
         ptg.load_feed(path, config=config)
 
 
 def test_no_service():
     path = fixture("empty")
-    with pytest.raises(AssertionError, message="No service"):
+    with pytest.raises(AssertionError, match=r"No service"):
         ptg.read_service_ids_by_date(path)
 
 
