@@ -31,19 +31,37 @@ def remove_node_attributes(G: nx.DiGraph, attributes: Union[str, Iterable[str]])
 
 
 def detect_encoding(f: BinaryIO, limit: int = 2500) -> str:
-    u = UniversalDetector()
-    for line in f:
-        u.feed(line)
+    """
+    Return encoding of provided input stream.
 
-        limit -= 1
-        if u.done or limit < 1:
+    Most of the time it's unicode, but if we are unable to decode the input
+    natively, use `chardet` to determine the encoding heuristically.
+    """
+    unicode_decodable = True
+
+    for line_no, line in enumerate(f):
+        try:
+            line.decode("utf-8")
+        except UnicodeDecodeError:
+            unicode_decodable = False
+            break
+
+        if line_no > limit:
+            break
+
+    if unicode_decodable:
+        return "utf-8"
+
+    f.seek(0)
+    u = UniversalDetector()
+
+    for line_no, line in enumerate(f):
+        u.feed(line)
+        if u.done or line_no > limit:
             break
 
     u.close()
-    if u.result["encoding"].lower() == "ascii":
-        return "utf-8"
-    else:
-        return u.result["encoding"]
+    return u.result["encoding"]
 
 
 def empty_df(columns: Optional[Iterable[str]] = None) -> pd.DataFrame:
