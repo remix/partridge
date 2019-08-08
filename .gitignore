@@ -64,6 +64,7 @@ target/
 
 # virtual environment
 venv/
+.venv/
 
 scratch/
 .DS_Store
