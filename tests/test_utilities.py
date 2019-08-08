@@ -1,8 +1,15 @@
+import io
 import networkx as nx
+import pytest
 
 import numpy as np
 import pandas as pd
-from partridge.utilities import setwrap, remove_node_attributes, empty_df
+from partridge.utilities import (
+    detect_encoding,
+    empty_df,
+    remove_node_attributes,
+    setwrap,
+)
 
 
 def test_setwrap():
@@ -41,3 +48,15 @@ def test_empty_df():
     )
 
     assert actual.equals(expected)
+
+
+@pytest.mark.parametrize(
+    "test_string,encoding",
+    [
+        (b"abcde", "utf-8"),  # straight up ascii is a subset of unicode
+        (b"Eyjafjallaj\xc3\xb6kull", "utf-8"),  # actual unicode
+        (b"\xC4pple", "ISO-8859-1"),  # non-unicode, ISO characterset
+    ],
+)
+def test_detect_encoding(test_string, encoding):
+    assert detect_encoding(io.BytesIO(test_string)) == encoding

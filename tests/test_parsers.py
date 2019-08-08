@@ -10,12 +10,12 @@ def test_parse_date():
 
 
 def test_parse_date_with_invalid_month():
-    with pytest.raises(ValueError, message="unconverted data remains: 01"):
+    with pytest.raises(ValueError, match=r"unconverted data remains: 01"):
         parse_date("20991401")
 
 
 def test_parse_date_with_invalid_day():
-    with pytest.raises(ValueError, message="unconverted data remains: 3"):
+    with pytest.raises(ValueError, match=r"unconverted data remains: 3"):
         parse_date("20990133")
 
 
@@ -39,7 +39,7 @@ def test_parse_time():
 
 
 def test_parse_time_with_invalid_input():
-    with pytest.raises(ValueError, message="invalid literal for int()"):
+    with pytest.raises(ValueError, match=r"invalid literal for int()"):
         parse_time("10:15:00am")
 
 

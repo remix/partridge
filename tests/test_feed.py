@@ -9,12 +9,12 @@ from .helpers import fixture, fixtures_dir
 
 
 def test_invalid_source():
-    with pytest.raises(ValueError, message="Invalid source"):
+    with pytest.raises(ValueError, match=r"Invalid source"):
         Feed(fixture("missing"))
 
 
 def test_duplicate_files():
-    with pytest.raises(ValueError, message="More than one"):
+    with pytest.raises(ValueError, match=r"More than one"):
         Feed(fixtures_dir)
 
 
@@ -26,7 +26,7 @@ def test_bad_edge_config():
 
     feed = Feed(fixture("caltrain-2017-07-24"), config=config)
 
-    with pytest.raises(ValueError, message="Edge missing `dependencies` attribute"):
+    with pytest.raises(ValueError, match=r"Edge missing `dependencies` attribute"):
         feed.stop_times
 
 
