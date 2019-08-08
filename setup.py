@@ -32,9 +32,10 @@ test_requirements = ["black", "flake8", "pytest"]
 setup(
     name="partridge",
     version=about["__version__"],
-    description="Partridge is python library for working with GTFS "
+    description="Partridge is a python library for working with GTFS "
     "feeds using pandas DataFrames.",
     long_description=readme + "\n\n" + history,
+    long_description_content_type='text/x-rst',
     author="Danny Whalen",
     author_email="daniel.r.whalen@gmail.com",
     url="https://github.com/remix/partridge",
