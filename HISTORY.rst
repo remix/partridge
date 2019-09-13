@@ -2,6 +2,12 @@
 History
 =======
 
+1.1.1 (2019-09-13)
+------------------
+
+* Improve file encoding sniffer, which was misidentifying some Finnish/emoji unicode. Thanks to @dyakovlev!
+
+
 1.1.0 (2019-02-21)
 ------------------
 
