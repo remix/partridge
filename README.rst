@@ -22,7 +22,7 @@ Feeds can also be filtered to create a view specific to your needs. It's most co
    :alt: dependency graph
 
 
-Philosphy
+Philosophy
 ---------
 
 The design of Partridge is guided by the following principles:
@@ -165,7 +165,8 @@ Extracting a new feed
 
     outpath = 'gtfs-slim.zip'
 
-    view = {'trips.txt': {'service_id': ptg.read_busiest_date(inpath)[1]}}
+    service_ids = ptg.read_busiest_date(inpath)[1]
+    view = {'trips.txt': {'service_id': service_ids}}
 
     ptg.extract_feed(inpath, outpath, view)
     feed = ptg.load_feed(outpath)
