@@ -73,7 +73,7 @@ def read_service_ids_by_date(path: str) -> Dict[datetime.date, FrozenSet[str]]:
 
 
 def read_dates_by_service_ids(
-    path: str
+    path: str,
 ) -> Dict[FrozenSet[str], FrozenSet[datetime.date]]:
     """Find dates with identical service"""
     feed = load_raw_feed(path)
