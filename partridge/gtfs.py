@@ -27,6 +27,7 @@ class Feed(object):
         config: Optional[nx.DiGraph] = None,
     ):
         self._config: nx.DiGraph = default_config() if config is None else config
+        # Validate the configuration and raise warning if needed
         self._validate_dependencies_conversion()
         self._view: View = {} if view is None else view
         self._cache: Dict[str, pd.DataFrame] = {}
@@ -149,34 +150,41 @@ class Feed(object):
                 depcol = deps[depfile]
                 # If applicable, prune this dataframe by the other
                 if col in df.columns and depcol in depdf.columns:
-                    # Check converters
-                    converter = self._config.nodes.get(filename, {}).get("converters", {}).get(col)
+                    converter = self._get_convert_function(filename, col)
+                    # Convert the column before pruning since depdf is already converted
                     col_series = converter(df[col]) if converter else df[col]
                     df = df[col_series.isin(depdf[depcol])]
 
         return df
 
+    def _get_convert_function(self, filename, colname):
+        return self._config.nodes.get(filename, {}).get("converters", {}).get(colname)
+
     def _validate_dependencies_conversion(self):
+        """Validate that dependent columns in different files
+        has the same convert function if one exist.
+        """
+
         def check_column_pair(column_pair: dict) -> bool:
             assert len(column_pair) == 2
-            convert_funcs = []
-            for filename, colname in column_pair.items():
-                converter = self._config.nodes.get(filename, {}).get("converters", {}).get(colname)
-                convert_funcs.append(converter)
+            convert_funcs = [
+                self._get_convert_function(filename, colname)
+                for filename, colname in column_pair.items()
+            ]
             if convert_funcs[0] != convert_funcs[1]:
                 return False
             return True
 
         for file_a, file_b, data in self._config.edges(data=True):
-            deps = data.get("dependencies")
-            if not deps:
-                continue
-            for column_pair in deps:
+            dependencies = data.get("dependencies", [])
+            for column_pair in dependencies:
                 if check_column_pair(column_pair):
                     continue
-                warn(f"Converters Mismatch: column `{column_pair[file_a]}` in {file_a} "
-                     f"is dependant on column `{column_pair[file_b]}` in {file_b} "
-                     f"but converted with different functions, which might cause merging problems.")
+                warn(
+                    f"Converters Mismatch: column `{column_pair[file_a]}` in {file_a} "
+                    f"is dependant on column `{column_pair[file_b]}` in {file_b} "
+                    f"but converted with different functions, which might cause merging problems."
+                )
 
     def _convert_types(self, filename: str, df: pd.DataFrame) -> None:
         """
