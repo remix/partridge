@@ -1,6 +1,7 @@
 import os
 from threading import RLock
 from typing import Dict, Optional, Union
+from warnings import warn
 
 import networkx as nx
 import numpy as np
@@ -26,6 +27,7 @@ class Feed(object):
         config: Optional[nx.DiGraph] = None,
     ):
         self._config: nx.DiGraph = default_config() if config is None else config
+        self._validate_dependencies_conversion()
         self._view: View = {} if view is None else view
         self._cache: Dict[str, pd.DataFrame] = {}
         self._pathmap: Dict[str, str] = {}
@@ -147,9 +149,34 @@ class Feed(object):
                 depcol = deps[depfile]
                 # If applicable, prune this dataframe by the other
                 if col in df.columns and depcol in depdf.columns:
-                    df = df[df[col].isin(depdf[depcol])]
+                    # Check converters
+                    converter = self._config.nodes.get(filename, {}).get("converters", {}).get(col)
+                    col_series = converter(df[col]) if converter else df[col]
+                    df = df[col_series.isin(depdf[depcol])]
 
         return df
+
+    def _validate_dependencies_conversion(self):
+        def check_column_pair(column_pair: dict) -> bool:
+            assert len(column_pair) == 2
+            convert_funcs = []
+            for filename, colname in column_pair.items():
+                converter = self._config.nodes.get(filename, {}).get("converters", {}).get(colname)
+                convert_funcs.append(converter)
+            if convert_funcs[0] != convert_funcs[1]:
+                return False
+            return True
+
+        for file_a, file_b, data in self._config.edges(data=True):
+            deps = data.get("dependencies")
+            if not deps:
+                continue
+            for column_pair in deps:
+                if check_column_pair(column_pair):
+                    continue
+                warn(f"Converter Mismatch: column {file_a}.{column_pair[file_a]} "
+                     f"is dependant on column {file_b}.{column_pair[file_b]} "
+                     f"but converted with different functions, which might cause merging problems.")
 
     def _convert_types(self, filename: str, df: pd.DataFrame) -> None:
         """
