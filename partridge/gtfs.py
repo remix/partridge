@@ -174,8 +174,8 @@ class Feed(object):
             for column_pair in deps:
                 if check_column_pair(column_pair):
                     continue
-                warn(f"Converter Mismatch: column {file_a}.{column_pair[file_a]} "
-                     f"is dependant on column {file_b}.{column_pair[file_b]} "
+                warn(f"Converters Mismatch: column `{column_pair[file_a]}` in {file_a} "
+                     f"is dependant on column `{column_pair[file_b]}` in {file_b} "
                      f"but converted with different functions, which might cause merging problems.")
 
     def _convert_types(self, filename: str, df: pd.DataFrame) -> None:
