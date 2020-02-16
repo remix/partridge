@@ -47,8 +47,8 @@ class Feed(object):
             if df is None:
                 df = self._read(filename)
                 df = self._filter(filename, df)
-                df = self._prune(filename, df)
                 self._convert_types(filename, df)
+                df = self._prune(filename, df)
                 df = df.reset_index(drop=True)
                 df = self._transform(filename, df)
                 self.set(filename, df)
@@ -147,6 +147,12 @@ class Feed(object):
                 depcol = deps[depfile]
                 # If applicable, prune this dataframe by the other
                 if col in df.columns and depcol in depdf.columns:
+                    if df.dtypes[col] != depdf.dtypes[depcol]:
+                        msg = "configuration error, "
+                        msg += f"{filename}.{col}.dtype={df.dtypes[col]}"
+                        msg += " does not match "
+                        msg += f"{depfile}.{depcol}.dtype={depdf.dtypes[depcol]}"
+                        raise ValueError(msg)
                     df = df[df[col].isin(depdf[depcol])]
 
         return df
@@ -162,6 +168,7 @@ class Feed(object):
         for col, converter in converters.items():
             if col in df.columns:
                 df[col] = converter(df[col])
+                print(f"converting:{filename} col:{col} dtype:{df[col].dtype}")
 
     def _transform(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
         transformations = self._config.nodes.get(filename, {}).get(

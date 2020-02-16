@@ -69,6 +69,52 @@ def test_config_must_be_dag():
         ptg.load_feed(path, config=config)
 
 
+def test_prune_converted_dtypes():
+    config = ptg.config.default_config()
+    config.nodes["trips.txt"]["converters"]["route_id"] = np.int64
+    config.nodes["routes.txt"]["converters"]["route_id"] = np.int64
+
+    path = fixture("seattle-area-2017-11-16")
+    feed = ptg.load_feed(path, config=config)
+
+    # confirm that the dtype conversions were applied
+    assert feed.trips.route_id.dtype == np.int64
+    assert feed.routes.route_id.dtype == np.int64
+
+    # confirm uniqueness of route_id before further assertions
+    assert len(feed.routes.route_id) == len(set(feed.routes.route_id))
+
+    # regression test for issue #62
+    assert list(feed.routes.route_id) == [
+        100232,
+        100235,
+        100236,
+        100239,
+        100240,
+        100241,
+        100336,
+        100337,
+        100340,
+        100451,
+        100479,
+        100511,
+        102638,
+        102640,
+    ]
+
+
+def test_prune_dtype_mismatch():
+    config = ptg.config.default_config()
+    config.nodes["trips.txt"]["converters"]["route_id"] = np.int64
+    config.nodes["routes.txt"]["converters"]["route_id"] = np.unicode
+
+    path = fixture("seattle-area-2017-11-16")
+    feed = ptg.load_feed(path, config=config)
+
+    with pytest.raises(ValueError, match=r"configuration error"):
+        _ = feed.routes
+
+
 def test_no_service():
     path = fixture("empty")
     with pytest.raises(AssertionError, match=r"No service"):
