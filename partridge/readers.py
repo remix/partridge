@@ -105,12 +105,11 @@ def _unpack_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
 
 def _load_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
     """Multi-file feed filtering"""
-    config_ = remove_node_attributes(config, ["transformations"])
-    feed_ = Feed(path, view={}, config=config_)
+    feed_ = Feed(path, view={}, config=config, is_dummy=True)
     for filename, column_filters in view.items():
-        config_ = reroot_graph(config_, filename)
+        config_ = reroot_graph(config, filename)
         view_ = {filename: column_filters}
-        feed_ = Feed(feed_, view=view_, config=config_)
+        feed_ = Feed(feed_, view=view_, config=config_, is_dummy=True)
     return Feed(feed_, config=config)
 
 

@@ -25,10 +25,12 @@ class Feed(object):
         source: Union[str, "Feed"],
         view: Optional[View] = None,
         config: Optional[nx.DiGraph] = None,
+        is_dummy: Optional[bool] = False,
     ):
         self._config: nx.DiGraph = default_config() if config is None else config
         # Validate the configuration and raise warning if needed
         self._validate_dependencies_conversion()
+        self._is_dummy = is_dummy
         self._view: View = {} if view is None else view
         self._cache: Dict[str, pd.DataFrame] = {}
         self._pathmap: Dict[str, str] = {}
@@ -51,9 +53,10 @@ class Feed(object):
                 df = self._read(filename)
                 df = self._filter(filename, df)
                 df = self._prune(filename, df)
-                self._convert_types(filename, df)
                 df = df.reset_index(drop=True)
-                df = self._transform(filename, df)
+                if not self._is_dummy:
+                    self._convert_types(filename, df)
+                    df = self._transform(filename, df)
                 self.set(filename, df)
             return self._cache[filename]
 
