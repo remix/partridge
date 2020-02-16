@@ -232,10 +232,13 @@ def test_filtered_columns(path):
 @pytest.mark.parametrize("path", [fixture("amazon-2017-08-06")])
 def test_converted_id_column(path):
     conf = default_config()
-    conf.nodes["routes.txt"]["converters"]["agency_id"] = pd.to_numeric
+    conf.nodes["routes.txt"]["converters"]["route_id"] = pd.to_numeric
     with pytest.warns(UserWarning, match="Converters Mismatch:"):
         ptg.load_feed(path, config=conf)
-    conf.nodes["agency.txt"]["converters"] = {}
-    conf.nodes["agency.txt"]["converters"]["agency_id"] = pd.to_numeric
+    conf.nodes["trips.txt"]["converters"]["route_id"] = pd.to_numeric
+    # Just to prevent another warning
+    conf.nodes["fare_rules.txt"]["converters"] = {}
+    conf.nodes["fare_rules.txt"]["converters"]["route_id"] = pd.to_numeric
     feed = ptg.load_feed(path, config=conf)
+    assert len(feed.trips) > 0
     assert len(feed.routes) > 0

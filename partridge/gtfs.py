@@ -98,7 +98,7 @@ class Feed(object):
             # DataFrame containing any required columns.
             return empty_df(columns)
 
-        # If the file isn't in the zip, return an empty DataFrame.
+        # Read file encoding
         with open(path, "rb") as f:
             encoding = detect_encoding(f)
 
@@ -158,6 +158,8 @@ class Feed(object):
         return df
 
     def _get_convert_function(self, filename, colname):
+        """return the convert function from the config
+        for a specific file and column"""
         return self._config.nodes.get(filename, {}).get("converters", {}).get(colname)
 
     def _validate_dependencies_conversion(self):
