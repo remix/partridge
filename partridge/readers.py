@@ -1,20 +1,18 @@
-from collections import defaultdict
 import datetime
 import os
 import shutil
 import tempfile
-from typing import DefaultDict, Dict, FrozenSet, Optional, Set, Tuple
 import weakref
+from collections import defaultdict
+from typing import DefaultDict, Dict, FrozenSet, Optional, Set, Tuple
 
-from isoweek import Week
 import networkx as nx
+from isoweek import Week
 
 from .config import default_config, geo_config, empty_config, reroot_graph
 from .gtfs import Feed
 from .parsers import vparse_date
 from .types import View
-from .utilities import remove_node_attributes
-
 
 DAY_NAMES = (
     "monday",
