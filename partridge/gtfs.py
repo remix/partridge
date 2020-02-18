@@ -27,8 +27,6 @@ class Feed(object):
         config: Optional[nx.DiGraph] = None,
     ):
         self._config: nx.DiGraph = default_config() if config is None else config
-        # Validate the configuration and raise warning if needed
-        self._validate_dependencies_conversion()
         self._view: View = {} if view is None else view
         self._cache: Dict[str, pd.DataFrame] = {}
         self._pathmap: Dict[str, str] = {}
@@ -42,6 +40,8 @@ class Feed(object):
             self._read = self._read_csv
             self._bootstrap(source)
             self._proxy_feed = True
+            # Validate the configuration and raise warning if needed
+            self._validate_dependencies_conversion()
         else:
             raise ValueError("Invalid source")
 
