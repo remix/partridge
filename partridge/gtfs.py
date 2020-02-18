@@ -25,12 +25,10 @@ class Feed(object):
         source: Union[str, "Feed"],
         view: Optional[View] = None,
         config: Optional[nx.DiGraph] = None,
-        is_dummy: Optional[bool] = False,
     ):
         self._config: nx.DiGraph = default_config() if config is None else config
         # Validate the configuration and raise warning if needed
         self._validate_dependencies_conversion()
-        self._is_dummy = is_dummy
         self._view: View = {} if view is None else view
         self._cache: Dict[str, pd.DataFrame] = {}
         self._pathmap: Dict[str, str] = {}
@@ -39,9 +37,11 @@ class Feed(object):
         self._locks: Dict[str, RLock] = {}
         if isinstance(source, self.__class__):
             self._read = source.get
+            self._proxy_feed = bool(self._view)
         elif isinstance(source, str) and os.path.isdir(source):
             self._read = self._read_csv
             self._bootstrap(source)
+            self._proxy_feed = True
         else:
             raise ValueError("Invalid source")
 
@@ -51,10 +51,13 @@ class Feed(object):
             df = self._cache.get(filename)
             if df is None:
                 df = self._read(filename)
-                df = self._filter(filename, df)
-                df = self._prune(filename, df)
-                df = df.reset_index(drop=True)
-                if not self._is_dummy:
+                if self._proxy_feed:
+                    # files feed responsible for file access
+                    df = self._filter(filename, df)
+                    df = self._prune(filename, df)
+                    df = df.reset_index(drop=True)
+                else:
+                    # proxy feed responsible for data conversion
                     self._convert_types(filename, df)
                     df = self._transform(filename, df)
                 self.set(filename, df)
@@ -127,7 +130,6 @@ class Feed(object):
             # If applicable, filter this dataframe by the given set of values
             if col in df.columns:
                 df = df[df[col].isin(setwrap(values))]
-
         return df
 
     def _prune(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
