@@ -35,7 +35,7 @@ setup(
     description="Partridge is a python library for working with GTFS "
     "feeds using pandas DataFrames.",
     long_description=readme + "\n\n" + history,
-    long_description_content_type='text/x-rst',
+    long_description_content_type="text/x-rst",
     author="Danny Whalen",
     author_email="daniel.r.whalen@gmail.com",
     url="https://github.com/remix/partridge",
