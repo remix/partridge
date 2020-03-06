@@ -1,13 +1,13 @@
+from collections import defaultdict
 import datetime
 import os
 import shutil
 import tempfile
-import weakref
-from collections import defaultdict
 from typing import DefaultDict, Dict, FrozenSet, Optional, Set, Tuple
+import weakref
 
-import networkx as nx
 from isoweek import Week
+import networkx as nx
 
 from .config import default_config, geo_config, empty_config, reroot_graph
 from .gtfs import Feed

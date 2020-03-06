@@ -1,6 +1,6 @@
 import datetime
-import pandas as pd
 
+import pandas as pd
 import pytest
 
 import partridge as ptg
