@@ -14,6 +14,15 @@ def test_load_feed():
     assert feed.stop_times.dtypes["arrival_time"] == np.float64
 
 
+def test_load_feed_with_view():
+    full_feed = ptg.load_feed(fixture("trimet-vermont-2018-02-06"))
+    assert full_feed.stops.shape[0] == 102
+
+    view = {"stops.txt": {"stop_id": full_feed.stops.stop_id[0]}}
+    feed = ptg.load_feed(fixture("trimet-vermont-2018-02-06"), view=view)
+    assert feed.stops.stop_id.shape[0] == 72
+
+
 def test_load_geo_feed():
     gpd = pytest.importorskip("geopandas")
 
