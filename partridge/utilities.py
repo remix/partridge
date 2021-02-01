@@ -2,7 +2,6 @@ from typing import Any, Dict, Iterable, Optional, Set, BinaryIO, Union
 
 from cchardet import UniversalDetector
 import networkx as nx
-import numpy as np
 import pandas as pd
 from pandas.core.common import flatten
 
@@ -67,4 +66,4 @@ def detect_encoding(f: BinaryIO, limit: int = 2500) -> str:
 def empty_df(columns: Optional[Iterable[str]] = None) -> pd.DataFrame:
     columns = [] if columns is None else columns
     empty: Dict = {col: [] for col in columns}
-    return pd.DataFrame(empty, columns=columns, dtype=np.unicode)
+    return pd.DataFrame(empty, columns=columns, dtype=str)
