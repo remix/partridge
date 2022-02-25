@@ -67,6 +67,23 @@ Usage
     inpath = 'path/to/caltrain-2017-07-24/'
 
 
+Examples
+--------
+
+The following is a collection of gists containing Jupyter notebooks with transformations to GTFS feeds that may be useful for intake into software applications.
+
+* `Find the busiest week in a feed and reduce its file size <https://gist.github.com/csb19815/88f98badb399c4af4620b11bf260d273>`_
+* `Combine routes by route_short_name <https://gist.github.com/csb19815/67c0247d1eed2286ca0b323a02a1179f>`_
+* `Merge GTFS with shapefile geometries <https://gist.github.com/csb19815/535ddb5d36a081abac3430f1a58bd875>`_
+* `Merge multiple agencies into one <https://gist.github.com/csb19815/682e0f6f30844313213fa5715e48df8c>`_
+* `Rewrite a feed to clean up formatting issues <https://gist.github.com/csb19815/659c8eba4742cc3f1b8f23d66a760a0c>`_
+* `If a feed has stop_code, replace the contents of stop_id with the contents of stop_code <https://gist.github.com/csb19815/5bf7923ffb1ce7ec155ac9a94a83ea70>`_
+* `Diff the number of service hours in two feeds <https://gist.github.com/csb19815/476335cb299ddb3d5a1a4b898424bb35>`_
+* `Investigate the the distance in meters of each stop to the closest point on a shape <https://gist.github.com/sgoel/bff9384129974967817404abe80e7c6a>`_
+* `Convert frequencies.txt to an equivalent trips.txt <https://gist.github.com/invisiblefunnel/6c9f3a9b537d3f0ad192c24777b6ae57>`_
+* `Calculate headway for a stop <https://gist.github.com/invisiblefunnel/6015e65684325281e65fa9339a78229b>`_
+
+
 Inspecting the calendar
 ~~~~~~~~~~~~~~~~~~~~~~~
 
