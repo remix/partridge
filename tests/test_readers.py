@@ -22,8 +22,8 @@ def test_load_geo_feed():
     assert isinstance(feed.stops, gpd.GeoDataFrame)
     assert {"LineString"} == set(feed.shapes.geom_type)
     assert {"Point"} == set(feed.stops.geom_type)
-    assert feed.shapes.crs == {"init": "EPSG:4326"}
-    assert feed.stops.crs == {"init": "EPSG:4326"}
+    assert feed.shapes.crs == "EPSG:4326"
+    assert feed.stops.crs == "EPSG:4326"
     assert ["shape_id", "geometry"] == list(feed.shapes.columns)
     assert [
         "stop_id",

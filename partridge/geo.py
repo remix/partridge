@@ -11,7 +11,7 @@ except ImportError as impexc:
     raise
 
 
-DEFAULT_CRS = {"init": "EPSG:4326"}
+DEFAULT_CRS = "EPSG:4326"
 
 
 def build_shapes(df: pd.DataFrame) -> gpd.GeoDataFrame:
@@ -36,4 +36,4 @@ def build_stops(df: pd.DataFrame) -> gpd.GeoDataFrame:
 
     df.drop(["stop_lon", "stop_lat"], axis=1, inplace=True)
 
-    return gpd.GeoDataFrame(df, crs={"init": "EPSG:4326"})
+    return gpd.GeoDataFrame(df, crs=DEFAULT_CRS)
