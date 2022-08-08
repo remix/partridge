@@ -55,7 +55,7 @@ def test_empty_df():
     [
         (b"abcde", "utf-8"),  # straight up ascii is a subset of unicode
         (b"Eyjafjallaj\xc3\xb6kull", "utf-8"),  # actual unicode
-        (b"\xC4pple", "WINDOWS-1252"),  # non-unicode, ISO characterset
+        (b"\xC4pple", "cp037"),  # non-unicode, ISO characterset
     ],
 )
 def test_detect_encoding(test_string, encoding):
