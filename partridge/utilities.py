@@ -1,6 +1,6 @@
 from typing import Any, Dict, Iterable, Optional, Set, BinaryIO, Union
 
-from cchardet import UniversalDetector
+from chardet import UniversalDetector
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -56,6 +56,7 @@ def detect_encoding(f: BinaryIO, limit: int = 2500) -> str:
     u = UniversalDetector()
 
     for line_no, line in enumerate(f):
+        line = bytearray(line)
         u.feed(line)
         if u.done or line_no > limit:
             break
