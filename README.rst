@@ -72,7 +72,7 @@ Examples
 
 The following is a collection of gists containing Jupyter notebooks with transformations to GTFS feeds that may be useful for intake into software applications.
 
-* `Find the busiest week in a feed and reduce its file size <https://gist.github.com/csb19815/88f98badb399c4af4620b11bf260d273>`_
+* `Find the busiest week in a feed and reduce its file size <https://gist.github.com/csb19815/aadef16178dfcb5ba7a8d88fbf718749>`_
 * `Combine routes by route_short_name <https://gist.github.com/csb19815/67c0247d1eed2286ca0b323a02a1179f>`_
 * `Merge GTFS with shapefile geometries <https://gist.github.com/csb19815/535ddb5d36a081abac3430f1a58bd875>`_
 * `Merge multiple agencies into one <https://gist.github.com/csb19815/682e0f6f30844313213fa5715e48df8c>`_
