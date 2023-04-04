@@ -1,6 +1,6 @@
 from typing import Any, Dict, Iterable, Optional, Set, BinaryIO, Union
 
-from cchardet import UniversalDetector
+from charset_normalizer import detect
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -53,15 +53,7 @@ def detect_encoding(f: BinaryIO, limit: int = 2500) -> str:
         return "utf-8"
 
     f.seek(0)
-    u = UniversalDetector()
-
-    for line_no, line in enumerate(f):
-        u.feed(line)
-        if u.done or line_no > limit:
-            break
-
-    u.close()
-    return u.result["encoding"]
+    return detect(f.read())["encoding"]
 
 
 def empty_df(columns: Optional[Iterable[str]] = None) -> pd.DataFrame:
