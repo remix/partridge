@@ -2,7 +2,6 @@ import io
 import networkx as nx
 import pytest
 
-import numpy as np
 import pandas as pd
 from partridge.utilities import (
     detect_encoding,
@@ -44,7 +43,7 @@ def test_empty_df():
     actual = empty_df(["foo", "bar"])
 
     expected = pd.DataFrame(
-        {"foo": [], "bar": []}, columns=["foo", "bar"], dtype=np.unicode
+        {"foo": [], "bar": []}, columns=["foo", "bar"], dtype=str
     )
 
     assert actual.equals(expected)
