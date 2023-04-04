@@ -44,7 +44,7 @@ def test_empty_df():
     actual = empty_df(["foo", "bar"])
 
     expected = pd.DataFrame(
-        {"foo": [], "bar": []}, columns=["foo", "bar"], dtype=np.unicode
+        {"foo": [], "bar": []}, columns=["foo", "bar"], dtype=str
     )
 
     assert actual.equals(expected)

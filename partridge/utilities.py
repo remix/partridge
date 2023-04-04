@@ -59,4 +59,4 @@ def detect_encoding(f: BinaryIO, limit: int = 2500) -> str:
 def empty_df(columns: Optional[Iterable[str]] = None) -> pd.DataFrame:
     columns = [] if columns is None else columns
     empty: Dict = {col: [] for col in columns}
-    return pd.DataFrame(empty, columns=columns, dtype=np.unicode)
+    return pd.DataFrame(empty, columns=columns, dtype=str)

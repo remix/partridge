@@ -99,7 +99,7 @@ class Feed(object):
         with open(path, "rb") as f:
             encoding = detect_encoding(f)
 
-        df = pd.read_csv(path, dtype=np.unicode, encoding=encoding, index_col=False)
+        df = pd.read_csv(path, dtype=str, encoding=encoding, index_col=False)
 
         # Strip leading/trailing whitespace from column names
         df.rename(columns=lambda x: x.strip(), inplace=True)
