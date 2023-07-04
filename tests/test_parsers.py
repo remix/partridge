@@ -36,6 +36,10 @@ def test_parse_time():
     assert parse_time("1:02:03") == 3723
     assert parse_time("25:24:23") == 91463
     assert parse_time("250:24:23") == 901463
+    assert parse_time("00:00") == 0
+    assert parse_time("0:00") == 0
+    assert parse_time("01:02") == 3720
+    assert parse_time("1:02") == 3720
 
 
 def test_parse_time_with_invalid_input():

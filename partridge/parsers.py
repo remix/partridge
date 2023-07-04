@@ -16,7 +16,12 @@ def parse_time(val: str) -> np.float64:
     if val == "":
         return np.nan
 
-    h, m, s = val.split(":")
+    h, m, *s = val.split(":")
+    if len(s) == 0:
+        s = "0"
+    else:
+        assert len(s) == 1
+        s = s[0]
     ssm = int(h) * 3600 + int(m) * 60 + int(s)
 
     # pandas doesn't have a NaN int, use floats
