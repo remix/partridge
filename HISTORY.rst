@@ -2,6 +2,22 @@
 History
 =======
 
+1.1.2 (2022-11-23)
+------------------
+
+Code changes:
+
+* Remove references to deprecated NumPy types (https://github.com/remix/partridge/pull/69 - thanks @BlackSpade741!)
+* Switch from `cChardet <https://github.com/PyYoshi/cChardet>`_ to `charset-normalizer <https://github.com/Ousret/charset_normalizer>`_ for Python 3.10 support (https://github.com/remix/partridge/pull/76 - thanks @brockhaywood!)
+
+Other changes:
+
+* Miscellaneous improvements to tests, code formatting, and documentation (https://github.com/remix/partridge/pull/61 - thanks @invisiblefunnel!)
+* Relocate usage examples from wiki to README (https://github.com/remix/partridge/pull/70 - thanks @landonreed!)
+* README tweaks (https://github.com/remix/partridge/pull/74 - thanks @chelsey!)
+* Use GitHub Actions for automated testing (https://github.com/remix/partridge/pull/79 - thanks @dget!). **Note:** we now test against Python versions 3.8, 3.9, 3.10, and 3.11.
+
+
 1.1.1 (2019-09-13)
 ------------------
 
