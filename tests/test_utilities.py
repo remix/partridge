@@ -49,13 +49,17 @@ def test_empty_df():
     assert actual.equals(expected)
 
 
-@pytest.mark.parametrize(
-    "test_string,encoding",
-    [
-        (b"abcde", "utf-8"),  # straight up ascii is a subset of unicode
-        (b"Eyjafjallaj\xc3\xb6kull", "utf-8"),  # actual unicode
-        (b"\xC4pple", "cp037"),  # non-unicode, ISO characterset
-    ],
-)
-def test_detect_encoding(test_string, encoding):
-    assert detect_encoding(io.BytesIO(test_string)) == encoding
+def test_detect_encoding():
+    # straight up ascii is a subset of unicode
+    assert detect_encoding(io.BytesIO(b"abcde")) == "utf-8"
+
+    # actual unicode
+    assert detect_encoding(io.BytesIO(b"Eyjafjallaj\xc3\xb6kull")) == "utf-8"
+
+    # non-unicode, ISO characterset
+    #
+    # (Note: we don't assert a specific characterset, because we don't want
+    # tests to break as changes are made in charset-normalizer. See:
+    # https://github.com/remix/partridge/pull/84)
+    enc = detect_encoding(io.BytesIO(b"\xC4pple"))
+    assert enc and enc != "utf-8"
