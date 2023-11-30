@@ -23,7 +23,7 @@ Feeds can also be filtered to create a view specific to your needs. It's most co
 
 
 Philosophy
----------
+----------
 
 The design of Partridge is guided by the following principles:
 
