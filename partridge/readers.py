@@ -106,12 +106,16 @@ def _unpack_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
 def _load_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
     """Multi-file feed filtering"""
     config_ = remove_node_attributes(config, ["converters", "transformations"])
-    feed_ = Feed(path, view={}, config=config_)
+    trip_ids = set(Feed(path, config=config_).trips.trip_id)
     for filename, column_filters in view.items():
-        config_ = reroot_graph(config_, filename)
-        view_ = {filename: column_filters}
-        feed_ = Feed(feed_, view=view_, config=config_)
-    return Feed(feed_, config=config)
+        trip_ids &= set(
+            Feed(
+                path,
+                view={filename: column_filters},
+                config=reroot_graph(config_, filename),
+            ).trips.trip_id
+        )
+    return Feed(path, view={"trips.txt": {"trip_id": trip_ids}}, config=config)
 
 
 def _busiest_date(feed: Feed) -> Tuple[datetime.date, FrozenSet[str]]:
