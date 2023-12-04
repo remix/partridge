@@ -13,8 +13,6 @@ from .config import default_config, geo_config, empty_config, reroot_graph
 from .gtfs import Feed
 from .parsers import vparse_date
 from .types import View
-from .utilities import remove_node_attributes
-
 
 DAY_NAMES = (
     "monday",
@@ -105,10 +103,9 @@ def _unpack_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
 
 def _load_feed(path: str, view: View, config: nx.DiGraph) -> Feed:
     """Multi-file feed filtering"""
-    config_ = remove_node_attributes(config, ["converters", "transformations"])
-    feed_ = Feed(path, view={}, config=config_)
+    feed_ = Feed(path, view={}, config=config)
     for filename, column_filters in view.items():
-        config_ = reroot_graph(config_, filename)
+        config_ = reroot_graph(config, filename)
         view_ = {filename: column_filters}
         feed_ = Feed(feed_, view=view_, config=config_)
     return Feed(feed_, config=config)

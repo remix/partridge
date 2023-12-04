@@ -1,4 +1,6 @@
 import datetime
+
+import pandas as pd
 import pytest
 
 import partridge as ptg
@@ -225,3 +227,18 @@ def test_filtered_columns(path):
 
     assert set(feed_full.trips.columns) == set(feed_view.trips.columns)
     assert set(feed_full.trips.columns) == set(feed_null.trips.columns)
+
+
+@pytest.mark.parametrize("path", [fixture("amazon-2017-08-06")])
+def test_converted_id_column(path):
+    conf = default_config()
+    conf.nodes["routes.txt"]["converters"]["route_id"] = pd.to_numeric
+    with pytest.warns(UserWarning, match="Converters Mismatch:"):
+        ptg.load_feed(path, config=conf)
+    conf.nodes["trips.txt"]["converters"]["route_id"] = pd.to_numeric
+    # Just to prevent another warning
+    conf.nodes["fare_rules.txt"]["converters"] = {}
+    conf.nodes["fare_rules.txt"]["converters"]["route_id"] = pd.to_numeric
+    feed = ptg.load_feed(path, config=conf)
+    assert len(feed.trips) > 0
+    assert len(feed.routes) > 0

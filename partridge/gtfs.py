@@ -1,6 +1,7 @@
 import os
 from threading import RLock
 from typing import Dict, Optional, Union
+from warnings import warn
 
 import networkx as nx
 import pandas as pd
@@ -33,9 +34,13 @@ class Feed(object):
         self._locks: Dict[str, RLock] = {}
         if isinstance(source, self.__class__):
             self._read = source.get
+            self._proxy_feed = bool(self._view)
         elif isinstance(source, str) and os.path.isdir(source):
             self._read = self._read_csv
             self._bootstrap(source)
+            self._proxy_feed = True
+            # Validate the configuration and raise warning if needed
+            self._validate_dependencies_conversion()
         else:
             raise ValueError("Invalid source")
 
@@ -45,11 +50,15 @@ class Feed(object):
             df = self._cache.get(filename)
             if df is None:
                 df = self._read(filename)
-                df = self._filter(filename, df)
-                df = self._prune(filename, df)
-                self._convert_types(filename, df)
-                df = df.reset_index(drop=True)
-                df = self._transform(filename, df)
+                if self._proxy_feed:
+                    # files feed responsible for file access
+                    df = self._filter(filename, df)
+                    df = self._prune(filename, df)
+                    df = df.reset_index(drop=True)
+                else:
+                    # proxy feed responsible for data conversion
+                    self._convert_types(filename, df)
+                    df = self._transform(filename, df)
                 self.set(filename, df)
             return self._cache[filename]
 
@@ -94,7 +103,7 @@ class Feed(object):
             # DataFrame containing any required columns.
             return empty_df(columns)
 
-        # If the file isn't in the zip, return an empty DataFrame.
+        # Read file encoding
         with open(path, "rb") as f:
             encoding = detect_encoding(f)
 
@@ -120,7 +129,6 @@ class Feed(object):
             # If applicable, filter this dataframe by the given set of values
             if col in df.columns:
                 df = df[df[col].isin(setwrap(values))]
-
         return df
 
     def _prune(self, filename: str, df: pd.DataFrame) -> pd.DataFrame:
@@ -146,9 +154,43 @@ class Feed(object):
                 depcol = deps[depfile]
                 # If applicable, prune this dataframe by the other
                 if col in df.columns and depcol in depdf.columns:
-                    df = df[df[col].isin(depdf[depcol])]
+                    converter = self._get_convert_function(filename, col)
+                    # Convert the column before pruning since depdf is already converted
+                    col_series = converter(df[col]) if converter else df[col]
+                    df = df[col_series.isin(depdf[depcol])]
 
         return df
+
+    def _get_convert_function(self, filename, colname):
+        """return the convert function from the config
+        for a specific file and column"""
+        return self._config.nodes.get(filename, {}).get("converters", {}).get(colname)
+
+    def _validate_dependencies_conversion(self):
+        """Validate that dependent columns in different files
+        has the same convert function if one exist.
+        """
+
+        def check_column_pair(column_pair: dict) -> bool:
+            assert len(column_pair) == 2
+            convert_funcs = [
+                self._get_convert_function(filename, colname)
+                for filename, colname in column_pair.items()
+            ]
+            if convert_funcs[0] != convert_funcs[1]:
+                return False
+            return True
+
+        for file_a, file_b, data in self._config.edges(data=True):
+            dependencies = data.get("dependencies", [])
+            for column_pair in dependencies:
+                if check_column_pair(column_pair):
+                    continue
+                warn(
+                    f"Converters Mismatch: column `{column_pair[file_a]}` in {file_a} "
+                    f"is dependant on column `{column_pair[file_b]}` in {file_b} "
+                    f"but converted with different functions, which might cause merging problems."
+                )
 
     def _convert_types(self, filename: str, df: pd.DataFrame) -> None:
         """
