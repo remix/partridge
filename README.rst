@@ -154,6 +154,28 @@ Reading a feed
     feed = ptg.load_feed(path, view)
 
 
+**Working with arrival and departure times**
+
+``arrival_time`` and ``departure_time`` in ``feed.stop_times`` are floating-point
+seconds in the GTFS service day, not time-of-day strings or absolute timestamps.
+For example, ``24:35:00`` is read as ``88500.0``. Values beyond 24 hours are
+preserved; they must not be wrapped to the next day's time of day before
+calculating elapsed time. Blank time fields are read as ``NaN``.
+
+To inspect these values as durations, including missing times:
+
+.. code:: python
+
+    import pandas as pd
+
+    feed = ptg.load_feed(inpath)
+    departures = pd.to_timedelta(feed.stop_times.departure_time, unit='s')
+    # 24:35:00 becomes Timedelta('1 days 00:35:00'); NaN becomes NaT.
+
+Keep the service date separate from this duration. Resolving an absolute
+timestamp also requires the agency timezone and GTFS service-day semantics;
+this conversion alone does not do that.
+
 **Read shapes and stops as GeoDataFrames**
 
 .. code:: python

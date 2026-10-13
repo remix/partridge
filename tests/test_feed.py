@@ -1,11 +1,23 @@
 import datetime
 import pytest
+import pandas as pd
 
 import partridge as ptg
 from partridge.config import default_config, empty_config
 from partridge.gtfs import Feed
 
 from .helpers import fixture, fixtures_dir
+
+
+def test_readme_time_durations_preserve_service_day():
+    feed = ptg.load_feed(fixture("caltrain-2017-07-24"))
+    times = feed.stop_times.departure_time
+    durations = pd.to_timedelta(times, unit="s")
+    # The fixture includes trips after midnight in the original service day.
+    assert times.max() == 92580
+    assert durations.max() == pd.Timedelta(days=1, hours=1, minutes=43)
+    assert (durations.dt.total_seconds() == times).all()
+    assert pd.isna(pd.to_timedelta(float("nan"), unit="s"))
 
 
 def test_invalid_source():
